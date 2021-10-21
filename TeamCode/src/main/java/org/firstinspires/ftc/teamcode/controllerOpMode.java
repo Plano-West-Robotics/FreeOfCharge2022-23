@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp
 public class controllerOpMode extends OpMode {
     private DcMotor frontRight, frontLeft, rearRight, rearLeft;
-    private double drive,strafe;
+    private double drive,strafe, turn;
     private double driveMult = 0.25;
     public void init(){
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
@@ -20,6 +20,7 @@ public class controllerOpMode extends OpMode {
     public void loop() {
         strafe = gamepad1.left_stick_x;
         drive = gamepad1.left_stick_y;
+        turn = gamepad1.right_stick_x;
 
         if (gamepad1.dpad_up){
             if (driveMult<=1) {
@@ -36,10 +37,10 @@ public class controllerOpMode extends OpMode {
         telemetry.update();
 
 
-        frontRight.setPower(driveMult*(drive - strafe));
-        frontLeft.setPower(-1*driveMult*(drive + strafe));
-        rearRight.setPower(driveMult*(drive + strafe));
-        rearLeft.setPower(-1*driveMult*(drive - strafe));
+        frontRight.setPower(driveMult*(drive - strafe - turn));
+        rearRight.setPower(driveMult*(drive + strafe - turn));
+        frontLeft.setPower(-1*driveMult*(drive + strafe + turn));
+        rearLeft.setPower(-1*driveMult*(drive - strafe + turn));
     }
 
 
