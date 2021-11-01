@@ -2,36 +2,48 @@ package org.firstinspires.ftc.teamcode;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous
 public class AutoModeTest extends LinearOpMode {
-    private DcMotor frontRight, frontLeft, rearRight, rearLeft;
-    private double drive, strafe, turn;
-    private double driveMult = 0.25;
+    MotorBox motors;
 
+
+    // part that actually runs
     @Override
     public void runOpMode(){
-        initParts();
-
+        initStuff();
+        motors.drive(10, 0, 0, 1);
     }
 
 
-    public void initParts(){
-        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
-        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-        rearRight = hardwareMap.get(DcMotor.class, "rearRight");
-        rearLeft = hardwareMap.get(DcMotor.class, "rearLeft");
+    // converts turns at a specific angle
+    // assuming value passed is never 0
+    // TODO: measure encoder value corresponding to 90 degrees
+    /*
+    public void turn(int angle){
+        int strength;
+        int direction;
+        if (angle > 0)
+            direction = 1;
+        else
+            direction = -1;
+        strength = // TODO: measure and add corresponding code
+        motors.drive(strength, 0, direction, 1);
+    }
+    */
 
-        // turns on encoders
-        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rearRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rearLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        // telemetry messages
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
+    // initializes the MotorBox motors
+    public void initStuff(){
+        motors = new MotorBox(
+                hardwareMap.get(DcMotor.class, "frontRight"),
+                hardwareMap.get(DcMotor.class, "frontLeft"),
+                hardwareMap.get(DcMotor.class, "rearRight"),
+                hardwareMap.get(DcMotor.class, "rearLeft"),
+                true
+        );
     }
 }
