@@ -15,7 +15,7 @@ public class AutoModeTest extends LinearOpMode {
     @Override
     public void runOpMode(){
         initStuff();
-        motors.drive(10, 0, 0, 1);
+        motors.drivePositionX(10);
     }
 
 

@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class MotorBox {
     private DcMotor frontRight, frontLeft, rearRight, rearLeft;
     private double frontRightPower, frontLeftPower, rearRightPower, rearLeftPower;
-    private boolean toPosition;
 
     public MotorBox(DcMotor frontRight, DcMotor frontLeft, DcMotor rearRight, DcMotor rearLeft, boolean toPosition){
         init(frontRight, frontLeft, rearRight, rearLeft, toPosition);
@@ -15,7 +14,7 @@ public class MotorBox {
 
     // drive code
     // works with both encoder power and encoder position theoretically
-    public String drive(double yDrive, double xDrive, double turn, double speed) {
+    public String drivePower(double yDrive, double xDrive, double turn, double speed) {
 
         // sets up the initial power values based on input
         frontRightPower = yDrive - xDrive;
@@ -49,29 +48,61 @@ public class MotorBox {
         return returnVal;
     }
 
+    public int drivePositionY(int distance){
+        int numEncoders;
+
+        //code to convert the distance to a number of encoders
+        numEncoders = distance;
+
+        frontRight.setTargetPosition(-1 * numEncoders);
+        frontLeft.setTargetPosition(numEncoders);
+        rearRight.setTargetPosition(-1 * numEncoders);
+        rearLeft.setTargetPosition(numEncoders);
+
+        return numEncoders;
+    }
+
+    public int drivePositionX(int distance){
+        int numEncoders;
+
+        //code to convert distance to a number of encoders
+        numEncoders = distance;
+
+        frontRight.setTargetPosition(numEncoders);
+        frontLeft.setTargetPosition(numEncoders);
+        rearRight.setTargetPosition(-1 * numEncoders);
+        rearLeft.setTargetPosition(-1 * numEncoders);
+
+        return numEncoders;
+    }
+
+
+    public int turn(int angle){
+        int numEncoders;
+
+        // code to convert angle into a number of encoders
+        // will have a negative number for negative angles
+        // turning right is positive left is negative
+        numEncoders = angle;
+
+        frontRight.setTargetPosition(numEncoders);
+        frontLeft.setTargetPosition(numEncoders);
+        rearRight.setTargetPosition(numEncoders);
+        rearLeft.setTargetPosition(numEncoders);
+
+        return numEncoders;
+    }
 
     // changes value corresponding to turn
     // two states based on if the MotorControl
     private void addTurn(double turn){
-        if (toPosition) {
-            if (turn > 0) {
-                frontRightPower *= -1;
-                rearRightPower *= -1;
-            }
-            if (turn < 0) {
-                frontLeftPower *= -1;
-                rearLeftPower *= -1;
-            }
+        if (turn > 0) {
+            frontRightPower *= 2*(0.5 - turn);
+            rearRightPower *= 2*(0.5 - turn);
         }
-        else {
-            if (turn > 0) {
-                frontRightPower *= (1 - turn);
-                rearRightPower *= (1 - turn);
-            }
-            if (turn < 0) {
-                frontLeftPower *= (1 - turn);
-                rearLeftPower *= (1 - turn);
-            }
+        if (turn < 0) {
+            frontLeftPower *= 2*(0.5 - turn);
+            rearLeftPower *= 2*(0.5 - turn);
         }
     }
 
@@ -91,7 +122,6 @@ public class MotorBox {
         rearLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // sets the toPosition boolean
-        this.toPosition = toPosition;
 
         // turns on encoders
         if (toPosition) {

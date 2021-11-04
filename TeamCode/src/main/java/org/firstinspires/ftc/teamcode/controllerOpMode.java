@@ -31,11 +31,11 @@ public class controllerOpMode extends OpMode {
 
         // makes it drive
         // result is just debug values
-        String result = driveMotors.drive(drive, strafe, turn, speed);
+        String result = driveMotors.drivePower(drive, strafe, turn, speed);
 
 
         //debugging
-        //telemetry.addData("Results", result);
+        telemetry.addData("Results", result);
         /*
         telemetry.addData("Drive", "Drive = " + drive);
         telemetry.addData("Strafe", "Strafe = " + strafe);
