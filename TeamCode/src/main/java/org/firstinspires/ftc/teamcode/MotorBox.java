@@ -39,10 +39,10 @@ public class MotorBox {
         rearLeftPower *= speed;
 
         // applies the power
-        frontRight.setPower(-1 * frontRightPower);
-        frontLeft.setPower(frontLeftPower);
-        rearRight.setPower(-1 * rearRightPower);
-        rearLeft.setPower(rearLeftPower);
+        frontRight.setPower(frontRightPower);
+        frontLeft.setPower(-1 * frontLeftPower);
+        rearRight.setPower(rearRightPower);
+        rearLeft.setPower(-1 * rearLeftPower);
 
         // return for debugging
         return returnVal;
@@ -96,14 +96,11 @@ public class MotorBox {
     // changes value corresponding to turn
     // two states based on if the MotorControl
     private void addTurn(double turn){
-        if (turn > 0) {
-            frontRightPower *= 2*(0.5 - turn);
-            rearRightPower *= 2*(0.5 - turn);
-        }
-        if (turn < 0) {
-            frontLeftPower *= 2*(0.5 - turn);
-            rearLeftPower *= 2*(0.5 - turn);
-        }
+            frontRightPower -= turn;
+            rearRightPower -= turn;
+            frontLeftPower += turn;
+            rearLeftPower +=turn;
+
     }
 
 
@@ -125,6 +122,10 @@ public class MotorBox {
 
         // turns on encoders
         if (toPosition) {
+            frontRight.setTargetPosition(200);
+            frontLeft.setTargetPosition(200);
+            rearRight.setTargetPosition(200);
+            rearLeft.setTargetPosition(200);
             frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rearRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
