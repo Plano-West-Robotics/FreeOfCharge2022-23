@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
 public class MotorBox {
@@ -40,9 +40,9 @@ public class MotorBox {
 
         // applies the power
         frontRight.setPower(frontRightPower);
-        frontLeft.setPower(-1 * frontLeftPower);
+        frontLeft.setPower(frontLeftPower);
         rearRight.setPower(rearRightPower);
-        rearLeft.setPower(-1 * rearLeftPower);
+        rearLeft.setPower(rearLeftPower);
 
         // return for debugging
         return returnVal;
@@ -118,7 +118,15 @@ public class MotorBox {
         rearRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rearLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        // sets the toPosition boolean
+        frontRight.setPower(0);
+        frontLeft.setPower(0);
+        rearRight.setPower(0);
+        rearLeft.setPower(0);
+
+
+        // reverses direction
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        rearLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // turns on encoders
         if (toPosition) {

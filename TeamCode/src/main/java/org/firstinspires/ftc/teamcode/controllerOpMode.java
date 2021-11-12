@@ -103,6 +103,4 @@ public class controllerOpMode extends OpMode {
             }
         }
     }
-
-
 }

@@ -3,16 +3,14 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous
-public class EncoderValueTester extends LinearOpMode {
+public class AutoBotAuto extends LinearOpMode {
     MotorBox motors;
     DcMotor frontRight, frontLeft, rearRight, rearLeft;
-    public static int dist = 500;
+    public static int dist = 2000;
 
 
     public void runOpMode(){
@@ -61,13 +59,7 @@ public class EncoderValueTester extends LinearOpMode {
             rearLeft.setPower(power);
         }
 
-
-
-        /*
-        motorsPower(0.25, 0.25, 0.25, 0.25);
-        sleep(500);
         motorsPower(0, 0, 0, 0);
-         */
 
         telemetry.addData("Ran", "Ran");
         telemetry.update();
