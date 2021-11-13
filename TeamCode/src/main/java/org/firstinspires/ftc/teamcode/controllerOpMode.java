@@ -3,15 +3,17 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class controllerOpMode extends OpMode {
-    private DcMotor frontRight, frontLeft, rearRight, rearLeft, spool, spinnyBoy, intakeMotor;
+    private DcMotor spool, spinnyBoy, intakeMotor;
+    private Servo bucketServo1, bucketServo2;
     private double drive,strafe, turn, linearSpeed;
     private double speed;
     MotorBox driveMotors;
-
+    double bucketServoPos;
 
 
     // part that actually runs
@@ -21,6 +23,7 @@ public class controllerOpMode extends OpMode {
         // checks to see if the speed change button is pressed
         detectSpeedChange();
         detectSlideSpeedChange();
+
 
         // sets the driver strafe and turn values
         // drive is negated so 1 is forward
@@ -35,19 +38,40 @@ public class controllerOpMode extends OpMode {
         // makes it drive
         // result is just debug values
         String result = driveMotors.drivePower(drive, strafe, turn, speed);
-        spool.setPower(gamepad2.left_stick_y*linearSpeed);
+        spool.setPower(-1*gamepad2.left_stick_y*linearSpeed);
+
+        // carousel spinner
+        // spins for red on gamepad2's b
         if(gamepad2.b){
             spinnyBoy.setPower(0.5);
         }
         else {
             spinnyBoy.setPower(0);
         }
+        // spins for blue on gamepad2's x
+        if(gamepad2.x){
+            spinnyBoy.setPower(-0.5);
+        }
+        else {
+            spinnyBoy.setPower(0);
+        }
+
+        // intakeMotor spinner
+        // spins on gamepad2's a
         if(gamepad2.a){
             intakeMotor.setPower(0.5);
         }
         else {
             intakeMotor.setPower(0);
         }
+        if(gamepad2.y){
+            intakeMotor.setPower(-0.5);
+        }
+        else {
+            intakeMotor.setPower(0);
+        }
+        // changes the bucketServo's position using the gamepad2's right stick y
+        bucketServoPositionChange();
 
 
         //debugging
@@ -72,9 +96,19 @@ public class controllerOpMode extends OpMode {
         );
         speed = 0.25;
         linearSpeed = 0.25;
+        bucketServoPos = 1;
+
         spool = hardwareMap.get(DcMotor.class, "spool");
         spinnyBoy = hardwareMap.get(DcMotor.class, "spinnyBoy");
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
+        intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        bucketServo1 = hardwareMap.get(Servo.class, "bucketServo1");
+        bucketServo2 = hardwareMap.get(Servo.class, "bucketServo2");
+        bucketServo1.setDirection(Servo.Direction.REVERSE);
+
+        bucketServo1.setPosition(bucketServoPos);
+        bucketServo2.setPosition(bucketServoPos);
+
         spool.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
@@ -102,5 +136,17 @@ public class controllerOpMode extends OpMode {
                 linearSpeed  -= 0.0005;
             }
         }
+    }
+    public void bucketServoPositionChange(){
+        bucketServoPos += 0.001 * gamepad2.right_stick_y;
+        if (bucketServoPos > 1){
+            bucketServoPos = 1;
+        }
+        if (bucketServoPos < 0){
+            bucketServoPos = 0;
+        }
+        bucketServo1.setPosition(bucketServoPos);
+        bucketServo2.setPosition(bucketServoPos);
+
     }
 }
