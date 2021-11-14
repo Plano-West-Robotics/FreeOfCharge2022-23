@@ -9,11 +9,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp
 public class controllerOpMode extends OpMode {
     private DcMotor spool, spinnyBoy, intakeMotor;
-    private Servo bucketServo1, bucketServo2;
+    private Servo bucketServo1, bucketServo2, shippingServo, intakeServo;
     private double drive,strafe, turn, linearSpeed;
     private double speed;
     MotorBox driveMotors;
-    double bucketServoPos;
+    double bucketServoPos, shippingServoPos, intakeServoPos;
 
 
     // part that actually runs
@@ -43,14 +43,14 @@ public class controllerOpMode extends OpMode {
         // carousel spinner
         // spins for red on gamepad2's b
         if(gamepad2.b){
-            spinnyBoy.setPower(0.5);
+            spinnyBoy.setPower(1);
         }
         else {
             spinnyBoy.setPower(0);
         }
         // spins for blue on gamepad2's x
         if(gamepad2.x){
-            spinnyBoy.setPower(-0.5);
+            spinnyBoy.setPower(-1);
         }
         else {
             spinnyBoy.setPower(0);
@@ -72,6 +72,11 @@ public class controllerOpMode extends OpMode {
         }
         // changes the bucketServo's position using the gamepad2's right stick y
         bucketServoPositionChange();
+
+        // changes the shippingServo's position using the gamepad2's right and left bumpers
+        //shippingServoPositionChange();
+
+        intakeServoPosition();
 
 
         //debugging
@@ -95,19 +100,27 @@ public class controllerOpMode extends OpMode {
                 false
         );
         speed = 0.25;
-        linearSpeed = 0.25;
+        linearSpeed = 0.75;
         bucketServoPos = 1;
+        shippingServoPos = 0;
+        intakeServoPos = 0.2;
 
         spool = hardwareMap.get(DcMotor.class, "spool");
         spinnyBoy = hardwareMap.get(DcMotor.class, "spinnyBoy");
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
+
         intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
         bucketServo1 = hardwareMap.get(Servo.class, "bucketServo1");
         bucketServo2 = hardwareMap.get(Servo.class, "bucketServo2");
+        intakeServo = hardwareMap.get(Servo.class, "intakeServo");
+        //shippingServo = hardwareMap.get(Servo.class, "shippingServo");
+
         bucketServo1.setDirection(Servo.Direction.REVERSE);
 
-        bucketServo1.setPosition(bucketServoPos);
-        bucketServo2.setPosition(bucketServoPos);
+        //bucketServo1.setPosition(bucketServoPos);
+        //bucketServo2.setPosition(bucketServoPos);
+        intakeServo.setPosition(intakeServoPos);
 
         spool.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
@@ -149,4 +162,34 @@ public class controllerOpMode extends OpMode {
         bucketServo2.setPosition(bucketServoPos);
 
     }
+    public void intakeServoPosition(){
+        if (gamepad2.right_bumper){
+            if (intakeServoPos <= 1) {
+                intakeServoPos += 0.0005;
+            }
+        }
+        if (gamepad2.left_bumper){
+            if (intakeServoPos >= 0) {
+                intakeServoPos  -= 0.0005;
+            }
+        }
+        intakeServo.setPosition(intakeServoPos);
+    }
+
+    /*
+    public void shippingServoPositionChange(){
+        if (gamepad2.right_bumper){
+            if (shippingServoPos <= 1) {
+                shippingServoPos += 0.0005;
+            }
+        }
+        if (gamepad2.left_bumper){
+            if (shippingServoPos >= 0) {
+                shippingServoPos  -= 0.0005;
+            }
+        }
+        shippingServo.setPosition(shippingServoPos);
+    }
+
+     */
 }
