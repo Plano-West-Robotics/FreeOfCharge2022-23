@@ -33,7 +33,7 @@ public class AutoConstants {
 
         //blue movements
         public static int RED_CAROUSEL_X = -67;
-        public static int RED_CAROUSEL_Y = -57;
+        public static int RED_CAROUSEL_Y = -58;
         public static int RED_START_FORWARD = 40;
         public static int RED_FINAL_STRAFE = 14;
 }
