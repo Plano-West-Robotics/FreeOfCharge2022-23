@@ -1,0 +1,36 @@
+package org.firstinspires.ftc.teamcode.oldThings;
+
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
+@Disabled
+@Autonomous
+public class EncoderValueTester extends LinearOpMode {
+    DcMotor testMotor;
+
+
+    public void runOpMode(){
+        testMotor = hardwareMap.get(DcMotor.class, "testMotor");
+        testMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        testMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        waitForStart();
+
+        testMotor.setTargetPosition(testMotor.getCurrentPosition() + 1120);
+        testMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        testMotor.setPower(0.2);
+        while (testMotor.isBusy()){
+        }
+        testMotor.setPower(0);
+        sleep(500);
+    }
+
+
+
+
+}

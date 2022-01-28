@@ -6,10 +6,12 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TICKS_PER_REV;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.WHEEL_RADIUS;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+@Disabled
 
 @Autonomous (group = "parking")
 public class BlueSideParkingAutoDelayed extends LinearOpMode{
