@@ -89,3 +89,4 @@ lint/tmp/
 
 #folders to ignore
 FtcRobotController/
+*.hprof
