@@ -15,5 +15,6 @@ public class ActionObject {
         this.y = y;
         this.angle = angle;
         this.methodToCall = methodToCall;
+
     }
 }
