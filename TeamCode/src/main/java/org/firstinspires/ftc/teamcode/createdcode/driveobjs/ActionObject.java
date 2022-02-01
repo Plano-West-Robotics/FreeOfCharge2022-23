@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.createdcode.driveobjs;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+
 public class ActionObject {
     private double x, y;
     private double angle;
@@ -15,7 +17,10 @@ public class ActionObject {
         this.y = y;
         this.angle = angle;
         this.methodToCall = methodToCall;
-
-
     }
+
+    public Pose2d getPose2d(){
+        return new Pose2d(x, y, Math.toRadians(angle));
+    }
+
 }

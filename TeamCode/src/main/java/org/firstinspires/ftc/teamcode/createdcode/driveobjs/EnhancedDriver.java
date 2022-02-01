@@ -28,6 +28,8 @@ public class EnhancedDriver extends SampleMecanumDrive{
         armOne = hardwareMap.get(DcMotor.class, "armOne");
         armTwo = hardwareMap.get(DcMotor.class, "armTwo");
     }
-     public void runLocations();
+     public void runLocations(ActionObject){
+
+     }
 
 }
