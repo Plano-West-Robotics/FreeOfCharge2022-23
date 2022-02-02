@@ -1,20 +1,20 @@
 
-package org.firstinspires.ftc.teamcode.createdcode.oldThings.autoparking;
-
-import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.GEAR_RATIO;
-import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.TICKS_PER_REV;
-import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.WHEEL_RADIUS;
-
+package org.firstinspires.ftc.teamcode.createdcode.oldthings.autoparking;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.TICKS_PER_REV;
+import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.GEAR_RATIO;
+import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.WHEEL_RADIUS;
 @Disabled
 
+
 @Autonomous (group = "parking")
-public class RedSideParkingAutoDelayed extends LinearOpMode{
+public class RedSideParkingAuto extends LinearOpMode{
     //change values
     private static final double TICKS_PER_INCH = (TICKS_PER_REV / GEAR_RATIO) / (WHEEL_RADIUS * 2 * Math.PI);// counts per revolution
     DcMotor frontLeft, rearLeft, rearRight, frontRight, spool, intakeMotor, spinnyBoy;
@@ -53,7 +53,6 @@ public class RedSideParkingAutoDelayed extends LinearOpMode{
         frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         waitForStart();
-        sleep (4000);
 
         frontLeft.setTargetPosition(frontLeft.getCurrentPosition()+350);
         rearLeft.setTargetPosition(rearLeft.getCurrentPosition()+350);

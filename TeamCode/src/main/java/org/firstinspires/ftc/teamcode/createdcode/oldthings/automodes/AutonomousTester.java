@@ -1,13 +1,13 @@
-package org.firstinspires.ftc.teamcode.createdcode.automodes;
+package org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes;
 
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.BLUE1_START_X;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.BLUE1_START_Y;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.CAROUSEL_POWER;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.CAROUSEL_WAIT;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.BLUE_CAROUSEL_X;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.BLUE_CAROUSEL_Y;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.BLUE_FINAL_STRAFE;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.ARM_BACK_DIST;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_START_X;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_START_Y;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.CAROUSEL_POWER;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.CAROUSEL_WAIT;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE_CAROUSEL_X;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE_CAROUSEL_Y;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE_FINAL_STRAFE;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.ARM_MAX_DIST;
 
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -67,13 +67,13 @@ public class AutonomousTester extends LinearOpMode {
         //telemetry.addData("grabServo", grabServo.getController());
         //telemetry.update();
         sleep(1000);
-        moveArms(ARM_BACK_DIST /2);
+        moveArms(ARM_MAX_DIST /2);
         drive.followTrajectory(part1);
         drive.turn(-1*Math.toRadians(90));
-        moveArms(ARM_BACK_DIST /4);
+        moveArms(ARM_MAX_DIST /4);
         grabServo.setPosition(0.4);
         sleep(500);
-        moveArms(-ARM_BACK_DIST);
+        moveArms(-ARM_MAX_DIST);
         drive.followTrajectory(part2);
 
         carouselServo.setPower(-1 * CAROUSEL_POWER);

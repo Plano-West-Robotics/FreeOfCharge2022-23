@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.createdcode.automodes;
+package org.firstinspires.ftc.teamcode.createdcode.configs;
 
 import com.acmerobotics.dashboard.config.Config;
 
@@ -7,10 +7,10 @@ public class AutoConstants {
 
     public static double CAROUSEL_POWER = 0.7;
     public static int CAROUSEL_WAIT = 6000;
-    public static int ARM_BACK_DIST = 400;
+    public static int ARM_MAX_DIST = 400;
     public static int GRAB_TIME = 1000;
-    public static double GRAB_POS = 0;
-    public static double OPENED_POS = 0.4;
+    public static double GRABBER_CLOSE = 0;
+    public static double GRABBER_OPEN = 0.4;
 
     //blue values
         //blue1

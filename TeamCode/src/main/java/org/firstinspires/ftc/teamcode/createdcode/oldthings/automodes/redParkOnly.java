@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.createdcode.automodes;
+package org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes;
 
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.RED_PARK_START_X;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.RED_PARK_START_Y;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.RED_WAREHOUSE_X;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.RED_WAREHOUSE_Y;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.RED_PARK_START_X;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.RED_PARK_START_Y;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.RED_WAREHOUSE_X;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.RED_WAREHOUSE_Y;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;

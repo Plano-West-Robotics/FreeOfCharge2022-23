@@ -1,22 +1,22 @@
-package org.firstinspires.ftc.teamcode.createdcode.automodes;
+package org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes;
 
 
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.BLUE1_START_X;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.BLUE1_START_Y;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.BLUE_START_FORWARD;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.GRAB_POS;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.GRAB_TIME;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.OPENED_POS;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.BLUE1_BLOCK_MIDPOS_X;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.BLUE1_BLOCK_REPOS_X;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.BLUE1_MIDPOS_X;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.BLUE1_MIDPOS_Y;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.BLUE_CAROUSEL_X;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.BLUE_CAROUSEL_Y;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.BLUE_FINAL_STRAFE;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.CAROUSEL_POWER;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.CAROUSEL_WAIT;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.ARM_BACK_DIST;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_START_X;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_START_Y;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE_START_FORWARD;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.GRABBER_CLOSE;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.GRAB_TIME;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.GRABBER_OPEN;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_BLOCK_MIDPOS_X;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_BLOCK_REPOS_X;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_MIDPOS_X;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_MIDPOS_Y;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE_CAROUSEL_X;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE_CAROUSEL_Y;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE_FINAL_STRAFE;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.CAROUSEL_POWER;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.CAROUSEL_WAIT;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.ARM_MAX_DIST;
 
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -79,17 +79,17 @@ public class blueSpinParkLongPath extends LinearOpMode {
         initStuff();
         waitForStart();
 
-        grabServo.setPosition(GRAB_POS);
+        grabServo.setPosition(GRABBER_CLOSE);
         sleep(GRAB_TIME);
-        moveArms(ARM_BACK_DIST /2);
+        moveArms(ARM_MAX_DIST /2);
 
         drive.followTrajectory(moveToBlockDrop);
         drive.followTrajectory(moveToBlockDrop2);
 
-        moveArms(ARM_BACK_DIST /4);
-        grabServo.setPosition(OPENED_POS);
+        moveArms(ARM_MAX_DIST /4);
+        grabServo.setPosition(GRABBER_OPEN);
         sleep(500);
-        moveArms(-ARM_BACK_DIST);
+        moveArms(-ARM_MAX_DIST);
 
         drive.followTrajectory(moveToCarousel);
         drive.followTrajectory(moveToCarousel2);

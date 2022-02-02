@@ -1,0 +1,6 @@
+1X: lifts arm
+    11: quarter of max position
+    12: half of max position
+    13: three-quarters of max position
+    14: max position
+2X:

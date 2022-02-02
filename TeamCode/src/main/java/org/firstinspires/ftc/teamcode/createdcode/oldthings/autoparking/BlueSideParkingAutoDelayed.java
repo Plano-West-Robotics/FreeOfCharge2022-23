@@ -1,5 +1,5 @@
 
-package org.firstinspires.ftc.teamcode.createdcode.oldThings.autoparking;
+package org.firstinspires.ftc.teamcode.createdcode.oldthings.autoparking;
 
 import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.GEAR_RATIO;
 import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.TICKS_PER_REV;

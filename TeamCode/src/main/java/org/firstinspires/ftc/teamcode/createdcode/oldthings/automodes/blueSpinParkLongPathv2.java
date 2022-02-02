@@ -1,22 +1,21 @@
-package org.firstinspires.ftc.teamcode.createdcode.automodes;
+package org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes;
 
 
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.GRAB_POS;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.GRAB_TIME;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.OPENED_POS;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.RED1_BLOCK_MIDPOS_X;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.RED1_BLOCK_REPOS_X;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.RED1_MIDPOS_X;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.RED1_MIDPOS_Y;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.RED_CAROUSEL_X;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.RED_CAROUSEL_Y;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.RED_FINAL_STRAFE;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.CAROUSEL_POWER;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.CAROUSEL_WAIT;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.RED1_START_X;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.RED1_START_Y;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.ARM_BACK_DIST;
-import static org.firstinspires.ftc.teamcode.createdcode.automodes.AutoConstants.RED_START_FORWARD;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_START_X;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_START_Y;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE_START_FORWARD;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.GRABBER_CLOSE;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.GRAB_TIME;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.GRABBER_OPEN;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_BLOCK_REPOS_X;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_MIDPOS_X;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_MIDPOS_Y;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE_CAROUSEL_X;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE_CAROUSEL_Y;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE_FINAL_STRAFE;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.CAROUSEL_POWER;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.CAROUSEL_WAIT;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.ARM_MAX_DIST;
 
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -35,8 +34,8 @@ import org.firstinspires.ftc.teamcode.roadRunner.drive.*;
 
 
 
-@Autonomous(group = "Red")
-public class redSpinParkLongPath extends LinearOpMode {
+@Autonomous(group = "Blue")
+public class blueSpinParkLongPathv2 extends LinearOpMode {
     private Servo grabServo;
     private CRServo carouselServo;
     private DcMotor armOne;
@@ -44,28 +43,32 @@ public class redSpinParkLongPath extends LinearOpMode {
 
     @Override
     public void runOpMode(){
-        Pose2d startPos = new Pose2d(RED1_START_X, RED1_START_Y, Math.toRadians(90));
+        Pose2d startPos = new Pose2d(BLUE1_START_X, BLUE1_START_Y, -1*Math.toRadians(90));
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         Trajectory moveToBlockDrop = drive.trajectoryBuilder(startPos)
-                .splineToLinearHeading(new Pose2d(RED1_MIDPOS_X, RED1_MIDPOS_Y, Math.toRadians(90)), Math.toRadians(90))
+                .lineToLinearHeading(new Pose2d(BLUE1_MIDPOS_X, BLUE1_MIDPOS_Y+3, -1*Math.toRadians(90)))
                 .build();
 
         Trajectory moveToBlockDrop2 = drive.trajectoryBuilder(moveToBlockDrop.end())
-                .splineToLinearHeading(new Pose2d(RED1_START_X + RED1_BLOCK_REPOS_X, RED1_START_Y + RED_START_FORWARD, Math.toRadians(180)), Math.toRadians(0))
+                .lineTo(new Vector2d(BLUE1_MIDPOS_X, BLUE1_MIDPOS_Y-15))
                 .build();
 
-        Trajectory moveToCarousel = drive.trajectoryBuilder(moveToBlockDrop2.end())
-                .splineToSplineHeading(new Pose2d(moveToBlockDrop2.end().getX()-RED1_BLOCK_MIDPOS_X, RED1_START_Y + RED_START_FORWARD, Math.toRadians(270)), Math.toRadians(0))
+        Trajectory moveToBlockDrop3 = drive.trajectoryBuilder(moveToBlockDrop2.end())
+                .lineToLinearHeading(new Pose2d(BLUE1_START_X + BLUE1_BLOCK_REPOS_X, BLUE1_START_Y - BLUE_START_FORWARD, -1*Math.toRadians(180)))
+                .build();
+
+        Trajectory moveToCarousel = drive.trajectoryBuilder(moveToBlockDrop3.end())
+                .lineTo(new Vector2d(BLUE1_MIDPOS_X, BLUE1_START_Y - BLUE_START_FORWARD))
                 .build();
 
         Trajectory moveToCarousel2 = drive.trajectoryBuilder(moveToCarousel.end())
-                .lineTo(new Vector2d(RED_CAROUSEL_X, RED_CAROUSEL_Y))
+                .lineTo(new Vector2d(BLUE_CAROUSEL_X, BLUE_CAROUSEL_Y))
                 .build();
 
         Trajectory park = drive.trajectoryBuilder(moveToCarousel2.end())
-                .lineToLinearHeading(new Pose2d(RED_CAROUSEL_X, RED_CAROUSEL_Y+RED_FINAL_STRAFE, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(BLUE_CAROUSEL_X-3, BLUE_CAROUSEL_Y - BLUE_FINAL_STRAFE, Math.toRadians(0)))
                 .build();
 
         drive.setPoseEstimate(startPos);
@@ -78,22 +81,23 @@ public class redSpinParkLongPath extends LinearOpMode {
         initStuff();
         waitForStart();
 
-        grabServo.setPosition(GRAB_POS);
+        grabServo.setPosition(GRABBER_CLOSE);
         sleep(GRAB_TIME);
-        moveArms(ARM_BACK_DIST /2);
+        moveArms(ARM_MAX_DIST /2);
 
         drive.followTrajectory(moveToBlockDrop);
         drive.followTrajectory(moveToBlockDrop2);
+        drive.followTrajectory(moveToBlockDrop3);
 
-        moveArms(ARM_BACK_DIST /4);
-        grabServo.setPosition(OPENED_POS);
+        moveArms(ARM_MAX_DIST /4);
+        grabServo.setPosition(GRABBER_OPEN);
         sleep(500);
-        moveArms(-ARM_BACK_DIST);
+        moveArms(-ARM_MAX_DIST);
 
         drive.followTrajectory(moveToCarousel);
         drive.followTrajectory(moveToCarousel2);
 
-        carouselServo.setPower(CAROUSEL_POWER);
+        carouselServo.setPower(-1*CAROUSEL_POWER);
         sleep(CAROUSEL_WAIT);
         drive.followTrajectory(park);
     }

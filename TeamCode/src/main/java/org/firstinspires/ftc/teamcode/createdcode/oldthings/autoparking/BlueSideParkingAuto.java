@@ -1,20 +1,20 @@
 
-package org.firstinspires.ftc.teamcode.createdcode.oldThings.autoparking;
+package org.firstinspires.ftc.teamcode.createdcode.oldthings.autoparking;
+
+import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.GEAR_RATIO;
+import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.TICKS_PER_REV;
+import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.WHEEL_RADIUS;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.TICKS_PER_REV;
-import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.GEAR_RATIO;
-import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.WHEEL_RADIUS;
 @Disabled
 
-
 @Autonomous (group = "parking")
-public class RedSideParkingAuto extends LinearOpMode{
+public class BlueSideParkingAuto extends LinearOpMode{
     //change values
     private static final double TICKS_PER_INCH = (TICKS_PER_REV / GEAR_RATIO) / (WHEEL_RADIUS * 2 * Math.PI);// counts per revolution
     DcMotor frontLeft, rearLeft, rearRight, frontRight, spool, intakeMotor, spinnyBoy;
@@ -54,10 +54,10 @@ public class RedSideParkingAuto extends LinearOpMode{
 
         waitForStart();
 
-        frontLeft.setTargetPosition(frontLeft.getCurrentPosition()+350);
-        rearLeft.setTargetPosition(rearLeft.getCurrentPosition()+350);
+        frontRight.setTargetPosition(frontRight.getCurrentPosition()+500);
+        rearRight.setTargetPosition(rearRight.getCurrentPosition()+500);
         setSpeed(0.2);
-        while (frontLeft.isBusy()){
+        while (rearRight.isBusy()){
             telemetry.addData("frontRightEncoder", frontRight.getCurrentPosition());
             telemetry.addData("frontLeftEncoder", frontLeft.getCurrentPosition());
             telemetry.addData("rearRightEncoder", rearRight.getCurrentPosition());
@@ -66,14 +66,13 @@ public class RedSideParkingAuto extends LinearOpMode{
         }
         setSpeed(0);
 
-
-        driveForward(-10, 0.2);
+        driveForward(-16, 0.2);
 
         setSpeed(0);
 
         sleep(4000);
 
-        driveForward(1000,.5);
+        driveForward(200,.8);
 
         setSpeed(0);
 
