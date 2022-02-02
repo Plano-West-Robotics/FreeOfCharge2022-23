@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes;
+package org.firstinspires.ftc.teamcode.createdcode.enhancedautos;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -12,12 +12,12 @@ import java.util.List;
 
 @Config
 public abstract class enhancedAutoMode extends LinearOpMode {
-    private static List<Double> xCoords = new ArrayList<>(Arrays.asList());
-    private static List<Double> yCoords = new ArrayList<>(Arrays.asList());
-    private static List<Double> angles = new ArrayList<>(Arrays.asList());
-    private static List<Integer> methodIDs = new ArrayList<>(Arrays.asList());
-    Exception invalidValues = new Exception("List of values is invalid");
-    private static List<ActionObject> actionObjects;
+    public static List<Double> xCoords = new ArrayList<>(Arrays.asList());
+    public static List<Double> yCoords = new ArrayList<>(Arrays.asList());
+    public static List<Double> angles = new ArrayList<>(Arrays.asList());
+    public static List<Integer> methodIDs = new ArrayList<>(Arrays.asList());
+    public static Exception invalidValues = new Exception("List of values is invalid");
+    public static List<ActionObject> actionObjects;
     EnhancedDriver enhancedDriver;
 
     public void makeActionObjects() throws Exception{
@@ -37,9 +37,6 @@ public abstract class enhancedAutoMode extends LinearOpMode {
         }
     }
     public void run(){
-        enhancedDriver = new EnhancedDriver(hardwareMap);
-
-        waitForStart();
 
         for (ActionObject i : actionObjects){
             enhancedDriver.act(i);
@@ -49,5 +46,10 @@ public abstract class enhancedAutoMode extends LinearOpMode {
     public double checkNull(List<Double> toCheck, int i){
         return  toCheck.get(i) == null ? checkNull(toCheck, i) : toCheck.get(i);
     }
+
+    public void initThings(){
+        enhancedDriver = new EnhancedDriver(hardwareMap);
+    }
+
 
 }

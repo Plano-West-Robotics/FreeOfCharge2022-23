@@ -1,22 +1,7 @@
 package org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes;
 
 
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_START_X;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_START_Y;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE_START_FORWARD;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.GRABBER_CLOSE;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.GRAB_TIME;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.GRABBER_OPEN;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_BLOCK_REPOS_X;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_MIDPOS_X;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE1_MIDPOS_Y;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE_CAROUSEL_X;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE_CAROUSEL_Y;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.BLUE_FINAL_STRAFE;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.CAROUSEL_POWER;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.CAROUSEL_WAIT;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.ARM_MAX_DIST;
-
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.*;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;

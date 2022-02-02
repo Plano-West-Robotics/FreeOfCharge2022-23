@@ -19,14 +19,14 @@ import org.firstinspires.ftc.teamcode.roadRunner.drive.SampleMecanumDrive;
 
 public class EnhancedDriver extends SampleMecanumDrive{
 
-    HardwareMap hardwareMap;
+    private HardwareMap hardwareMap;
     private Servo grabServo;
     private CRServo carouselServo;
     private DcMotor armOne;
     private DcMotor armTwo;
     private Pose2d lastPose;
-    TelemetryPacket packet = new TelemetryPacket();
-    FtcDashboard dashboard = FtcDashboard.getInstance();
+    private TelemetryPacket packet = new TelemetryPacket();
+    private FtcDashboard dashboard = FtcDashboard.getInstance();
 
     public enum GrabState {
         OPEN,
@@ -38,8 +38,8 @@ public class EnhancedDriver extends SampleMecanumDrive{
         super(hardwareMap);
         this.hardwareMap = hardwareMap;
         init();
-
     }
+
      public void act(ActionObject args) {
          Pose2d newPose = args.getPose2d();
 
