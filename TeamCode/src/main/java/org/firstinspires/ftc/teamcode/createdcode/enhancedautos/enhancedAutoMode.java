@@ -12,13 +12,13 @@ import java.util.List;
 
 @Config
 public abstract class enhancedAutoMode extends LinearOpMode {
-    public static List<Double> xCoords = new ArrayList<>(Arrays.asList());
-    public static List<Double> yCoords = new ArrayList<>(Arrays.asList());
-    public static List<Double> angles = new ArrayList<>(Arrays.asList());
-    public static List<Integer> methodIDs = new ArrayList<>(Arrays.asList());
-    public static Exception invalidValues = new Exception("List of values is invalid");
-    public static List<ActionObject> actionObjects;
-    EnhancedDriver enhancedDriver;
+    private static List<Double> xCoords = new ArrayList<>(0);
+    private static List<Double> yCoords = new ArrayList<>(0);
+    private static List<Double> angles = new ArrayList<>(0);
+    private static List<Integer> methodIDs = new ArrayList<>(0);
+    private static Exception invalidValues = new Exception("List of values is invalid");
+    private static List<ActionObject> actionObjects;
+    private EnhancedDriver enhancedDriver;
 
     public void makeActionObjects() throws Exception{
         if (xCoords.get(0) == null || yCoords.get(0) == null || angles.get(0) == null)
@@ -51,5 +51,21 @@ public abstract class enhancedAutoMode extends LinearOpMode {
         enhancedDriver = new EnhancedDriver(hardwareMap);
     }
 
+    public void setXCoords(double[] xArr){
+        for (Double i : xArr)
+            xCoords.add(i);
+    }
+    public void setYCoords(double[] yArr){
+        for (Double i : yArr)
+            yCoords.add(i);
+    }
+    public void setAngles(double[] angleArr){
+        for (Double i : angleArr)
+            angles.add(i);
+    }
+    public void setMethodIDS(int[] methodIdsArr){
+        for (int i : methodIdsArr)
+            methodIDs.add(i);
+    }
 
 }

@@ -10,21 +10,17 @@ import java.util.List;
 public class redAuto extends enhancedAutoMode{
     private static double[] xCoordArr = {0, 1, 2};
     private static double[] yCoordArr = {0, 1, 2};
-    private static double[] angleArr = {0, 1, 2};
-    private static int[] methodIdArr = {0, 1};
+    private static double[] angleArr = {90, 90, 90};
+    private static int[] methodIdArr = {11, 12, 11};
 
     @Override
     public void runOpMode(){
         initThings();
 
-
-
-        xCoords = Arrays.asList(xCoordArr);
-        yCoords = Arrays.asList(yCoordArr);
-        angles = Arrays.asList(angleArr);
-        methodIDs = Arrays.asList();
-        int[] arrayTest = {0, 0};
-
+        setXCoords(xCoordArr);
+        setYCoords(yCoordArr);
+        setAngles(angleArr);
+        setMethodIDS(methodIdArr);
 
         waitForStart();
 
