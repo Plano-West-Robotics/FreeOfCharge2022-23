@@ -16,11 +16,14 @@ public class DriveTeleOpv2 extends OpMode {
     private double drive = 0, strafe = 0, turn = 0;
     private double speed = 1;
     private boolean lockSpeed = true;
+    private double constantSpeedMult = 0.5;
+    private double constantSpeedMultChangeMult = 0.25;
+    private boolean wasPressingDpadUp = false, wasPressingDpadDown = false;
 
     //carousel servo things
-    private CRServo carouselServo;
+    private DcMotor carouselServo1, carouselServo2;
     private boolean turnCarouselRight = false, turnCarouselLeft = false;;
-    private double carouselPower = 1;
+    private double carouselPower = 0.5;
 
     //Arm Variables
     private DcMotor armOne, armTwo;
@@ -28,7 +31,7 @@ public class DriveTeleOpv2 extends OpMode {
     private double armTwoPos = 0;
     private double armSpeedMod = 0.5;
     private Servo grabServo;
-    private double grabServoPos, holdServoPow, servoSpeedMod = 0.05;
+    private double grabServoPos, holdServoPow, servoSpeedMod = 0.01;
     private boolean raiseArm;
     private boolean wasPressingA, wasPressingB, wasPressingX, wasPressingY;
 
@@ -40,6 +43,8 @@ public class DriveTeleOpv2 extends OpMode {
         moveArm();
         armGrab();
         checkCarousel();
+
+        telemetry.update();
     }
 
     private void takeControllerInput(){
@@ -54,15 +59,34 @@ public class DriveTeleOpv2 extends OpMode {
             wasPressingA = true;
         }
         else wasPressingA = false;
-        speed = lockSpeed ? 1 : gamepad1.right_trigger;
+
+
+        if (gamepad1.dpad_up) {
+            if (!wasPressingDpadUp) {
+                constantSpeedMult = Math.min(constantSpeedMult+constantSpeedMultChangeMult, 1);
+            }
+            wasPressingDpadUp = true;
+        }
+        else wasPressingDpadUp = false;
+
+        if (gamepad1.dpad_down) {
+            if (!wasPressingDpadDown) {
+                constantSpeedMult = Math.max(constantSpeedMult-constantSpeedMultChangeMult, 0);
+            }
+            wasPressingDpadDown = true;
+        }
+        else wasPressingDpadDown = false;
+
+        telemetry.addData("Constant Speed Mult", constantSpeedMult);
+
+        speed = lockSpeed ? constantSpeedMult : gamepad1.right_trigger;
 
         turnCarouselRight = gamepad2.right_bumper;
         turnCarouselLeft = gamepad2.left_bumper;
 
-
         armPow = gamepad2.right_stick_y;
 
-        grabServoPos = Math.min(Math.max(grabServoPos - gamepad2.left_stick_y * servoSpeedMod, 0.0),0.4);
+        grabServoPos = Math.min(Math.max(grabServoPos - gamepad2.left_stick_y * servoSpeedMod, 0.33),0.6);
 
 
     }
@@ -90,7 +114,7 @@ public class DriveTeleOpv2 extends OpMode {
         motorRL.setPower(powerRL);
 
         telemetry.addData("powerFR", powerFR);
-        telemetry.update();
+
     }
 
     private void addTurn(double turn){
@@ -105,19 +129,30 @@ public class DriveTeleOpv2 extends OpMode {
 
         armOne.setPower(armPow * armSpeedMod);
         armTwo.setPower(armPow * armSpeedMod);
+        telemetry.addData("Arm One Position", armOne.getCurrentPosition());
     }
 
     private void armGrab(){
         grabServo.setPosition(grabServoPos);
+        telemetry.addData("Servo Position", grabServoPos);
     }
 
     private void checkCarousel() {
         if (turnCarouselRight)
-            carouselServo.setPower(carouselPower);
+        {
+            carouselServo1.setPower(carouselPower);
+            carouselServo2.setPower(carouselPower);
+        }
         else if (turnCarouselLeft)
-            carouselServo.setPower(-1*carouselPower);
+        {
+            carouselServo1.setPower(carouselPower);
+            carouselServo2.setPower(carouselPower);
+        }
         else
-            carouselServo.setPower(0);
+        {
+            carouselServo1.setPower(0);
+            carouselServo2.setPower(0);
+        }
     }
 
     @Override
@@ -151,16 +186,19 @@ public class DriveTeleOpv2 extends OpMode {
         armTwo = hardwareMap.get(DcMotor.class, "armTwo");
         armOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armTwo.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armTwo.setDirection(DcMotorSimple.Direction.REVERSE);
+        armOne.setDirection(DcMotorSimple.Direction.REVERSE);
+        armOne.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armOne.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armTwo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         grabServo = hardwareMap.get(Servo.class, "grabServo");
-        grabServo.setPosition(1);
+        grabServo.setPosition(0.6);
 
 
         //initializes the carousel servo
-        carouselServo = hardwareMap.get(CRServo.class, "spinnyBoy");
+        carouselServo1 = hardwareMap.get(DcMotor.class, "spinnyBoyOne");
+        carouselServo2 = hardwareMap.get(DcMotor.class, "spinnyBoyTwo");
     }
 }

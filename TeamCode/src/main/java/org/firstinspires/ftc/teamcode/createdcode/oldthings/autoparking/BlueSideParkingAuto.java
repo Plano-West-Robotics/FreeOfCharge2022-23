@@ -1,9 +1,9 @@
 
 package org.firstinspires.ftc.teamcode.createdcode.oldthings.autoparking;
 
-import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.GEAR_RATIO;
-import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.TICKS_PER_REV;
-import static org.firstinspires.ftc.teamcode.roadRunner.drive.DriveConstants.WHEEL_RADIUS;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.GEAR_RATIO;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TICKS_PER_REV;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.WHEEL_RADIUS;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;

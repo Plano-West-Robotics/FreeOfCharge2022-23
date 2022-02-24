@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes;
 
 
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.*;
+import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.*;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,11 +15,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-import org.firstinspires.ftc.teamcode.roadRunner.drive.*;
+import org.firstinspires.ftc.teamcode.drive.*;
 
 
 
-
+@Disabled
 @Autonomous(group = "Blue")
 public class blueSpinParkLongPathv2 extends LinearOpMode {
     private Servo grabServo;

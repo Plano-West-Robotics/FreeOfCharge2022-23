@@ -1,6 +1,12 @@
 1X: lifts arm
-    11: quarter of max position
-    12: half of max position
-    13: three-quarters of max position
+    10: resets arm position
+    11: top layer from front
+    12: middle layer from front
+    13: bottom layer from front
     14: max position
-2X:
+2X: grabber motions
+    21: close grabber
+    22: open grabber
+3X: carousel movements
+    31: turn right
+    32: turn left

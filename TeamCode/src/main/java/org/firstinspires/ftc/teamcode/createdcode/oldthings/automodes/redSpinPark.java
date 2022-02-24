@@ -1,23 +1,24 @@
 package org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes;
 
 
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.GRABBER_CLOSE;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.GRAB_TIME;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.GRABBER_OPEN;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.RED_CAROUSEL_X;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.RED_CAROUSEL_Y;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.RED_FINAL_STRAFE;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.CAROUSEL_POWER;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.CAROUSEL_WAIT;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.RED1_START_X;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.RED1_START_Y;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.ARM_MAX_DIST;
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConstants.RED_START_FORWARD;
+import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.GRABBER_CLOSE;
+import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.GRAB_TIME;
+import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.GRABBER_OPEN;
+import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.RED_CAROUSEL_X;
+import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.RED_CAROUSEL_Y;
+import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.RED_FINAL_STRAFE;
+import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.CAROUSEL_POWER;
+import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.CAROUSEL_WAIT;
+import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.RED1_START_X;
+import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.RED1_START_Y;
+import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.ARM_MAX_DIST;
+import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.RED_START_FORWARD;
 
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -25,11 +26,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-import org.firstinspires.ftc.teamcode.roadRunner.drive.*;
+import org.firstinspires.ftc.teamcode.drive.*;
 
 
 
-
+@Disabled
 @Autonomous(group = "Red")
 public class redSpinPark extends LinearOpMode {
     private Servo grabServo;
