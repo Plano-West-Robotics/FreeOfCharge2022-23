@@ -9,14 +9,16 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
-@Autonomous
+@Autonomous (group = "Blue")
 @Config
-public class BlueNearParkAuto extends enhancedAutoMode{
+public class BlueNearParkAuto extends EnhancedAutoMode {
     public static double START_POS_X = -32;
     public static double START_POS_Y = 66;
     public static double START_POS_ANGLE = 270;
     public static int START_METHOD = 20;
+
     public static int BLOCK_DROP_POINT = -30;
+
     public static int SHIPPING_ELEMENT_CENTER_HEIGHT = 135;
     public static int SHIPPING_ELEMENT_POS_1_X = 30;
     public static int SHIPPING_ELEMENT_POS_2_X = 165;
@@ -32,17 +34,17 @@ public class BlueNearParkAuto extends enhancedAutoMode{
     private static double[] angleArr = {};
     private static int[] methodIdArr = {};
 
-    public static double[] xCoordArrCase1 = {START_POS_X, -48, -48, BLOCK_DROP_POINT, -48, BLUE_CAROUSEL_X, BLUE_STORAGE__X};
+    public static double[] xCoordArrCase1 = {START_POS_X, -48, -48, BLOCK_DROP_POINT, -48, BLUE_CAROUSEL_X, BLUE_STORAGE_X};
     private static double[] yCoordArrCase1 = {START_POS_Y, 48, 24, 24, 24, BLUE_CAROUSEL_Y, BLUE_STORAGE_Y};
     private static double[] angleArrCase1 = {START_POS_ANGLE, 180, 90, 0, 0, BLUE_CAROUSEL_ANGLE, BLUE_STORAGE_ANGLE};
     private static int[] methodIdArrCase1 = {START_METHOD, 13, 0, 22, 10, 32, 0};
 
-    public static double[] xCoordArrCase2 = {START_POS_X, -48, -48, BLOCK_DROP_POINT, -48, BLUE_CAROUSEL_X, BLUE_STORAGE__X};
+    public static double[] xCoordArrCase2 = {START_POS_X, -48, -48, BLOCK_DROP_POINT, -48, BLUE_CAROUSEL_X, BLUE_STORAGE_X};
     private static double[] yCoordArrCase2 = {START_POS_Y, 48, 24, 24, 24, BLUE_CAROUSEL_Y, BLUE_STORAGE_Y};
     private static double[] angleArrCase2 = {START_POS_ANGLE, 180, 90, 0, 0, BLUE_CAROUSEL_ANGLE, BLUE_STORAGE_ANGLE};
     private static int[] methodIdArrCase2 = {START_METHOD, 12 , 0, 22, 10, 32, 0};
 
-    public static double[] xCoordArrCase3 = {START_POS_X, BLOCK_DROP_POINT, BLOCK_DROP_POINT, -56, BLUE_CAROUSEL_X, BLUE_STORAGE__X};
+    public static double[] xCoordArrCase3 = {START_POS_X, BLOCK_DROP_POINT, BLOCK_DROP_POINT, -56, BLUE_CAROUSEL_X, BLUE_STORAGE_X};
     private static double[] yCoordArrCase3 = {START_POS_Y, 48, 24, 24, BLUE_CAROUSEL_Y, BLUE_STORAGE_Y};
     private static double[] angleArrCase3 = {START_POS_ANGLE, 135, 0, 0, BLUE_CAROUSEL_ANGLE, BLUE_STORAGE_ANGLE};
     private static int[] methodIdArrCase3 = {START_METHOD, 11, 22, 10, 32, 0};

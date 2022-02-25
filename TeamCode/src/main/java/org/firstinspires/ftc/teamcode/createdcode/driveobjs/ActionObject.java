@@ -12,6 +12,7 @@ public class ActionObject {
         this.y = y;
         this.angle = angle;
     }
+
     public ActionObject(double x, double y, double angle, int methodID){
         this.x = x;
         this.y = y;

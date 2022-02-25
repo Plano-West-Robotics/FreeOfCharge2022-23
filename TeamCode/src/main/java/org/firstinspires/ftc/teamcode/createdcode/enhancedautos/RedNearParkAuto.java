@@ -5,48 +5,48 @@ import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.*;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-@Disabled
-@Autonomous
+
+@Autonomous (group = "Red")
 @Config
-public class AutoBase extends EnhancedAutoMode {
-    public static double START_POS_X = 0;
-    public static double START_POS_Y = 0;
-    public static double START_POS_ANGLE = 0;
+public class RedNearParkAuto extends EnhancedAutoMode {
+    public static double START_POS_X = -40;
+    public static double START_POS_Y = -66;
+    public static double START_POS_ANGLE = 90;
     public static int START_METHOD = 20;
 
+    public static int BLOCK_DROP_POINT = -30;
+
+    //TODO: GET THESE VALUES
     public static int SHIPPING_ELEMENT_CENTER_HEIGHT = 0;
     public static int SHIPPING_ELEMENT_POS_1_X = 0;
     public static int SHIPPING_ELEMENT_POS_2_X = 0;
     public static int SHIPPING_ELEMENT_POS_3_X = 0;
-
-
-    FtcDashboard dashboard = FtcDashboard.getInstance();
-    Telemetry dashboardTelemetry = dashboard.getTelemetry();
-
 
     public static double[] xCoordArr = {};
     private static double[] yCoordArr = {};
     private static double[] angleArr = {};
     private static int[] methodIdArr = {};
 
-    public static double[] xCoordArrCase1 = {START_POS_X};
-    private static double[] yCoordArrCase1 = {START_POS_Y};
-    private static double[] angleArrCase1 = {START_POS_ANGLE};
-    private static int[] methodIdArrCase1 = {START_METHOD};
+    public static double[] xCoordArrCase1 = {START_POS_X, BLOCK_DROP_POINT, BLOCK_DROP_POINT, -56, RED_CAROUSEL_Y, RED_STORAGE_Y};
+    private static double[] yCoordArrCase1 = {START_POS_Y, -48, -24, -24, RED_CAROUSEL_Y, RED_STORAGE_Y};
+    private static double[] angleArrCase1 = {START_POS_ANGLE, 0, 0, 0, RED_CAROUSEL_ANGLE, RED_STORAGE_ANGLE};
+    private static int[] methodIdArrCase1 = {START_METHOD, 11, 22, 10, 31, 0};
 
-    public static double[] xCoordArrCase2 = {START_POS_X};
-    private static double[] yCoordArrCase2 = {START_POS_Y};
-    private static double[] angleArrCase2 = {START_POS_ANGLE};
-    private static int[] methodIdArrCase2 = {START_METHOD};
+    public static double[] xCoordArrCase2 = {START_POS_X, -48, -48, BLOCK_DROP_POINT, -48, RED_CAROUSEL_X, RED_STORAGE_X};
+    private static double[] yCoordArrCase2 = {START_POS_Y, -48, -24, -24, -24, RED_CAROUSEL_Y, RED_STORAGE_Y};
+    private static double[] angleArrCase2 = {START_POS_ANGLE, 0, 0, 0, 0, RED_CAROUSEL_ANGLE, RED_STORAGE_ANGLE};
+    private static int[] methodIdArrCase2 = {START_METHOD, 12 , 0, 22, 10, 31, 0};
 
-    public static double[] xCoordArrCase3 = {START_POS_X};
-    private static double[] yCoordArrCase3 = {START_POS_Y};
-    private static double[] angleArrCase3 = {START_POS_ANGLE};
-    private static int[] methodIdArrCase3 = {START_METHOD};
+    public static double[] xCoordArrCase3 = {START_POS_X, -48, -48, BLOCK_DROP_POINT, -48, RED_CAROUSEL_X, RED_STORAGE_X};
+    private static double[] yCoordArrCase3 = {START_POS_Y, -48, -24, -24, -24, RED_CAROUSEL_Y, RED_STORAGE_Y};
+    private static double[] angleArrCase3 = {START_POS_ANGLE, 0, 0, 0, 0, RED_CAROUSEL_ANGLE, RED_STORAGE_ANGLE};
+    private static int[] methodIdArrCase3 = {START_METHOD, 13, 0, 22, 10, 31, 0};
+
+    FtcDashboard dashboard = FtcDashboard.getInstance();
+    Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
     @Override
     public void runOpMode(){

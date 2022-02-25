@@ -10,6 +10,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -81,7 +82,8 @@ public class EnhancedDriver extends SampleMecanumDrive{
             case 3:
                 turnCarouselMethods(subIndex);
                 break;
-
+            case 4:
+                executeAdvancedMovement(subIndex);
         }
 
     }
@@ -170,6 +172,23 @@ public class EnhancedDriver extends SampleMecanumDrive{
         carouselMotor1.setPower(0);
         carouselMotor2.setPower(0);
     }
+
+    private void executeAdvancedMovement(int id) throws IndexOutOfBoundsException{
+        switch(id){
+            //moves to the leftmost edge (blue side) and drives into warehouse
+            case 1:
+                Trajectory traj = trajectoryBuilder(getPoseEstimate())
+                    .lineToLinearHeading()
+                    .lineToLinearHeading()
+
+
+            //moves to the rightmost edge (red side) and drives into warehouse
+            case 2:
+
+
+        }
+    }
+
 
 
     private void moveArms(int encoderVal){

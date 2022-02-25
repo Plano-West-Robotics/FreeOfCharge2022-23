@@ -5,6 +5,8 @@
     13: bottom layer from front
     14: max position
 2X: grabber motions
+    20: closes grabber and lifts up a little
+        START WITH THIS ONE!!!!
     21: close grabber
     22: open grabber
 3X: carousel movements

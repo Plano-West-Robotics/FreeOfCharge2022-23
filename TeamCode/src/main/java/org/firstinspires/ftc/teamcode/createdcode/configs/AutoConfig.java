@@ -5,6 +5,8 @@ import com.acmerobotics.dashboard.config.Config;
 
 @Config
 public class AutoConfig {
+    //REMEMBER THAT LEFT IS POS 1, RIGHT IS POS 3
+
     public static int OBJECT_CENTER_Y = 135;
     public static int MIN_H = 100;
     public static int MIN_S = 100;
@@ -16,13 +18,20 @@ public class AutoConfig {
     //carousel values
     public static double CAROUSEL_POWER = 0.2;
     public static int CAROUSEL_WAIT = 6000;
+
     //carousel positions
+    //blue
     public static double BLUE_CAROUSEL_X = -60;
     public static double BLUE_CAROUSEL_Y = 58;
     public static double BLUE_CAROUSEL_ANGLE = 180;
 
+    //red
+    public static double RED_CAROUSEL_X = -60;
+    public static double RED_CAROUSEL_Y = -58;
+    public static double RED_CAROUSEL_ANGLE = 180;
 
-    // arm positions
+
+    //arm positions
     public static int ARM_MAX_DIST = 415;
     public static int SLIGHTLY_OFF_GROUND = 40;
     public static int LAYER_ONE_BACK_ARM_POS = 340;
@@ -38,9 +47,27 @@ public class AutoConfig {
     public static double GRABBER_OPEN = 0.6;
 
     //storage coords
-    public static double BLUE_STORAGE__X = -60;
+    //blue
+    public static double BLUE_STORAGE_X = -60;
     public static double BLUE_STORAGE_Y = 36;
     public static double BLUE_STORAGE_ANGLE = 360;
+
+    //red
+    public static double RED_STORAGE_X = -60;
+    public static double RED_STORAGE_Y = -36;
+    public static double RED_STORAGE_ANGLE = 0;
+
+
+    //warehouse coords
+    //blue
+    public static double BLUE_WAREHOUSE_X = -60;
+    public static double BLUE_WAREHOUSE_Y = 36;
+    public static double BLUE_WAREHOUSE_ANGLE = 360;
+
+    //red
+    public static double RED_WAREHOUSE_X = -60;
+    public static double RED_WAREHOUSE_Y = 36;
+    public static double RED_WAREHOUSE_ANGLE = 360;
 
 
 }

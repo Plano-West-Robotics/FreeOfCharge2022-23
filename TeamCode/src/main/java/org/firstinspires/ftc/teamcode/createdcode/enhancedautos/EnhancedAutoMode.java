@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Config
-public abstract class enhancedAutoMode extends LinearOpMode {
+public abstract class EnhancedAutoMode extends LinearOpMode {
     private static List<Double> xCoords = new ArrayList<>(0);
     private static List<Double> yCoords = new ArrayList<>(0);
     private static List<Double> angles = new ArrayList<>(0);
