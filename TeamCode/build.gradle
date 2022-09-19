@@ -17,13 +17,11 @@ apply from: '../build.dependencies.gradle'
 
 android {
 
-    androidResources {
+    aaptOptions {
         noCompress 'tflite'
     }
     packagingOptions {
-        jniLibs {
-            pickFirsts += ['**/*.so']
-        }
+        pickFirsts += ['**/*.so']
     }
 }
 

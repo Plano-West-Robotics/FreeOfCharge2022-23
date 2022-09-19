@@ -34,7 +34,7 @@ public class EnhancedDriver extends SampleMecanumDrive{
         OPEN,
         CLOSED_EMPTY,
         CLOSED_FULL
-    };
+    }
 
     public EnhancedDriver(HardwareMap hardwareMap){
         super(hardwareMap);
@@ -174,19 +174,19 @@ public class EnhancedDriver extends SampleMecanumDrive{
     }
 
     private void executeAdvancedMovement(int id) throws IndexOutOfBoundsException{
-        switch(id){
-            //moves to the leftmost edge (blue side) and drives into warehouse
-            case 1:
-                Trajectory traj = trajectoryBuilder(getPoseEstimate())
-                    .lineToLinearHeading()
-                    .lineToLinearHeading();
-
-
-            //moves to the rightmost edge (red side) and drives into warehouse
-            case 2:
-
-
-        }
+//        switch(id){
+//            //moves to the leftmost edge (blue side) and drives into warehouse
+//            case 1:
+//                Trajectory traj = trajectoryBuilder(getPoseEstimate())
+//                    .lineToLinearHeading()
+//                    .lineToLinearHeading();
+//
+//
+//            //moves to the rightmost edge (red side) and drives into warehouse
+//            case 2:
+//
+//
+//        }
     }
 
 
