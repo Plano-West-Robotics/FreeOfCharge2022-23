@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode.createdcode.driveobjs;
 
-
-
-
-
 import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.*;
 
 import com.acmerobotics.dashboard.FtcDashboard;
