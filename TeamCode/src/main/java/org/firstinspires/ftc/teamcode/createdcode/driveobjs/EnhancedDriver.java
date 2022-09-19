@@ -1,12 +1,20 @@
 package org.firstinspires.ftc.teamcode.createdcode.driveobjs;
 
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.*;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.ARM_MAX_DIST;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.CAROUSEL_POWER;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.CAROUSEL_WAIT;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.GRABBER_CLOSE;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.GRABBER_OPEN;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.GRAB_TIME;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.LAYER_ONE_FRONT_ARM_POS;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.LAYER_THREE_FRONT_ARM_POS;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.LAYER_TWO_FRONT_ARM_POS;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.SLIGHTLY_OFF_GROUND;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -14,17 +22,17 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-public class EnhancedDriver extends SampleMecanumDrive{
+public class EnhancedDriver extends SampleMecanumDrive {
 
-    private HardwareMap hardwareMap;
+    private final HardwareMap hardwareMap;
     private Servo grabServo;
     private DcMotor carouselMotor1, carouselMotor2;
     private DcMotor armOne;
     private DcMotor armTwo;
     private Pose2d lastPose = null;
     private boolean isFirstRun = true;
-    private TelemetryPacket packet = new TelemetryPacket();
-    private FtcDashboard dashboard = FtcDashboard.getInstance();
+    private final TelemetryPacket packet = new TelemetryPacket();
+    private final FtcDashboard dashboard = FtcDashboard.getInstance();
 
     public enum GrabState {
         OPEN,
@@ -32,43 +40,42 @@ public class EnhancedDriver extends SampleMecanumDrive{
         CLOSED_FULL
     }
 
-    public EnhancedDriver(HardwareMap hardwareMap){
+    public EnhancedDriver(HardwareMap hardwareMap) {
         super(hardwareMap);
         this.hardwareMap = hardwareMap;
         init();
     }
 
-     public void act(ActionObject args) {
-         if (isFirstRun){
-             lastPose = args.getPose2d();
-             setPoseEstimate(lastPose);
-             isFirstRun = false;
-         }
-         else {
-             Pose2d newPose = args.getPose2d();
-             //checks to make sure that the poses are different, avoids no trajectory error
-             if (!(newPose.getX() == lastPose.getX() && newPose.getY() == lastPose.getY())) {
-                 Trajectory traj = trajectoryBuilder(lastPose)
-                         .lineToLinearHeading(newPose)
-                         .build();
-                 new Pose2d();
-                 followTrajectory(traj);
-                 lastPose = newPose;
-             }
-         }
-         if (args.getMethodID() != 0) {
-             try {
-                 doAction(args.getMethodID());
-             } catch (IndexOutOfBoundsException e) {
-                 packet.put("Invalid Method ID", args.getMethodID() + " is not a valid ID");
-                 flushTelemetry();
-             }
-         }
+    public void act(ActionObject args) {
+        if (isFirstRun) {
+            lastPose = args.getPose2d();
+            setPoseEstimate(lastPose);
+            isFirstRun = false;
+        } else {
+            Pose2d newPose = args.getPose2d();
+            //checks to make sure that the poses are different, avoids no trajectory error
+            if (!(newPose.getX() == lastPose.getX() && newPose.getY() == lastPose.getY())) {
+                Trajectory traj = trajectoryBuilder(lastPose)
+                        .lineToLinearHeading(newPose)
+                        .build();
+                new Pose2d();
+                followTrajectory(traj);
+                lastPose = newPose;
+            }
+        }
+        if (args.getMethodID() != 0) {
+            try {
+                doAction(args.getMethodID());
+            } catch (IndexOutOfBoundsException e) {
+                packet.put("Invalid Method ID", args.getMethodID() + " is not a valid ID");
+                flushTelemetry();
+            }
+        }
     }
 
-    public void doAction(int id) throws IndexOutOfBoundsException{
-        int subIndex = id%10;
-        switch(id/10){
+    public void doAction(int id) throws IndexOutOfBoundsException {
+        int subIndex = id % 10;
+        switch (id / 10) {
             case 1:
                 moveArmMethods(subIndex);
                 break;
@@ -85,7 +92,7 @@ public class EnhancedDriver extends SampleMecanumDrive{
     }
 
     private void moveArmMethods(int id) throws IndexOutOfBoundsException {
-        switch(id){
+        switch (id) {
             //resets arm position
             case 0:
                 moveArms(armOne.getCurrentPosition());
@@ -125,8 +132,8 @@ public class EnhancedDriver extends SampleMecanumDrive{
         }
     }
 
-    private void moveGrabberMethods(int id) throws IndexOutOfBoundsException{
-        switch(id){
+    private void moveGrabberMethods(int id) throws IndexOutOfBoundsException {
+        switch (id) {
             //close grabber and raises a little off ground
             case 0:
                 grabServo.setPosition(GRABBER_CLOSE);
@@ -149,8 +156,8 @@ public class EnhancedDriver extends SampleMecanumDrive{
 
     }
 
-    private void turnCarouselMethods(int id) throws IndexOutOfBoundsException{
-        switch(id) {
+    private void turnCarouselMethods(int id) throws IndexOutOfBoundsException {
+        switch (id) {
             //turn right
             case 1:
                 carouselMotor1.setPower(CAROUSEL_POWER);
@@ -159,8 +166,8 @@ public class EnhancedDriver extends SampleMecanumDrive{
                 break;
             //turn left
             case 2:
-                carouselMotor1.setPower(-1*CAROUSEL_POWER);
-                carouselMotor2.setPower(-1*CAROUSEL_POWER);
+                carouselMotor1.setPower(-1 * CAROUSEL_POWER);
+                carouselMotor2.setPower(-1 * CAROUSEL_POWER);
 
                 break;
         }
@@ -169,7 +176,7 @@ public class EnhancedDriver extends SampleMecanumDrive{
         carouselMotor2.setPower(0);
     }
 
-    private void executeAdvancedMovement(int id) throws IndexOutOfBoundsException{
+    private void executeAdvancedMovement(int id) throws IndexOutOfBoundsException {
 //        switch(id){
 //            //moves to the leftmost edge (blue side) and drives into warehouse
 //            case 1:
@@ -186,8 +193,7 @@ public class EnhancedDriver extends SampleMecanumDrive{
     }
 
 
-
-    private void moveArms(int encoderVal){
+    private void moveArms(int encoderVal) {
         armOne.setTargetPosition(armOne.getCurrentPosition() - encoderVal);
         armTwo.setTargetPosition(armTwo.getCurrentPosition() - encoderVal);
         armOne.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -196,23 +202,20 @@ public class EnhancedDriver extends SampleMecanumDrive{
         armTwo.setPower(0.5);
     }
 
-    private void sleep(long milli){
-        try{
+    private void sleep(long milli) {
+        try {
             Thread.sleep(milli);
-        }
-        catch (InterruptedException e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
 
-
-
-    private void flushTelemetry(){
+    private void flushTelemetry() {
         dashboard.sendTelemetryPacket(packet);
     }
 
-    public void init(){
+    public void init() {
         grabServo = hardwareMap.get(Servo.class, "grabServo");
         carouselMotor1 = hardwareMap.get(DcMotor.class, "spinnyBoyOne");
         carouselMotor2 = hardwareMap.get(DcMotor.class, "spinnyBoyTwo");
@@ -226,7 +229,6 @@ public class EnhancedDriver extends SampleMecanumDrive{
         armOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armTwo.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
-
 
 
 }
