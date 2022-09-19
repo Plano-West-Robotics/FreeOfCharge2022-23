@@ -15,7 +15,7 @@
  * updates to the FTC SDK into your code.
  */
 
-//import java.util.regex.Pattern
+import java.util.regex.Pattern
 
 apply plugin: 'com.android.application'
 
