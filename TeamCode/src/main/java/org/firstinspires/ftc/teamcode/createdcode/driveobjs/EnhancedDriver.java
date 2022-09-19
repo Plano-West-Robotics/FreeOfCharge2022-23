@@ -179,7 +179,7 @@ public class EnhancedDriver extends SampleMecanumDrive{
             case 1:
                 Trajectory traj = trajectoryBuilder(getPoseEstimate())
                     .lineToLinearHeading()
-                    .lineToLinearHeading()
+                    .lineToLinearHeading();
 
 
             //moves to the rightmost edge (red side) and drives into warehouse
