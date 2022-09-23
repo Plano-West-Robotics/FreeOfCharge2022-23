@@ -6,6 +6,11 @@ import java.text.SimpleDateFormat
 apply plugin: 'com.android.library'
 
 android {
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 
     defaultConfig {
         minSdkVersion 23

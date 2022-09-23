@@ -24,16 +24,15 @@ allprojects {
     repositories {
         mavenCentral()
         google()
-        mavenCentral()
     }
 }
 
 repositories {
     mavenCentral()
 
-    flatDir {
-        dirs '../libs'
-    }
+//    flatDir {
+//        dirs '../libs'
+//    }
 }
 
 dependencies {

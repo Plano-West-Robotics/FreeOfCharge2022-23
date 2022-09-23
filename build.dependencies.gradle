@@ -2,9 +2,9 @@ repositories {
     mavenCentral()
     google() // Needed for androidx
     mavenCentral()  // Needed for tensorflow-lite
-    flatDir {
-        dirs rootProject.file('libs')
-    }
+//    flatDir {
+//        dirs rootProject.file('libs')
+//    }
     maven { url = 'https://maven.brott.dev/' }
 }
 
