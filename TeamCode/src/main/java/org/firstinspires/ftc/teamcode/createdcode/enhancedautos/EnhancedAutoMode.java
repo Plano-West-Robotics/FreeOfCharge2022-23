@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.createdcode.enhancedautos;
 
-import androidx.annotation.NonNull;
-
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -12,7 +9,6 @@ import org.firstinspires.ftc.teamcode.createdcode.driveobjs.EnhancedDriver;
 import org.firstinspires.ftc.teamcode.createdcode.driveobjs.ObjectDetector;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public abstract class EnhancedAutoMode extends LinearOpMode {
