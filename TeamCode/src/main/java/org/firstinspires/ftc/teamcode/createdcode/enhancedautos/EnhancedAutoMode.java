@@ -16,11 +16,11 @@ public abstract class EnhancedAutoMode extends LinearOpMode {
     private static List<Double> yCoords = new ArrayList<>(0);
     private static List<Double> angles = new ArrayList<>(0);
     private static List<Integer> methodIDs = new ArrayList<>(0);
-    private static Exception invalidValues = new Exception("List of values is invalid");
+    private static final Exception invalidValues = new Exception("List of values is invalid");
     private static List<ActionObject> actionObjects =  new ArrayList<>(0);
     private EnhancedDriver enhancedDriver;
-    private FtcDashboard dashboard = FtcDashboard.getInstance();
-    private Telemetry dashboardTelemetry = dashboard.getTelemetry();
+    private final FtcDashboard dashboard = FtcDashboard.getInstance();
+    private final Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
 
     public void makeActionObjects() throws Exception{
