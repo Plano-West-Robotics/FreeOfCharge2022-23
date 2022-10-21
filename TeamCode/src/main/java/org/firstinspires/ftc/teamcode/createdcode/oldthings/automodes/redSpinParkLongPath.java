@@ -1,34 +1,20 @@
 package org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes;
 
 
-import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.RED1_BLOCK_MIDPOS_X;
 import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.RED1_BLOCK_REPOS_X;
 import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.RED1_MIDPOS_X;
 import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.RED1_MIDPOS_Y;
-
-
-import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.RED_FINAL_STRAFE;
-
-
 import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.RED1_START_X;
 import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.RED1_START_Y;
-
 import static org.firstinspires.ftc.teamcode.createdcode.oldthings.automodes.AutoConstants.RED_START_FORWARD;
 
-
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
-
-import org.firstinspires.ftc.teamcode.drive.*;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 
 @Disabled

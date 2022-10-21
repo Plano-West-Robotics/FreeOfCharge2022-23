@@ -1,15 +1,15 @@
 package org.firstinspires.ftc.teamcode.createdcode.oldthings.autoparking;
 
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.GEAR_RATIO;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TICKS_PER_REV;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.WHEEL_RADIUS;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TICKS_PER_REV;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.GEAR_RATIO;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.WHEEL_RADIUS;
 
 @Disabled
 

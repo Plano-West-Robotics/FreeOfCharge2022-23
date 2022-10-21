@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.createdcode.enhancedautos;
 
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.*;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;

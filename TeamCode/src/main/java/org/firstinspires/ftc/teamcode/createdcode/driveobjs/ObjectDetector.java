@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode.createdcode.driveobjs;
 
-import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.*;
-
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.MAX_H;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.MAX_S;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.MAX_V;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.MIN_H;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.MIN_S;
+import static org.firstinspires.ftc.teamcode.createdcode.configs.AutoConfig.MIN_V;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
