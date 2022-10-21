@@ -56,7 +56,6 @@ public abstract class EnhancedAutoMode extends LinearOpMode {
         return toCheck.get(i) == null ? checkNull(toCheck, i) : toCheck.get(i);
     }
 
-
     public void initThings() {
         //enhancedDriver = new EnhancedDriver(hardwareMap);
     }
