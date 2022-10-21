@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.createdcode.driveobjs.ActionObject;
-import org.firstinspires.ftc.teamcode.createdcode.driveobjs.EnhancedDriver;
+//import org.firstinspires.ftc.teamcode.createdcode.driveobjs.EnhancedDriver;
 import org.firstinspires.ftc.teamcode.createdcode.driveobjs.ObjectDetector;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public abstract class EnhancedAutoMode extends LinearOpMode {
     private static List<Integer> methodIDs = new ArrayList<>(0);
     private static final Exception invalidValues = new Exception("List of values is invalid");
     private static List<ActionObject> actionObjects = new ArrayList<>(0);
-    private EnhancedDriver enhancedDriver;
+    //private EnhancedDriver enhancedDriver;
     private final FtcDashboard dashboard = FtcDashboard.getInstance();
     private final Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
@@ -46,7 +46,7 @@ public abstract class EnhancedAutoMode extends LinearOpMode {
     public void run() {
         int count = 0;
         for (ActionObject i : actionObjects) {
-            enhancedDriver.act(i);
+            //enhancedDriver.act(i);
             count++;
             telemetry.addData("Completed Action:", count);
             telemetry.update();
@@ -58,7 +58,7 @@ public abstract class EnhancedAutoMode extends LinearOpMode {
     }
 
     public void initThings() {
-        enhancedDriver = new EnhancedDriver(hardwareMap);
+        //enhancedDriver = new EnhancedDriver(hardwareMap);
     }
 
     public void setXCoords(double[] xArr) {

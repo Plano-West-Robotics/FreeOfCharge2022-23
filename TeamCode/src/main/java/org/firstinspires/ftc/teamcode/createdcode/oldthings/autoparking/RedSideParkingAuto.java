@@ -165,11 +165,6 @@ public class RedSideParkingAuto extends LinearOpMode {
     }
     */
 
-    public void turnCarousel() {
-
-
-    }
-
     public void setSpeed(double speed) {
 
         frontLeft.setPower(speed);

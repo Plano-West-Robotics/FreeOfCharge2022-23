@@ -7,12 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 //@Config
 public class AutoConstants {
 
-    public static double CAROUSEL_POWER = 0.7;
-    public static int CAROUSEL_WAIT = 6000;
-    public static int ARM_MAX_DIST = 400;
-    public static int GRAB_TIME = 1000;
-    public static double GRABBER_CLOSE = 0;
-    public static double GRABBER_OPEN = 0.4;
 
     //blue values
     //blue1
@@ -30,8 +24,10 @@ public class AutoConstants {
     public static int BLUE_WAREHOUSE_Y = 44;
 
     //blue movements
-    public static double BLUE_CAROUSEL_X = -50.8;
-    public static double BLUE_CAROUSEL_Y = 50.8;
+    /*
+
+
+     */
     public static int BLUE_START_FORWARD = 39;
     public static int BLUE_FINAL_STRAFE = 17;
 
@@ -51,8 +47,10 @@ public class AutoConstants {
     public static int RED_WAREHOUSE_Y = -44;
 
     //red movements
-    public static double RED_CAROUSEL_X = -56;
-    public static double RED_CAROUSEL_Y = -56.75;
+    /*
+
+
+     */
     public static int RED_START_FORWARD = 40;
     public static int RED_FINAL_STRAFE = 15;
 }

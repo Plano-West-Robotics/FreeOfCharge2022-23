@@ -17,31 +17,11 @@ public class MonoControllerDriveTeleOp extends OpMode {
     private final double speed = 1;
     private final boolean lockSpeed = true;
 
-    //carousel servo things
-    private CRServo carouselServo;
-    private boolean turnCarouselRight = false, turnCarouselLeft = false;
-    private final double carouselPower = 1;
-
-    //Arm Variables
-    private DcMotor armOne, armTwo;
-    private double armPow = 0.5;
-    private final double armTwoPos = 0;
-    private final double armSpeedMod = 0.5;
-    private Servo grabServo;
-    private double grabServoPos;
-    private double holdServoPow;
-    private final double servoSpeedMod = 0.05;
-    private boolean raiseArm;
-    private boolean wasPressingA, wasPressingB, wasPressingX, wasPressingY;
-
     @Override
     public void loop() {
         takeControllerInput();
 
         drive();
-        moveArm();
-        armGrab();
-        checkCarousel();
     }
 
 
@@ -49,15 +29,6 @@ public class MonoControllerDriveTeleOp extends OpMode {
         drive = -1 * gamepad1.left_stick_y;
         strafe = gamepad1.left_stick_x;
         turn = gamepad1.right_trigger - gamepad1.left_trigger;
-
-        turnCarouselRight = gamepad1.b;
-        turnCarouselLeft = gamepad1.x;
-
-
-        armPow = gamepad1.right_stick_y;
-
-        grabServoPos = gamepad1.right_bumper ? 0 : gamepad1.left_bumper ? 0.4 : grabServoPos;
-
 
     }
 
@@ -94,26 +65,6 @@ public class MonoControllerDriveTeleOp extends OpMode {
         powerRL += turn;
     }
 
-
-    private void moveArm() {
-
-        armOne.setPower(armPow * armSpeedMod);
-        armTwo.setPower(armPow * armSpeedMod);
-    }
-
-    private void armGrab() {
-        grabServo.setPosition(grabServoPos);
-    }
-
-    private void checkCarousel() {
-        if (turnCarouselRight)
-            carouselServo.setPower(carouselPower);
-        else if (turnCarouselLeft)
-            carouselServo.setPower(-1 * carouselPower);
-        else
-            carouselServo.setPower(0);
-    }
-
     @Override
     public void init() {
         //initializes the drive motors
@@ -140,21 +91,5 @@ public class MonoControllerDriveTeleOp extends OpMode {
         motorRR.setPower(0);
         motorRL.setPower(0);
 
-        //initializes the arm motors and servos
-        armOne = hardwareMap.get(DcMotor.class, "armOne");
-        armTwo = hardwareMap.get(DcMotor.class, "armTwo");
-        armOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armTwo.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armTwo.setDirection(DcMotorSimple.Direction.REVERSE);
-        armTwo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
-        grabServo = hardwareMap.get(Servo.class, "grabServo");
-        grabServo.setPosition(1);
-
-
-        //initializes the carousel servo
-        carouselServo = hardwareMap.get(CRServo.class, "spinnyBoy");
     }
 }

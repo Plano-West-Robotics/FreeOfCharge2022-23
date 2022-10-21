@@ -21,10 +21,6 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @Autonomous(group = "Red")
 public class redParkOnly extends LinearOpMode {
 
-    private Servo grabServo;
-    private CRServo carouselServo;
-    private DcMotor armOne;
-    private DcMotor armTwo;
 
     @Override
     public void runOpMode() {
@@ -43,40 +39,20 @@ public class redParkOnly extends LinearOpMode {
 
         drive.setPoseEstimate(startPos);
 
-        grabServo = hardwareMap.get(Servo.class, "grabServo");
-        carouselServo = hardwareMap.get(CRServo.class, "spinnyBoy");
-        armOne = hardwareMap.get(DcMotor.class, "armOne");
-        armTwo = hardwareMap.get(DcMotor.class, "armTwo");
 
         initStuff();
         waitForStart();
 
-        grabServo.setPosition(0);
+
         sleep(500);
 
         drive.followTrajectory(moveIntoWarehouse);
         drive.followTrajectory(moveToPark);
     }
 
-    private void moveArms(int encoderVal) {
-        armOne.setTargetPosition(armOne.getCurrentPosition() - encoderVal);
-        armTwo.setTargetPosition(armTwo.getCurrentPosition() - encoderVal);
-        armOne.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armTwo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armOne.setPower(0.5);
-        armTwo.setPower(0.5);
-        sleep(1000);
-    }
-
     private void initStuff() {
-        armOne.setDirection(DcMotorSimple.Direction.FORWARD);
-        armTwo.setDirection(DcMotorSimple.Direction.REVERSE);
-        armOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armTwo.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armOne.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armTwo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armOne.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
     }
 
 }

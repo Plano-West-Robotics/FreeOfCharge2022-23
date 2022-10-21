@@ -165,11 +165,6 @@ public class RedSideParkingAutoDelayed extends LinearOpMode {
     }
     */
 
-    public void turnCarousel() {
-
-
-    }
-
     public void setSpeed(double speed) {
 
         frontLeft.setPower(speed);

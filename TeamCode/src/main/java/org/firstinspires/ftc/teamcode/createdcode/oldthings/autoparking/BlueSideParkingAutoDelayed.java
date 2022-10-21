@@ -165,11 +165,6 @@ public class BlueSideParkingAutoDelayed extends LinearOpMode {
     }
     */
 
-    public void turnCarousel() {
-
-
-    }
-
     public void setSpeed(double speed) {
 
         frontLeft.setPower(speed);
@@ -209,7 +204,6 @@ public class BlueSideParkingAutoDelayed extends LinearOpMode {
         setSpeed(0);
 
     }
-
 
     public void turnLeft(int degrees, double speed) {
         frontLeft.setPower(speed);
