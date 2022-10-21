@@ -16,23 +16,25 @@ public class DriveTeleOpv1 extends OpMode {
     private DcMotor motorFR, motorFL, motorRR, motorRL;
     private double powerFR, powerFL, powerRR, powerRL;
     private double drive = 0, strafe = 0, turn = 0;
-    private double speed = 1;
+    private final double speed = 1;
 
     //carousel servo things
     private CRServo carouselServo;
-    private boolean turnCarouselRight = false, turnCarouselLeft = false;;
-    private double carouselPower = 0.5;
+    private boolean turnCarouselRight = false, turnCarouselLeft = false;
+    private final double carouselPower = 0.5;
 
     //Arm Variables
     private DcMotor armOne, armTwo;
     private double armOnePow = 0.5, armTwoPow = 0.5;
-    private double armTwoPos = 0;
-    private double armSpeedMod = 0.5;
+    private final double armTwoPos = 0;
+    private final double armSpeedMod = 0.5;
     private Servo grabServo, holdServo;
-    private double grabServoPow, holdServoPow, servoSpeedMod = 0.05;
+    private double grabServoPow;
+    private double holdServoPow;
+    private final double servoSpeedMod = 0.05;
     private boolean raiseArm;
     private boolean wasPressingA, wasPressingB, wasPressingX, wasPressingY;
-    
+
     @Override
     public void loop() {
         takeControllerInput();
@@ -44,8 +46,8 @@ public class DriveTeleOpv1 extends OpMode {
     }
 
 
-    private void takeControllerInput(){
-        drive = -1*gamepad1.left_stick_y;
+    private void takeControllerInput() {
+        drive = -1 * gamepad1.left_stick_y;
         strafe = gamepad1.left_stick_x;
         turn = gamepad1.right_stick_x;
 
@@ -54,14 +56,12 @@ public class DriveTeleOpv1 extends OpMode {
         turnCarouselLeft = gamepad2.x;
 
 
-
         if (gamepad2.a) {
             if (!wasPressingA) {
                 raiseArm = !raiseArm;
             }
             wasPressingA = true;
-        }
-        else wasPressingA = false;
+        } else wasPressingA = false;
 
         armTwoPow = raiseArm ? 0.25 : gamepad2.right_stick_y * 0.25;
 
@@ -71,13 +71,13 @@ public class DriveTeleOpv1 extends OpMode {
     }
 
 
-    private void drive(){
+    private void drive() {
 
         powerFR = drive - strafe;
         powerFL = drive + strafe;
         powerRR = drive + strafe;
         powerRL = drive - strafe;
-            
+
         addTurn(turn);
 
         // multiplies by speed
@@ -96,7 +96,7 @@ public class DriveTeleOpv1 extends OpMode {
         telemetry.update();
     }
 
-    private void addTurn(double turn){
+    private void addTurn(double turn) {
         powerFR -= turn;
         powerRR -= turn;
         powerFL += turn;
@@ -104,22 +104,22 @@ public class DriveTeleOpv1 extends OpMode {
     }
 
 
-    private void moveArm(){
+    private void moveArm() {
         armOne.setPower(armOnePow * armSpeedMod);
 
         armTwo.setPower(armTwoPow);
     }
 
-    private void armGrab(){
-        grabServo.setPosition(grabServo.getPosition() + -1*grabServoPow*servoSpeedMod);
-        holdServo.setPosition(holdServo.getPosition() + -1*holdServoPow*servoSpeedMod);
+    private void armGrab() {
+        grabServo.setPosition(grabServo.getPosition() + -1 * grabServoPow * servoSpeedMod);
+        holdServo.setPosition(holdServo.getPosition() + -1 * holdServoPow * servoSpeedMod);
     }
 
     private void checkCarousel() {
         if (turnCarouselRight)
             carouselServo.setPower(carouselPower);
         else if (turnCarouselLeft)
-            carouselServo.setPower(-1*carouselPower);
+            carouselServo.setPower(-1 * carouselPower);
         else
             carouselServo.setPower(0);
     }
@@ -131,7 +131,7 @@ public class DriveTeleOpv1 extends OpMode {
         motorFL = hardwareMap.get(DcMotor.class, "frontLeft");
         motorRR = hardwareMap.get(DcMotor.class, "rearRight");
         motorRL = hardwareMap.get(DcMotor.class, "rearLeft");
-        
+
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorRL.setDirection(DcMotorSimple.Direction.REVERSE);
 

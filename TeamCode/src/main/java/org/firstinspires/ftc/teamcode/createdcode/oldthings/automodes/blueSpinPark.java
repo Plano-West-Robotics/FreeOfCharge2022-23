@@ -29,7 +29,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.*;
 
 
-
 @Disabled
 @Autonomous(group = "Blue")
 public class blueSpinPark extends LinearOpMode {
@@ -39,8 +38,8 @@ public class blueSpinPark extends LinearOpMode {
     private DcMotor armTwo;
 
     @Override
-    public void runOpMode(){
-        Pose2d startPos = new Pose2d(BLUE1_START_X, BLUE1_START_Y, -1*Math.toRadians(90));
+    public void runOpMode() {
+        Pose2d startPos = new Pose2d(BLUE1_START_X, BLUE1_START_Y, -1 * Math.toRadians(90));
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
@@ -71,9 +70,9 @@ public class blueSpinPark extends LinearOpMode {
         grabServo.setPosition(GRABBER_CLOSE);
 
         sleep(GRAB_TIME);
-        moveArms(ARM_MAX_DIST /2);
+        moveArms(ARM_MAX_DIST / 2);
         drive.followTrajectory(moveToBlockDrop);
-        moveArms(ARM_MAX_DIST /4);
+        moveArms(ARM_MAX_DIST / 4);
         grabServo.setPosition(GRABBER_OPEN);
         sleep(500);
         moveArms(-ARM_MAX_DIST);
@@ -84,7 +83,8 @@ public class blueSpinPark extends LinearOpMode {
         drive.followTrajectory(park);
 
     }
-    private void moveArms(int encoderVal){
+
+    private void moveArms(int encoderVal) {
         armOne.setTargetPosition(armOne.getCurrentPosition() - encoderVal);
         armTwo.setTargetPosition(armTwo.getCurrentPosition() - encoderVal);
         armOne.setPower(0.5);
@@ -92,7 +92,7 @@ public class blueSpinPark extends LinearOpMode {
         sleep(1000);
     }
 
-    private void initStuff(){
+    private void initStuff() {
         armOne.setDirection(DcMotorSimple.Direction.FORWARD);
         armTwo.setDirection(DcMotorSimple.Direction.REVERSE);
         armOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

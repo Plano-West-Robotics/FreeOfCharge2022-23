@@ -37,14 +37,12 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 @TeleOp
-public class WebcamExample extends LinearOpMode
-{
+public class WebcamExample extends LinearOpMode {
     OpenCvWebcam webcam;
     FtcDashboard dashboard = FtcDashboard.getInstance();
 
     @Override
-    public void runOpMode()
-    {
+    public void runOpMode() {
         /*
          * Instantiate an OpenCvCamera object for the camera we'll be using.
          * In this sample, we're using a webcam. Note that you will need to
@@ -78,11 +76,9 @@ public class WebcamExample extends LinearOpMode
          * If you really want to open synchronously, the old method is still available.
          */
         webcam.setMillisecondsPermissionTimeout(2500); // Timeout for obtaining permission is configurable. Set before opening.
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
-            public void onOpened()
-            {
+            public void onOpened() {
                 /*
                  * Tell the webcam to start streaming images to us! Note that you must make sure
                  * the resolution you specify is supported by the camera. If it is not, an exception
@@ -103,8 +99,7 @@ public class WebcamExample extends LinearOpMode
             }
 
             @Override
-            public void onError(int errorCode)
-            {
+            public void onError(int errorCode) {
                 /*
                  * This will be called if the camera could not be opened
                  */
@@ -119,8 +114,7 @@ public class WebcamExample extends LinearOpMode
          */
         waitForStart();
 
-        while (opModeIsActive())
-        {
+        while (opModeIsActive()) {
             dashboard.startCameraStream(webcam, 0);
             /*
              * Send some stats to the telemetry
@@ -138,8 +132,7 @@ public class WebcamExample extends LinearOpMode
              * when it will be automatically stopped for you) *IS* supported. The "if" statement
              * below will stop streaming from the camera when the "A" button on gamepad 1 is pressed.
              */
-            if(gamepad1.a)
-            {
+            if (gamepad1.a) {
                 /*
                  * IMPORTANT NOTE: calling stopStreaming() will indeed stop the stream of images
                  * from the camera (and, by extension, stop calling your vision pipeline). HOWEVER,
@@ -187,8 +180,7 @@ public class WebcamExample extends LinearOpMode
      * if you're doing something weird where you do need it synchronized with your OpMode thread,
      * then you will need to account for that accordingly.
      */
-    class SamplePipeline extends OpenCvPipeline
-    {
+    class SamplePipeline extends OpenCvPipeline {
         boolean viewportPaused;
 
         /*
@@ -201,8 +193,7 @@ public class WebcamExample extends LinearOpMode
          */
 
         @Override
-        public Mat processFrame(Mat input)
-        {
+        public Mat processFrame(Mat input) {
             /*
              * IMPORTANT NOTE: the input Mat that is passed in as a parameter to this method
              * will only dereference to the same image for the duration of this particular
@@ -217,11 +208,11 @@ public class WebcamExample extends LinearOpMode
             Imgproc.rectangle(
                     input,
                     new Point(
-                            input.cols()/4,
-                            input.rows()/4),
+                            input.cols() / 4,
+                            input.rows() / 4),
                     new Point(
-                            input.cols()*(3f/4f),
-                            input.rows()*(3f/4f)),
+                            input.cols() * (3f / 4f),
+                            input.rows() * (3f / 4f)),
                     new Scalar(0, 255, 0), 4);
 
             /**
@@ -234,8 +225,7 @@ public class WebcamExample extends LinearOpMode
         }
 
         @Override
-        public void onViewportTapped()
-        {
+        public void onViewportTapped() {
             /*
              * The viewport (if one was specified in the constructor) can also be dynamically "paused"
              * and "resumed". The primary use case of this is to reduce CPU, memory, and power load
@@ -250,12 +240,9 @@ public class WebcamExample extends LinearOpMode
 
             viewportPaused = !viewportPaused;
 
-            if(viewportPaused)
-            {
+            if (viewportPaused) {
                 webcam.pauseViewport();
-            }
-            else
-            {
+            } else {
                 webcam.resumeViewport();
             }
         }

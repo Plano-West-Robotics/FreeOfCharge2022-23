@@ -31,7 +31,7 @@ public class FlexAuto extends LinearOpMode {
 
         waitForStart();
 
-        for(int i = 0; i < 10; i++){
+        for (int i = 0; i < 10; i++) {
             drive.followTrajectory(traj1);
             drive.followTrajectory(traj2);
             drive.followTrajectory(traj3);

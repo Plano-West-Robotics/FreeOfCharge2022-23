@@ -25,8 +25,7 @@ import java.util.List;
 
 @Config
 @TeleOp
-public class ObjectDetectionTest extends LinearOpMode
-{
+public class ObjectDetectionTest extends LinearOpMode {
     public static int minH = 100;
     public static int minS = 100;
     public static int minV = 100;
@@ -38,8 +37,7 @@ public class ObjectDetectionTest extends LinearOpMode
     FtcDashboard dashboard = FtcDashboard.getInstance();
 
     @Override
-    public void runOpMode()
-    {
+    public void runOpMode() {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
@@ -51,17 +49,14 @@ public class ObjectDetectionTest extends LinearOpMode
 
 
         webcam.setMillisecondsPermissionTimeout(2500); // Timeout for obtaining permission is configurable. Set before opening.
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
-            public void onOpened()
-            {
+            public void onOpened() {
                 webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
-            public void onError(int errorCode)
-            {
+            public void onError(int errorCode) {
 
             }
         });
@@ -72,8 +67,7 @@ public class ObjectDetectionTest extends LinearOpMode
 
         waitForStart();
 
-        while (opModeIsActive())
-        {
+        while (opModeIsActive()) {
             dashboard.startCameraStream(webcam, 0);
 
             telemetry.addData("Frame Count", webcam.getFrameCount());
@@ -85,8 +79,7 @@ public class ObjectDetectionTest extends LinearOpMode
             telemetry.update();
 
 
-            if(gamepad1.a)
-            {
+            if (gamepad1.a) {
 
                 webcam.stopStreaming();
 
@@ -97,13 +90,11 @@ public class ObjectDetectionTest extends LinearOpMode
     }
 
 
-    class SamplePipeline extends OpenCvPipeline
-    {
+    class SamplePipeline extends OpenCvPipeline {
         boolean viewportPaused;
 
         @Override
-        public Mat processFrame(Mat input)
-        {
+        public Mat processFrame(Mat input) {
             Mat blurredImage = new Mat();
             Mat hsvImage = new Mat();
             Mat mask = new Mat();
@@ -134,15 +125,13 @@ public class ObjectDetectionTest extends LinearOpMode
 
             Mat output = input.clone();
 
-            List<Rect> rectList= new ArrayList<>();
+            List<Rect> rectList = new ArrayList<>();
 
             // find contours
             Imgproc.findContours(morphOutput, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
-            if (hierarchy.size().height > 0 && hierarchy.size().width > 0)
-            {
+            if (hierarchy.size().height > 0 && hierarchy.size().width > 0) {
                 // for each contour, display it in blue
-                for (int idx = 0; idx >= 0; idx = (int) hierarchy.get(0, idx)[0])
-                {
+                for (int idx = 0; idx >= 0; idx = (int) hierarchy.get(0, idx)[0]) {
                     Imgproc.drawContours(output, contours, idx, new Scalar(250, 0, 0));
 
                     Rect rect = Imgproc.boundingRect(contours.get(idx));
@@ -174,22 +163,19 @@ public class ObjectDetectionTest extends LinearOpMode
                                 largestRect.y + largestRect.height),
                         new Scalar(0, 255, 0), 4);
 
-                int centerX = largestRect.x + largestRect.width/2;
-                int centerY = largestRect.y + largestRect.height/2;
+                int centerX = largestRect.x + largestRect.width / 2;
+                int centerY = largestRect.y + largestRect.height / 2;
                 telemetry.addData("Center X", centerX);
                 telemetry.addData("Center Y", centerY);
                 if (centerX <= 75)
-                    pos  = 1;
-                if (Math.abs(centerX-150) < 75)
+                    pos = 1;
+                if (Math.abs(centerX - 150) < 75)
                     pos = 2;
                 if (centerX >= 225)
                     pos = 3;
 
                 telemetry.addData("Position is", pos);
             }
-
-
-
 
 
             if (gamepad1.y)
@@ -211,16 +197,12 @@ public class ObjectDetectionTest extends LinearOpMode
         }
 
         @Override
-        public void onViewportTapped()
-        {
+        public void onViewportTapped() {
             viewportPaused = !viewportPaused;
 
-            if(viewportPaused)
-            {
+            if (viewportPaused) {
                 webcam.pauseViewport();
-            }
-            else
-            {
+            } else {
                 webcam.resumeViewport();
             }
         }

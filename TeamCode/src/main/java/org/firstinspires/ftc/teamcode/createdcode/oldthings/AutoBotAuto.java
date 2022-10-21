@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 @Disabled
 
 @Autonomous
@@ -14,7 +15,7 @@ public class AutoBotAuto extends LinearOpMode {
     public static int dist = 2000;
 
 
-    public void runOpMode(){
+    public void runOpMode() {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         rearRight = hardwareMap.get(DcMotor.class, "rearRight");
@@ -51,8 +52,7 @@ public class AutoBotAuto extends LinearOpMode {
         rearLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
-
-        while (frontLeft.isBusy() || frontRight.isBusy() || rearLeft.isBusy() || rearRight.isBusy()){
+        while (frontLeft.isBusy() || frontRight.isBusy() || rearLeft.isBusy() || rearRight.isBusy()) {
             double power = 1 - Math.max(Math.min((dist - frontLeft.getCurrentPosition()) / 2000, 1), 0.8);
             frontRight.setPower(power);
             frontLeft.setPower(power);
@@ -65,15 +65,14 @@ public class AutoBotAuto extends LinearOpMode {
         telemetry.addData("Ran", "Ran");
         telemetry.update();
     }
-    public void motorsPower(double frontRightPow, double frontLeftPow, double rearRightPow, double rearLeftPow){
+
+    public void motorsPower(double frontRightPow, double frontLeftPow, double rearRightPow, double rearLeftPow) {
         frontRight.setPower(frontRightPow);
         frontLeft.setPower(frontLeftPow);
         rearRight.setPower(rearRightPow);
         rearLeft.setPower(rearRightPow);
 
     }
-
-
 
 
 }

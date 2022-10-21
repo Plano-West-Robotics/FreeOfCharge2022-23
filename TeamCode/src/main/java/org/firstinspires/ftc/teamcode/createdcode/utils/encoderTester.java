@@ -21,7 +21,7 @@ public class encoderTester extends OpMode {
     }
 
     @Override
-    public void init(){
+    public void init() {
         arm1 = hardwareMap.get(DcMotor.class, "armOne");
         arm2 = hardwareMap.get(DcMotor.class, "armTwo");
         arm2.setDirection(DcMotorSimple.Direction.REVERSE);

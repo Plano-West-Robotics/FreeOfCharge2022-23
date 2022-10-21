@@ -1,5 +1,5 @@
-
 package org.firstinspires.ftc.teamcode.createdcode.oldthings.autoparking;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -10,23 +10,24 @@ import com.qualcomm.robotcore.hardware.Servo;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TICKS_PER_REV;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.GEAR_RATIO;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.WHEEL_RADIUS;
+
 @Disabled
 
 
-@Autonomous (group = "parking")
-public class RedSideParkingAuto extends LinearOpMode{
+@Autonomous(group = "parking")
+public class RedSideParkingAuto extends LinearOpMode {
     //change values
     private static final double TICKS_PER_INCH = (TICKS_PER_REV / GEAR_RATIO) / (WHEEL_RADIUS * 2 * Math.PI);// counts per revolution
     DcMotor frontLeft, rearLeft, rearRight, frontRight, spool, intakeMotor, spinnyBoy;
     Servo bucketServo;
 
 
-    public void runOpMode() throws InterruptedException{
+    public void runOpMode() throws InterruptedException {
 
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-        frontRight = hardwareMap.get(DcMotor.class,"frontRight");
-        rearLeft = hardwareMap.get(DcMotor.class,"rearLeft");
-        rearRight = hardwareMap.get(DcMotor.class,"rearRight");
+        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+        rearLeft = hardwareMap.get(DcMotor.class, "rearLeft");
+        rearRight = hardwareMap.get(DcMotor.class, "rearRight");
 
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
         spool = hardwareMap.get(DcMotor.class, "spool");
@@ -54,10 +55,10 @@ public class RedSideParkingAuto extends LinearOpMode{
 
         waitForStart();
 
-        frontLeft.setTargetPosition(frontLeft.getCurrentPosition()+350);
-        rearLeft.setTargetPosition(rearLeft.getCurrentPosition()+350);
+        frontLeft.setTargetPosition(frontLeft.getCurrentPosition() + 350);
+        rearLeft.setTargetPosition(rearLeft.getCurrentPosition() + 350);
         setSpeed(0.2);
-        while (frontLeft.isBusy()){
+        while (frontLeft.isBusy()) {
             telemetry.addData("frontRightEncoder", frontRight.getCurrentPosition());
             telemetry.addData("frontLeftEncoder", frontLeft.getCurrentPosition());
             telemetry.addData("rearRightEncoder", rearRight.getCurrentPosition());
@@ -73,7 +74,7 @@ public class RedSideParkingAuto extends LinearOpMode{
 
         sleep(4000);
 
-        driveForward(1000,.5);
+        driveForward(1000, .5);
 
         setSpeed(0);
 
@@ -99,18 +100,18 @@ public class RedSideParkingAuto extends LinearOpMode{
 
     }
 
-    public void driveForward(int distance, double speed){
+    public void driveForward(int distance, double speed) {
         int encodersToTurn = (int) Math.round(distance * TICKS_PER_INCH * 0.7);
 
-        frontLeft.setTargetPosition(frontLeft.getCurrentPosition()+encodersToTurn);
-        rearLeft.setTargetPosition(rearLeft.getCurrentPosition()+encodersToTurn);
+        frontLeft.setTargetPosition(frontLeft.getCurrentPosition() + encodersToTurn);
+        rearLeft.setTargetPosition(rearLeft.getCurrentPosition() + encodersToTurn);
 
-        frontRight.setTargetPosition(frontRight.getCurrentPosition()+encodersToTurn);
-        rearRight.setTargetPosition(rearRight.getCurrentPosition()+encodersToTurn);
+        frontRight.setTargetPosition(frontRight.getCurrentPosition() + encodersToTurn);
+        rearRight.setTargetPosition(rearRight.getCurrentPosition() + encodersToTurn);
 
         setSpeed(speed);
 
-        while (frontLeft.isBusy()){
+        while (frontLeft.isBusy()) {
             telemetry.addData("frontRightEncoder", frontRight.getCurrentPosition());
             telemetry.addData("frontLeftEncoder", frontLeft.getCurrentPosition());
             telemetry.addData("rearRightEncoder", rearRight.getCurrentPosition());
@@ -119,36 +120,37 @@ public class RedSideParkingAuto extends LinearOpMode{
         }
 
 
-
     }
 
 
-    public void driveBackward(int distance, double speed){
-        distance = (int)(Math.round(distance * TICKS_PER_INCH * 0.7));
+    public void driveBackward(int distance, double speed) {
+        distance = (int) (Math.round(distance * TICKS_PER_INCH * 0.7));
 
         //motor 0 - FL, motor 1 - BL, motor 2 - FR, motor 3 - BR
-        frontLeft.setTargetPosition(frontLeft.getCurrentPosition()+distance);
-        frontRight.setTargetPosition(frontRight.getCurrentPosition()-distance);
-        rearLeft.setTargetPosition(rearLeft.getCurrentPosition()+distance);
-        rearRight.setTargetPosition(rearRight.getCurrentPosition()-distance);
+        frontLeft.setTargetPosition(frontLeft.getCurrentPosition() + distance);
+        frontRight.setTargetPosition(frontRight.getCurrentPosition() - distance);
+        rearLeft.setTargetPosition(rearLeft.getCurrentPosition() + distance);
+        rearRight.setTargetPosition(rearRight.getCurrentPosition() - distance);
         setSpeed(speed);
     }
-    public void strafeLeft(int distance, double speed){
-        distance = (int)(Math.round(distance * TICKS_PER_INCH * 0.7));
 
-        frontLeft.setTargetPosition(frontLeft.getCurrentPosition()-distance);
-        frontRight.setTargetPosition(frontRight.getCurrentPosition()+distance);
-        rearLeft.setTargetPosition(rearLeft.getCurrentPosition()+distance);
-        rearRight.setTargetPosition(rearRight.getCurrentPosition()-distance);
+    public void strafeLeft(int distance, double speed) {
+        distance = (int) (Math.round(distance * TICKS_PER_INCH * 0.7));
+
+        frontLeft.setTargetPosition(frontLeft.getCurrentPosition() - distance);
+        frontRight.setTargetPosition(frontRight.getCurrentPosition() + distance);
+        rearLeft.setTargetPosition(rearLeft.getCurrentPosition() + distance);
+        rearRight.setTargetPosition(rearRight.getCurrentPosition() - distance);
         setSpeed(speed);
     }
-    public void strafeRight(int distance, double speed){
-        distance = (int)(Math.round(distance * TICKS_PER_INCH * 0.7));
 
-        frontLeft.setTargetPosition(frontLeft.getCurrentPosition()+distance);
-        frontRight.setTargetPosition(frontRight.getCurrentPosition()-distance);
-        rearLeft.setTargetPosition(rearLeft.getCurrentPosition()-distance);
-        rearRight.setTargetPosition(rearRight.getCurrentPosition()+distance);
+    public void strafeRight(int distance, double speed) {
+        distance = (int) (Math.round(distance * TICKS_PER_INCH * 0.7));
+
+        frontLeft.setTargetPosition(frontLeft.getCurrentPosition() + distance);
+        frontRight.setTargetPosition(frontRight.getCurrentPosition() - distance);
+        rearLeft.setTargetPosition(rearLeft.getCurrentPosition() - distance);
+        rearRight.setTargetPosition(rearRight.getCurrentPosition() + distance);
         setSpeed(speed);
     }
     /*
@@ -163,11 +165,12 @@ public class RedSideParkingAuto extends LinearOpMode{
     }
     */
 
-    public void turnCarousel(){
+    public void turnCarousel() {
 
 
     }
-    public void setSpeed(double speed){
+
+    public void setSpeed(double speed) {
 
         frontLeft.setPower(speed);
         rearLeft.setPower(speed);
@@ -182,8 +185,7 @@ public class RedSideParkingAuto extends LinearOpMode{
     }
 
 
-
-    public void rotate90(){
+    public void rotate90() {
         frontLeft.setPower(-1);
         rearLeft.setPower(-1);
         frontRight.setPower(1);
@@ -191,7 +193,8 @@ public class RedSideParkingAuto extends LinearOpMode{
 
         setSpeed(0);
     }
-    public void turnRight(int degrees, double speed){
+
+    public void turnRight(int degrees, double speed) {
         double turnDist = 10;
 
 
@@ -208,7 +211,7 @@ public class RedSideParkingAuto extends LinearOpMode{
     }
 
 
-    public void turnLeft(int degrees, double speed){
+    public void turnLeft(int degrees, double speed) {
         frontLeft.setPower(speed);
         rearLeft.setPower(speed);
         frontRight.setPower(speed);
@@ -218,7 +221,7 @@ public class RedSideParkingAuto extends LinearOpMode{
 
     }
 
-    public void resetMotorDirections(){
+    public void resetMotorDirections() {
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         rearLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRight.setDirection(DcMotorSimple.Direction.FORWARD);

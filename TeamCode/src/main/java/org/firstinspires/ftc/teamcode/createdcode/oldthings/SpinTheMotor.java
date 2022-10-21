@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Disabled
 @Autonomous
-public class SpinTheMotor extends LinearOpMode{
+public class SpinTheMotor extends LinearOpMode {
     private DcMotor testMotor;
 
     @Override

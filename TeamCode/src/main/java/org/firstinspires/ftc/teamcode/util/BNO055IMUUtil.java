@@ -21,13 +21,13 @@ public class BNO055IMUUtil {
      * Remap BNO055 IMU axes and signs. For reference, the default order is {@link AxesOrder#XYZ}.
      * Call after {@link BNO055IMU#initialize(BNO055IMU.Parameters)}. Although this isn't
      * mentioned in the datasheet, the axes order appears to affect the onboard sensor fusion.
-     *
+     * <p>
      * Adapted from <a href="https://ftcforum.firstinspires.org/forum/ftc-technology/53812-mounting-the-revhub-vertically?p=56587#post56587">this post</a>.
      * Reference the <a href="https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bno055-ds000.pdf">BNO055 Datasheet</a> for details.
-     *
+     * <p>
      * NOTE: Remapping axes can be somewhat confusing. Instead, use {@link #remapZAxis}, if appropriate.
      *
-     * @param imu IMU
+     * @param imu   IMU
      * @param order axes order
      * @param signs axes signs
      */
@@ -82,7 +82,7 @@ public class BNO055IMUUtil {
      * Remaps the IMU coordinate system so that the remapped +Z faces the provided
      * {@link AxisDirection}. See {@link #swapThenFlipAxes} for details about the remapping.
      *
-     * @param imu IMU
+     * @param imu       IMU
      * @param direction axis direction
      */
     public static void remapZAxis(BNO055IMU imu, AxisDirection direction) {
@@ -112,7 +112,7 @@ public class BNO055IMUUtil {
      * Now deprecated due to unintuitive parameter order.
      * Use {@link #swapThenFlipAxes} or {@link #remapZAxis} instead.
      *
-     * @param imu IMU
+     * @param imu   IMU
      * @param order axes order
      * @param signs axes signs
      */

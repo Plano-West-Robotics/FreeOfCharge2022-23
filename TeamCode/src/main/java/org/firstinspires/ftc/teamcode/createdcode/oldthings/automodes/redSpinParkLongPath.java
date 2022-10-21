@@ -34,7 +34,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.*;
 
 
-
 @Disabled
 @Autonomous(group = "Red")
 public class redSpinParkLongPath extends LinearOpMode {
@@ -44,7 +43,7 @@ public class redSpinParkLongPath extends LinearOpMode {
     private DcMotor armTwo;
 
     @Override
-    public void runOpMode(){
+    public void runOpMode() {
         Pose2d startPos = new Pose2d(RED1_START_X, RED1_START_Y, Math.toRadians(90));
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -58,7 +57,7 @@ public class redSpinParkLongPath extends LinearOpMode {
                 .build();
 
         Trajectory moveToCarousel = drive.trajectoryBuilder(moveToBlockDrop2.end())
-                .splineToSplineHeading(new Pose2d(moveToBlockDrop2.end().getX()-RED1_BLOCK_MIDPOS_X, RED1_START_Y + RED_START_FORWARD, Math.toRadians(270)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(moveToBlockDrop2.end().getX() - RED1_BLOCK_MIDPOS_X, RED1_START_Y + RED_START_FORWARD, Math.toRadians(270)), Math.toRadians(0))
                 .build();
 
         Trajectory moveToCarousel2 = drive.trajectoryBuilder(moveToCarousel.end())
@@ -66,7 +65,7 @@ public class redSpinParkLongPath extends LinearOpMode {
                 .build();
 
         Trajectory park = drive.trajectoryBuilder(moveToCarousel2.end())
-                .lineToLinearHeading(new Pose2d(RED_CAROUSEL_X, RED_CAROUSEL_Y+RED_FINAL_STRAFE, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(RED_CAROUSEL_X, RED_CAROUSEL_Y + RED_FINAL_STRAFE, Math.toRadians(0)))
                 .build();
 
         drive.setPoseEstimate(startPos);
@@ -81,12 +80,12 @@ public class redSpinParkLongPath extends LinearOpMode {
 
         grabServo.setPosition(GRABBER_CLOSE);
         sleep(GRAB_TIME);
-        moveArms(ARM_MAX_DIST /2);
+        moveArms(ARM_MAX_DIST / 2);
 
         drive.followTrajectory(moveToBlockDrop);
         drive.followTrajectory(moveToBlockDrop2);
 
-        moveArms(ARM_MAX_DIST /4);
+        moveArms(ARM_MAX_DIST / 4);
         grabServo.setPosition(GRABBER_OPEN);
         sleep(500);
         moveArms(-ARM_MAX_DIST);
@@ -98,7 +97,8 @@ public class redSpinParkLongPath extends LinearOpMode {
         sleep(CAROUSEL_WAIT);
         drive.followTrajectory(park);
     }
-    private void moveArms(int encoderVal){
+
+    private void moveArms(int encoderVal) {
         armOne.setTargetPosition(armOne.getCurrentPosition() - encoderVal);
         armTwo.setTargetPosition(armTwo.getCurrentPosition() - encoderVal);
         armOne.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -108,7 +108,7 @@ public class redSpinParkLongPath extends LinearOpMode {
         sleep(1000);
     }
 
-    private void initStuff(){
+    private void initStuff() {
         armOne.setDirection(DcMotorSimple.Direction.FORWARD);
         armTwo.setDirection(DcMotorSimple.Direction.REVERSE);
         armOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

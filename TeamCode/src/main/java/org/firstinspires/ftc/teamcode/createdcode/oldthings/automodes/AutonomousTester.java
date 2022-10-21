@@ -25,7 +25,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.*;
 
 
-
 @Disabled
 @Autonomous
 public class AutonomousTester extends LinearOpMode {
@@ -35,7 +34,7 @@ public class AutonomousTester extends LinearOpMode {
     private DcMotor armTwo;
 
     @Override
-    public void runOpMode(){
+    public void runOpMode() {
         Pose2d startPos = new Pose2d(BLUE1_START_X, BLUE1_START_Y, Math.toRadians(90));
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -44,7 +43,7 @@ public class AutonomousTester extends LinearOpMode {
                 .forward(41)
                 .build();
 
-        Trajectory part2 = drive.trajectoryBuilder(part1.end().plus(new Pose2d(0,0, -1 * Math.toRadians(90))))
+        Trajectory part2 = drive.trajectoryBuilder(part1.end().plus(new Pose2d(0, 0, -1 * Math.toRadians(90))))
                 .splineTo(new Vector2d(BLUE_CAROUSEL_X, BLUE_CAROUSEL_Y), Math.toRadians(0))
                 .build();
 
@@ -68,10 +67,10 @@ public class AutonomousTester extends LinearOpMode {
         //telemetry.addData("grabServo", grabServo.getController());
         //telemetry.update();
         sleep(1000);
-        moveArms(ARM_MAX_DIST /2);
+        moveArms(ARM_MAX_DIST / 2);
         drive.followTrajectory(part1);
-        drive.turn(-1*Math.toRadians(90));
-        moveArms(ARM_MAX_DIST /4);
+        drive.turn(-1 * Math.toRadians(90));
+        moveArms(ARM_MAX_DIST / 4);
         grabServo.setPosition(0.4);
         sleep(500);
         moveArms(-ARM_MAX_DIST);
@@ -82,7 +81,8 @@ public class AutonomousTester extends LinearOpMode {
         drive.followTrajectory(part5);
 
     }
-    private void moveArms(int encoderVal){
+
+    private void moveArms(int encoderVal) {
         armOne.setTargetPosition(armOne.getCurrentPosition() - encoderVal);
         armTwo.setTargetPosition(armTwo.getCurrentPosition() - encoderVal);
         armOne.setPower(0.5);
@@ -90,7 +90,7 @@ public class AutonomousTester extends LinearOpMode {
         sleep(1000);
     }
 
-    private void initStuff(){
+    private void initStuff() {
         armOne.setDirection(DcMotorSimple.Direction.FORWARD);
         armTwo.setDirection(DcMotorSimple.Direction.REVERSE);
         armOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

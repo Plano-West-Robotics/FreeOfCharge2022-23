@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class getServoPosition extends LinearOpMode {
     private Servo armBaseServo;
     private DcMotor armTurnMotor;
+
     @Override
     public void runOpMode() {
         armBaseServo = hardwareMap.get(Servo.class, "armBaseServo");

@@ -11,8 +11,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class ChassisDrive extends OpMode {
     private DcMotor frontRight, frontLeft, rearRight, rearLeft;
     private double frontRightPower, frontLeftPower, rearRightPower, rearLeftPower,
-        xDrive, yDrive, turn, speed;
-    public void loop(){
+            xDrive, yDrive, turn, speed;
+
+    public void loop() {
         yDrive = gamepad1.left_stick_y;
         xDrive = gamepad1.left_stick_x;
         turn = gamepad1.right_stick_x;
@@ -25,11 +26,12 @@ public class ChassisDrive extends OpMode {
         rearRight.setPower(rearRightPower);
         rearLeft.setPower(rearLeftPower);
 
-        telemetry.addData("Speed", "Current Speed = " + Math.round(speed*100));
+        telemetry.addData("Speed", "Current Speed = " + Math.round(speed * 100));
         telemetry.update();
     }
-    public void init(){
-        frontRight = hardwareMap.get(DcMotor.class, "frontRight") ;
+
+    public void init() {
+        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         rearRight = hardwareMap.get(DcMotor.class, "rearRight");
         rearLeft = hardwareMap.get(DcMotor.class, "rearLeft");
@@ -54,20 +56,21 @@ public class ChassisDrive extends OpMode {
 
         speed = 1;
     }
-    public void detectSpeedChange(){
-        if (gamepad1.dpad_up){
+
+    public void detectSpeedChange() {
+        if (gamepad1.dpad_up) {
             if (speed <= 1) {
                 speed += 0.0005;
             }
         }
-        if (gamepad1.dpad_down){
+        if (gamepad1.dpad_down) {
             if (speed >= 0) {
                 speed -= 0.0005;
             }
         }
     }
 
-    public void calcDrive(){
+    public void calcDrive() {
         frontRightPower = yDrive + xDrive;
         frontLeftPower = yDrive - xDrive;
         rearRightPower = yDrive - xDrive;

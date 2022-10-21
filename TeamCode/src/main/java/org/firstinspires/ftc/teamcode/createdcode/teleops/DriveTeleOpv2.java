@@ -17,21 +17,23 @@ public class DriveTeleOpv2 extends OpMode {
     private double speed = 1;
     private boolean lockSpeed = true;
     private double constantSpeedMult = 0.5;
-    private double constantSpeedMultChangeMult = 0.25;
+    private final double constantSpeedMultChangeMult = 0.25;
     private boolean wasPressingDpadUp = false, wasPressingDpadDown = false;
 
     //carousel servo things
     private DcMotor carouselServo1, carouselServo2;
-    private boolean turnCarouselRight = false, turnCarouselLeft = false;;
-    private double carouselPower = 0.5;
+    private boolean turnCarouselRight = false, turnCarouselLeft = false;
+    private final double carouselPower = 0.5;
 
     //Arm Variables
     private DcMotor armOne, armTwo;
     private double armPow = 0.5;
-    private double armTwoPos = 0;
-    private double armSpeedMod = 0.5;
+    private final double armTwoPos = 0;
+    private final double armSpeedMod = 0.5;
     private Servo grabServo;
-    private double grabServoPos, holdServoPow, servoSpeedMod = 0.01;
+    private double grabServoPos;
+    private double holdServoPow;
+    private final double servoSpeedMod = 0.01;
     private boolean raiseArm;
     private boolean wasPressingA, wasPressingB, wasPressingX, wasPressingY;
 
@@ -47,8 +49,8 @@ public class DriveTeleOpv2 extends OpMode {
         telemetry.update();
     }
 
-    private void takeControllerInput(){
-        drive = -1*gamepad1.left_stick_y;
+    private void takeControllerInput() {
+        drive = -1 * gamepad1.left_stick_y;
         strafe = gamepad1.left_stick_x;
         turn = gamepad1.right_stick_x;
 
@@ -57,25 +59,22 @@ public class DriveTeleOpv2 extends OpMode {
                 lockSpeed = !lockSpeed;
             }
             wasPressingA = true;
-        }
-        else wasPressingA = false;
+        } else wasPressingA = false;
 
 
         if (gamepad1.dpad_up) {
             if (!wasPressingDpadUp) {
-                constantSpeedMult = Math.min(constantSpeedMult+constantSpeedMultChangeMult, 1);
+                constantSpeedMult = Math.min(constantSpeedMult + constantSpeedMultChangeMult, 1);
             }
             wasPressingDpadUp = true;
-        }
-        else wasPressingDpadUp = false;
+        } else wasPressingDpadUp = false;
 
         if (gamepad1.dpad_down) {
             if (!wasPressingDpadDown) {
-                constantSpeedMult = Math.max(constantSpeedMult-constantSpeedMultChangeMult, 0);
+                constantSpeedMult = Math.max(constantSpeedMult - constantSpeedMultChangeMult, 0);
             }
             wasPressingDpadDown = true;
-        }
-        else wasPressingDpadDown = false;
+        } else wasPressingDpadDown = false;
 
         telemetry.addData("Constant Speed Mult", constantSpeedMult);
 
@@ -86,13 +85,13 @@ public class DriveTeleOpv2 extends OpMode {
 
         armPow = gamepad2.right_stick_y;
 
-        grabServoPos = Math.min(Math.max(grabServoPos - gamepad2.left_stick_y * servoSpeedMod, 0.33),0.6);
+        grabServoPos = Math.min(Math.max(grabServoPos - gamepad2.left_stick_y * servoSpeedMod, 0.33), 0.6);
 
 
     }
 
 
-    private void drive(){
+    private void drive() {
 
         powerFR = drive - strafe;
         powerFL = drive + strafe;
@@ -117,7 +116,7 @@ public class DriveTeleOpv2 extends OpMode {
 
     }
 
-    private void addTurn(double turn){
+    private void addTurn(double turn) {
         powerFR -= turn;
         powerRR -= turn;
         powerFL += turn;
@@ -125,31 +124,26 @@ public class DriveTeleOpv2 extends OpMode {
     }
 
 
-    private void moveArm(){
+    private void moveArm() {
 
         armOne.setPower(armPow * armSpeedMod);
         armTwo.setPower(armPow * armSpeedMod);
         telemetry.addData("Arm One Position", armOne.getCurrentPosition());
     }
 
-    private void armGrab(){
+    private void armGrab() {
         grabServo.setPosition(grabServoPos);
         telemetry.addData("Servo Position", grabServoPos);
     }
 
     private void checkCarousel() {
-        if (turnCarouselRight)
-        {
+        if (turnCarouselRight) {
             carouselServo1.setPower(carouselPower);
             carouselServo2.setPower(carouselPower);
-        }
-        else if (turnCarouselLeft)
-        {
+        } else if (turnCarouselLeft) {
             carouselServo1.setPower(carouselPower);
             carouselServo2.setPower(carouselPower);
-        }
-        else
-        {
+        } else {
             carouselServo1.setPower(0);
             carouselServo2.setPower(0);
         }

@@ -16,6 +16,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+
 @Disabled
 @Autonomous(group = "Blue")
 public class blueParkOnly extends LinearOpMode {
@@ -26,7 +27,7 @@ public class blueParkOnly extends LinearOpMode {
     private DcMotor armTwo;
 
     @Override
-    public void runOpMode(){
+    public void runOpMode() {
         Pose2d startPos = new Pose2d(BLUE_PARK_START_X, BLUE_PARK_START_Y, Math.toRadians(0));
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -56,7 +57,8 @@ public class blueParkOnly extends LinearOpMode {
         drive.followTrajectory(moveIntoWarehouse);
         drive.followTrajectory(moveToPark);
     }
-    private void moveArms(int encoderVal){
+
+    private void moveArms(int encoderVal) {
         armOne.setTargetPosition(armOne.getCurrentPosition() - encoderVal);
         armTwo.setTargetPosition(armTwo.getCurrentPosition() - encoderVal);
         armOne.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -66,7 +68,7 @@ public class blueParkOnly extends LinearOpMode {
         sleep(1000);
     }
 
-    private void initStuff(){
+    private void initStuff() {
         armOne.setDirection(DcMotorSimple.Direction.FORWARD);
         armTwo.setDirection(DcMotorSimple.Direction.REVERSE);
         armOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

@@ -14,21 +14,23 @@ public class MonoControllerDriveTeleOp extends OpMode {
     private DcMotor motorFR, motorFL, motorRR, motorRL;
     private double powerFR, powerFL, powerRR, powerRL;
     private double drive = 0, strafe = 0, turn = 0;
-    private double speed = 1;
-    private boolean lockSpeed = true;
+    private final double speed = 1;
+    private final boolean lockSpeed = true;
 
     //carousel servo things
     private CRServo carouselServo;
-    private boolean turnCarouselRight = false, turnCarouselLeft = false;;
-    private double carouselPower = 1;
+    private boolean turnCarouselRight = false, turnCarouselLeft = false;
+    private final double carouselPower = 1;
 
     //Arm Variables
     private DcMotor armOne, armTwo;
     private double armPow = 0.5;
-    private double armTwoPos = 0;
-    private double armSpeedMod = 0.5;
+    private final double armTwoPos = 0;
+    private final double armSpeedMod = 0.5;
     private Servo grabServo;
-    private double grabServoPos, holdServoPow, servoSpeedMod = 0.05;
+    private double grabServoPos;
+    private double holdServoPow;
+    private final double servoSpeedMod = 0.05;
     private boolean raiseArm;
     private boolean wasPressingA, wasPressingB, wasPressingX, wasPressingY;
 
@@ -43,8 +45,8 @@ public class MonoControllerDriveTeleOp extends OpMode {
     }
 
 
-    private void takeControllerInput(){
-        drive = -1*gamepad1.left_stick_y;
+    private void takeControllerInput() {
+        drive = -1 * gamepad1.left_stick_y;
         strafe = gamepad1.left_stick_x;
         turn = gamepad1.right_trigger - gamepad1.left_trigger;
 
@@ -60,7 +62,7 @@ public class MonoControllerDriveTeleOp extends OpMode {
     }
 
 
-    private void drive(){
+    private void drive() {
 
         powerFR = drive - strafe;
         powerFL = drive + strafe;
@@ -85,7 +87,7 @@ public class MonoControllerDriveTeleOp extends OpMode {
         telemetry.update();
     }
 
-    private void addTurn(double turn){
+    private void addTurn(double turn) {
         powerFR -= turn;
         powerRR -= turn;
         powerFL += turn;
@@ -93,13 +95,13 @@ public class MonoControllerDriveTeleOp extends OpMode {
     }
 
 
-    private void moveArm(){
+    private void moveArm() {
 
         armOne.setPower(armPow * armSpeedMod);
         armTwo.setPower(armPow * armSpeedMod);
     }
 
-    private void armGrab(){
+    private void armGrab() {
         grabServo.setPosition(grabServoPos);
     }
 
@@ -107,7 +109,7 @@ public class MonoControllerDriveTeleOp extends OpMode {
         if (turnCarouselRight)
             carouselServo.setPower(carouselPower);
         else if (turnCarouselLeft)
-            carouselServo.setPower(-1*carouselPower);
+            carouselServo.setPower(-1 * carouselPower);
         else
             carouselServo.setPower(0);
     }

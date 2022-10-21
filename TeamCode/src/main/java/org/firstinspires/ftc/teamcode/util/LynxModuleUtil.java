@@ -63,6 +63,7 @@ public class LynxModuleUtil {
 
     /**
      * Retrieve and parse Lynx module firmware version.
+     *
      * @param module Lynx module
      * @return parsed firmware version
      */
@@ -96,6 +97,7 @@ public class LynxModuleUtil {
 
     /**
      * Ensure all of the Lynx modules attached to the robot satisfy the minimum requirement.
+     *
      * @param hardwareMap hardware map containing Lynx modules
      */
     public static void ensureMinimumFirmwareVersion(HardwareMap hardwareMap) {

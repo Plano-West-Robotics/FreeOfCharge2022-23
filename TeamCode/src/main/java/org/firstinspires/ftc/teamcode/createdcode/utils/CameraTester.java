@@ -5,12 +5,12 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 public class CameraTester extends OpMode {
 
     @Override
-    public void init(){
+    public void init() {
 
     }
 
     @Override
-    public void loop(){
+    public void loop() {
 
     }
 }

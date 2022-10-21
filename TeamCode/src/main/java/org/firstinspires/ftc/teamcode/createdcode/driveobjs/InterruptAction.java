@@ -12,12 +12,10 @@ public class InterruptAction {
     ArrayList<Servo> servos;
     ArrayList<DcMotor> dcMotors;
     ArrayList<CRServo> crServos;
-    InterruptAction(HardwareMap hardwareMap){
+
+    InterruptAction(HardwareMap hardwareMap) {
 
     }
-
-
-
 
 
 }

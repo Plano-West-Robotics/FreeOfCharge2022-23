@@ -34,22 +34,22 @@ public class AutoBase extends EnhancedAutoMode {
     private static int[] methodIdArr = {};
 
     public static double[] xCoordArrCase1 = {START_POS_X};
-    private static double[] yCoordArrCase1 = {START_POS_Y};
-    private static double[] angleArrCase1 = {START_POS_ANGLE};
-    private static int[] methodIdArrCase1 = {START_METHOD};
+    private static final double[] yCoordArrCase1 = {START_POS_Y};
+    private static final double[] angleArrCase1 = {START_POS_ANGLE};
+    private static final int[] methodIdArrCase1 = {START_METHOD};
 
     public static double[] xCoordArrCase2 = {START_POS_X};
-    private static double[] yCoordArrCase2 = {START_POS_Y};
-    private static double[] angleArrCase2 = {START_POS_ANGLE};
-    private static int[] methodIdArrCase2 = {START_METHOD};
+    private static final double[] yCoordArrCase2 = {START_POS_Y};
+    private static final double[] angleArrCase2 = {START_POS_ANGLE};
+    private static final int[] methodIdArrCase2 = {START_METHOD};
 
     public static double[] xCoordArrCase3 = {START_POS_X};
-    private static double[] yCoordArrCase3 = {START_POS_Y};
-    private static double[] angleArrCase3 = {START_POS_ANGLE};
-    private static int[] methodIdArrCase3 = {START_METHOD};
+    private static final double[] yCoordArrCase3 = {START_POS_Y};
+    private static final double[] angleArrCase3 = {START_POS_ANGLE};
+    private static final int[] methodIdArrCase3 = {START_METHOD};
 
     @Override
-    public void runOpMode(){
+    public void runOpMode() {
         int pos = getShippingElementPos(SHIPPING_ELEMENT_CENTER_HEIGHT, SHIPPING_ELEMENT_POS_1_X, SHIPPING_ELEMENT_POS_2_X, SHIPPING_ELEMENT_POS_3_X);
         dashboardTelemetry.addData("Position Detected is", pos);
         dashboardTelemetry.update();
@@ -59,14 +59,12 @@ public class AutoBase extends EnhancedAutoMode {
             yCoordArr = yCoordArrCase1;
             angleArr = angleArrCase1;
             methodIdArr = methodIdArrCase1;
-        }
-        else if (pos == 2){
+        } else if (pos == 2) {
             xCoordArr = xCoordArrCase2;
             yCoordArr = yCoordArrCase2;
             angleArr = angleArrCase2;
             methodIdArr = methodIdArrCase2;
-        }
-        else if (pos == 3) {
+        } else if (pos == 3) {
             xCoordArr = xCoordArrCase3;
             yCoordArr = yCoordArrCase3;
             angleArr = angleArrCase3;

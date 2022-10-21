@@ -44,21 +44,21 @@ public class blueSpinParkLongPath extends LinearOpMode {
     private DcMotor armTwo;
 
     @Override
-    public void runOpMode(){
-        Pose2d startPos = new Pose2d(BLUE1_START_X, BLUE1_START_Y, -1*Math.toRadians(90));
+    public void runOpMode() {
+        Pose2d startPos = new Pose2d(BLUE1_START_X, BLUE1_START_Y, -1 * Math.toRadians(90));
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         Trajectory moveToBlockDrop = drive.trajectoryBuilder(startPos)
-                .lineToLinearHeading(new Pose2d(BLUE1_MIDPOS_X, BLUE1_MIDPOS_Y, -1*Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(BLUE1_MIDPOS_X, BLUE1_MIDPOS_Y, -1 * Math.toRadians(90)))
                 .build();
 
         Trajectory moveToBlockDrop2 = drive.trajectoryBuilder(moveToBlockDrop.end())
-                .lineToLinearHeading(new Pose2d(BLUE1_START_X + BLUE1_BLOCK_REPOS_X, BLUE1_START_Y - BLUE_START_FORWARD, -1*Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(BLUE1_START_X + BLUE1_BLOCK_REPOS_X, BLUE1_START_Y - BLUE_START_FORWARD, -1 * Math.toRadians(180)))
                 .build();
 
         Trajectory moveToCarousel = drive.trajectoryBuilder(moveToBlockDrop2.end())
-                .lineTo(new Vector2d(moveToBlockDrop2.end().getX()-BLUE1_BLOCK_MIDPOS_X, BLUE1_START_Y - BLUE_START_FORWARD))
+                .lineTo(new Vector2d(moveToBlockDrop2.end().getX() - BLUE1_BLOCK_MIDPOS_X, BLUE1_START_Y - BLUE_START_FORWARD))
                 .build();
 
         Trajectory moveToCarousel2 = drive.trajectoryBuilder(moveToCarousel.end())
@@ -81,12 +81,12 @@ public class blueSpinParkLongPath extends LinearOpMode {
 
         grabServo.setPosition(GRABBER_CLOSE);
         sleep(GRAB_TIME);
-        moveArms(ARM_MAX_DIST /2);
+        moveArms(ARM_MAX_DIST / 2);
 
         drive.followTrajectory(moveToBlockDrop);
         drive.followTrajectory(moveToBlockDrop2);
 
-        moveArms(ARM_MAX_DIST /4);
+        moveArms(ARM_MAX_DIST / 4);
         grabServo.setPosition(GRABBER_OPEN);
         sleep(500);
         moveArms(-ARM_MAX_DIST);
@@ -94,11 +94,12 @@ public class blueSpinParkLongPath extends LinearOpMode {
         drive.followTrajectory(moveToCarousel);
         drive.followTrajectory(moveToCarousel2);
 
-        carouselServo.setPower(-1*CAROUSEL_POWER);
+        carouselServo.setPower(-1 * CAROUSEL_POWER);
         sleep(CAROUSEL_WAIT);
         drive.followTrajectory(park);
     }
-    private void moveArms(int encoderVal){
+
+    private void moveArms(int encoderVal) {
         armOne.setTargetPosition(armOne.getCurrentPosition() - encoderVal);
         armTwo.setTargetPosition(armTwo.getCurrentPosition() - encoderVal);
         armOne.setPower(0.5);
@@ -106,7 +107,7 @@ public class blueSpinParkLongPath extends LinearOpMode {
         sleep(1000);
     }
 
-    private void initStuff(){
+    private void initStuff() {
         armOne.setDirection(DcMotorSimple.Direction.FORWARD);
         armTwo.setDirection(DcMotorSimple.Direction.REVERSE);
         armOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

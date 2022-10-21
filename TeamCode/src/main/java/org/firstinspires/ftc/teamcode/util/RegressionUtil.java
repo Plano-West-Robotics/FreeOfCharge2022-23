@@ -55,7 +55,7 @@ public class RegressionUtil {
         for (int i = 1; i < x.size() - 1; i++) {
             deriv.add(
                     (y.get(i + 1) - y.get(i - 1)) /
-                    (x.get(i + 1) - x.get(i - 1))
+                            (x.get(i + 1) - x.get(i - 1))
             );
         }
         // copy endpoints to pad output
@@ -66,17 +66,17 @@ public class RegressionUtil {
 
     /**
      * Run regression to compute velocity and static feedforward from ramp test data.
-     *
+     * <p>
      * Here's the general procedure for gathering the requisite data:
-     *   1. Slowly ramp the motor power/voltage and record encoder values along the way.
-     *   2. Run a linear regression on the encoder velocity vs. motor power plot to obtain a slope
-     *      (kV) and an optional intercept (kStatic).
+     * 1. Slowly ramp the motor power/voltage and record encoder values along the way.
+     * 2. Run a linear regression on the encoder velocity vs. motor power plot to obtain a slope
+     * (kV) and an optional intercept (kStatic).
      *
-     * @param timeSamples time samples
+     * @param timeSamples     time samples
      * @param positionSamples position samples
-     * @param powerSamples power samples
-     * @param fitStatic fit kStatic
-     * @param file log file
+     * @param powerSamples    power samples
+     * @param fitStatic       fit kStatic
+     * @param file            log file
      */
     public static RampResult fitRampData(List<Double> timeSamples, List<Double> positionSamples,
                                          List<Double> powerSamples, boolean fitStatic,
@@ -106,17 +106,17 @@ public class RegressionUtil {
         }
 
         return new RampResult(Math.abs(rampReg.getSlope()), Math.abs(rampReg.getIntercept()),
-                              rampReg.getRSquare());
+                rampReg.getRSquare());
     }
 
     /**
      * Run regression to compute acceleration feedforward.
      *
-     * @param timeSamples time samples
+     * @param timeSamples     time samples
      * @param positionSamples position samples
-     * @param powerSamples power samples
-     * @param rampResult ramp result
-     * @param file log file
+     * @param powerSamples    power samples
+     * @param rampResult      ramp result
+     * @param file            log file
      */
     public static AccelResult fitAccelData(List<Double> timeSamples, List<Double> positionSamples,
                                            List<Double> powerSamples, RampResult rampResult,

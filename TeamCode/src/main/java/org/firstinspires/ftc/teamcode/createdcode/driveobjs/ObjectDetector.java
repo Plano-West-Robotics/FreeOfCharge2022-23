@@ -28,18 +28,20 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Config
-public class ObjectDetector
-{
+public class ObjectDetector {
 
     private OpenCvWebcam webcam;
-    private FtcDashboard dashboard = FtcDashboard.getInstance();
-    private Telemetry dashboardTelemetry = dashboard.getTelemetry();
-    private HardwareMap hardwareMap;
+    private final FtcDashboard dashboard = FtcDashboard.getInstance();
+    private final Telemetry dashboardTelemetry = dashboard.getTelemetry();
+    private final HardwareMap hardwareMap;
     private int pos;
 
-    private int approxHeight, pos1, pos2, pos3;
+    private final int approxHeight;
+    private final int pos1;
+    private final int pos2;
+    private final int pos3;
 
-    public ObjectDetector(HardwareMap hardwareMap, int approxHeight, int pos1, int pos2, int pos3){
+    public ObjectDetector(HardwareMap hardwareMap, int approxHeight, int pos1, int pos2, int pos3) {
         this.hardwareMap = hardwareMap;
         startCamera();
         this.pos1 = pos1;
@@ -49,31 +51,26 @@ public class ObjectDetector
 
     }
 
-    public void startCamera()
-    {
+    public void startCamera() {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
         webcam.setPipeline(new DetectionPipeline());
 
         webcam.setMillisecondsPermissionTimeout(2500); // Timeout for obtaining permission is configurable. Set before opening.
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
-            public void onOpened()
-            {
+            public void onOpened() {
                 webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
-            public void onError(int errorCode)
-            {
+            public void onError(int errorCode) {
 
             }
         });
 
-        for (long stop = System.nanoTime() + TimeUnit.SECONDS.toNanos(4); stop > System.nanoTime();)
-        {
+        for (long stop = System.nanoTime() + TimeUnit.SECONDS.toNanos(4); stop > System.nanoTime(); ) {
             dashboard.startCameraStream(webcam, 0);
 
 
@@ -91,22 +88,20 @@ public class ObjectDetector
 
     }
 
-    public int getPos(){
+    public int getPos() {
         return pos;
     }
 
-    public void endStream(){
+    public void endStream() {
         webcam.stopStreaming();
     }
 
 
-    class DetectionPipeline extends OpenCvPipeline
-    {
+    class DetectionPipeline extends OpenCvPipeline {
         boolean viewportPaused;
 
         @Override
-        public Mat processFrame(Mat input)
-        {
+        public Mat processFrame(Mat input) {
             Mat blurredImage = new Mat();
             Mat hsvImage = new Mat();
             Mat mask = new Mat();
@@ -137,15 +132,13 @@ public class ObjectDetector
 
             Mat output = input.clone();
 
-            List<Rect> rectList= new ArrayList<>();
+            List<Rect> rectList = new ArrayList<>();
 
             // find contours
             Imgproc.findContours(morphOutput, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
-            if (hierarchy.size().height > 0 && hierarchy.size().width > 0)
-            {
+            if (hierarchy.size().height > 0 && hierarchy.size().width > 0) {
                 // for each contour, display it in blue
-                for (int idx = 0; idx >= 0; idx = (int) hierarchy.get(0, idx)[0])
-                {
+                for (int idx = 0; idx >= 0; idx = (int) hierarchy.get(0, idx)[0]) {
                     Imgproc.drawContours(output, contours, idx, new Scalar(250, 0, 0));
 
                     Rect rect = Imgproc.boundingRect(contours.get(idx));
@@ -155,13 +148,12 @@ public class ObjectDetector
             }
 
 
-
             if (rectList.size() > 0) {
                 double largestArea = -1;
                 Rect largestRect = new Rect();
                 for (int i = 0; i < rectList.size(); i++) {
                     Rect checkRect = rectList.get(i);
-                    if (checkRect.area() > largestArea && Math.abs(checkRect.y + checkRect.height/2 - approxHeight) < 10) {
+                    if (checkRect.area() > largestArea && Math.abs(checkRect.y + checkRect.height / 2 - approxHeight) < 10) {
                         largestArea = checkRect.area();
                         largestRect = checkRect;
                     }
@@ -176,14 +168,14 @@ public class ObjectDetector
                                 largestRect.y + largestRect.height),
                         new Scalar(0, 255, 0), 4);
 
-                int centerX = largestRect.x + largestRect.width/2;
-                int centerY = largestRect.y + largestRect.height/2;
+                int centerX = largestRect.x + largestRect.width / 2;
+                int centerY = largestRect.y + largestRect.height / 2;
 
-                if (Math.abs(pos1-centerX) < Math.abs(pos2-centerX) && Math.abs(pos1-centerX) < Math.abs(pos3-centerX))
-                    pos  = 1;
-                else if (Math.abs(pos2-centerX) < Math.abs(pos1-centerX) && Math.abs(pos2-centerX) < Math.abs(pos3-centerX))
+                if (Math.abs(pos1 - centerX) < Math.abs(pos2 - centerX) && Math.abs(pos1 - centerX) < Math.abs(pos3 - centerX))
+                    pos = 1;
+                else if (Math.abs(pos2 - centerX) < Math.abs(pos1 - centerX) && Math.abs(pos2 - centerX) < Math.abs(pos3 - centerX))
                     pos = 2;
-                else if (Math.abs(pos3-centerX) < Math.abs(pos2-centerX) && Math.abs(pos3-centerX) < Math.abs(pos1-centerX))
+                else if (Math.abs(pos3 - centerX) < Math.abs(pos2 - centerX) && Math.abs(pos3 - centerX) < Math.abs(pos1 - centerX))
                     pos = 3;
 
 
@@ -197,16 +189,12 @@ public class ObjectDetector
         }
 
         @Override
-        public void onViewportTapped()
-        {
+        public void onViewportTapped() {
             viewportPaused = !viewportPaused;
 
-            if(viewportPaused)
-            {
+            if (viewportPaused) {
                 webcam.pauseViewport();
-            }
-            else
-            {
+            } else {
                 webcam.resumeViewport();
             }
         }
