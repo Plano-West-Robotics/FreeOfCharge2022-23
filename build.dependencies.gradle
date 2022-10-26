@@ -12,7 +12,7 @@ dependencies {
     def multidex_version = "2.0.1"
     implementation "androidx.multidex:multidex:$multidex_version"
     implementation 'org.openftc:apriltag:1.1.0'
-    implementation 'org.openftc:easyopencv:1.5.1'
+    implementation 'org.openftc:easyopencv:1.5.2'
     implementation 'org.jetbrains:annotations:15.0'
     implementation('com.acmerobotics.dashboard:dashboard:0.4.6') {
         exclude group: 'org.firstinspires.ftc'
