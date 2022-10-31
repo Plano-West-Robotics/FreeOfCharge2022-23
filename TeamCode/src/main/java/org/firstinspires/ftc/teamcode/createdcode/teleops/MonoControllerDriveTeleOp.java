@@ -11,6 +11,8 @@ public class MonoControllerDriveTeleOp extends OpMode {
     //Drive Variables
     private DcMotor motorFR, motorFL, motorRR, motorRL;
     private double powerFR, powerFL, powerRR, powerRL;
+    private DcMotor motorLift;
+    private double powerLift;
     private double drive = 0, strafe = 0, turn = 0;
     private final double speed = 1;
     private final boolean lockSpeed = true;
@@ -27,16 +29,22 @@ public class MonoControllerDriveTeleOp extends OpMode {
         drive = -1 * gamepad1.left_stick_y;
         strafe = gamepad1.left_stick_x;
         turn = gamepad1.right_trigger - gamepad1.left_trigger;
-
     }
 
 
     private void drive() {
-
         powerFR = drive - strafe;
         powerFL = drive + strafe;
         powerRR = drive + strafe;
         powerRL = drive - strafe;
+
+        if (gamepad1.a) {
+            powerLift = 1;
+        } else if (gamepad1.b) {
+            powerLift = -1;
+        } else {
+            powerLift = 0;
+        }
 
         addTurn(turn);
 
@@ -51,6 +59,8 @@ public class MonoControllerDriveTeleOp extends OpMode {
         motorFL.setPower(powerFL);
         motorRR.setPower(powerRR);
         motorRL.setPower(powerRL);
+
+        motorLift.setPower(powerLift);
 
         telemetry.addData("powerFR", powerFR);
         telemetry.update();
@@ -71,6 +81,8 @@ public class MonoControllerDriveTeleOp extends OpMode {
         motorRR = hardwareMap.get(DcMotor.class, "rearRight");
         motorRL = hardwareMap.get(DcMotor.class, "rearLeft");
 
+        motorLift = hardwareMap.get(DcMotor.class, "lift");
+
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorRL.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -88,6 +100,6 @@ public class MonoControllerDriveTeleOp extends OpMode {
         motorFL.setPower(0);
         motorRR.setPower(0);
         motorRL.setPower(0);
-
+        motorLift.setPower(0);
     }
 }
