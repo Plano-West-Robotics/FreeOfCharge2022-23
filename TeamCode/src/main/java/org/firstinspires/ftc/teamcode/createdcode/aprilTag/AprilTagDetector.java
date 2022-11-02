@@ -3,13 +3,11 @@ package org.firstinspires.ftc.teamcode.createdcode.aprilTag;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
-
-import org.openftc.apriltag.AprilTagDetection;
-
 
 import java.util.ArrayList;
 
@@ -56,17 +54,14 @@ public class AprilTagDetector {
         webcam.setPipeline(aprilTagDetectionPipeline);
 
         webcam.setMillisecondsPermissionTimeout(2500); // Timeout for obtaining permission is configurable. Set before opening.
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
-            public void onOpened()
-            {
-                webcam.startStreaming(320,240, OpenCvCameraRotation.UPRIGHT);
+            public void onOpened() {
+                webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
-            public void onError(int errorCode)
-            {
+            public void onError(int errorCode) {
 
             }
         });
@@ -75,11 +70,9 @@ public class AprilTagDetector {
     public int getPos() {
         ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-        if(currentDetections.size() != 0) {
-            for(AprilTagDetection tag : currentDetections)
-            {
-                if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT)
-                {
+        if (currentDetections.size() != 0) {
+            for (AprilTagDetection tag : currentDetections) {
+                if (tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
                     tagOfInterest = tag;
                     pos = tagOfInterest.id;
                 }
