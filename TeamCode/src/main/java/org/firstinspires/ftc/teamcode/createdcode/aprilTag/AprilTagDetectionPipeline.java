@@ -82,7 +82,7 @@ class AprilTagDetectionPipeline extends OpenCvPipeline {
     }
 
     @Override
-    public void finalize() {
+    protected void finalize() {
         // Might be null if createApriltagDetector() threw an exception
         if (nativeApriltagPtr != 0) {
             // Delete the native context we created in the constructor
