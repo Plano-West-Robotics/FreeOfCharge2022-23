@@ -14,7 +14,7 @@ public class MonoControllerDriveTeleOp extends OpMode {
     private DcMotor motorLift;
     private double powerLift;
     private double drive = 0, strafe = 0, turn = 0;
-    private final double speed = 1;
+    private double speed = 1;
     private final boolean lockSpeed = true;
 
     @Override
@@ -33,15 +33,24 @@ public class MonoControllerDriveTeleOp extends OpMode {
 
 
     private void drive() {
+        if (gamepad1.left_bumper) {
+            speed -= 0.15;
+        } else if (gamepad1.right_bumper) {
+            speed += 0.15;
+        }
+
+        if (speed > 1) speed = 1;
+        if (speed < 0) speed = -0;
+
         powerFR = drive - strafe;
         powerFL = drive + strafe;
         powerRR = drive + strafe;
         powerRL = drive - strafe;
 
         if (gamepad1.a) {
-            powerLift = 1;
+            powerLift = 0.3;
         } else if (gamepad1.b) {
-            powerLift = -1;
+            powerLift = -0.3;
         } else {
             powerLift = 0;
         }
@@ -62,7 +71,7 @@ public class MonoControllerDriveTeleOp extends OpMode {
 
         motorLift.setPower(powerLift);
 
-        telemetry.addData("powerFR", powerFR);
+        telemetry.addData("speed", speed);
         telemetry.update();
     }
 
