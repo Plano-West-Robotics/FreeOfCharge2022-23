@@ -11,8 +11,10 @@ public class MonoControllerDriveTeleOp extends OpMode {
     //Drive Variables
     private DcMotor motorFR, motorFL, motorRR, motorRL;
     private double powerFR, powerFL, powerRR, powerRL;
-    private DcMotor motorLift;
-    private double powerLift;
+    private DcMotor motorLiftUp;
+    private DcMotor motorLiftDown;
+    private double powerLiftUp;
+    private double powerLiftDown;
     private double drive = 0, strafe = 0, turn = 0;
     private double speed = 1;
     private final boolean lockSpeed = true;
@@ -42,11 +44,14 @@ public class MonoControllerDriveTeleOp extends OpMode {
         powerRL = drive - strafe;
 
         if (gamepad1.a) {
-            powerLift = 0.3;
+            powerLiftUp = 0.3;
+            powerLiftDown = 0.3;
         } else if (gamepad1.b) {
-            powerLift = -0.3;
+            powerLiftDown = -0.3;
+            powerLiftUp = -0.3;
         } else {
-            powerLift = 0;
+            powerLiftUp = 0;
+            powerLiftDown = 0;
         }
 
         addTurn(turn);
@@ -63,7 +68,8 @@ public class MonoControllerDriveTeleOp extends OpMode {
         motorRR.setPower(powerRR);
         motorRL.setPower(powerRL);
 
-        motorLift.setPower(powerLift);
+        motorLiftUp.setPower(powerLiftUp);
+        motorLiftDown.setPower(powerLiftDown);
 
         telemetry.addData("speed", speed);
         telemetry.update();
@@ -84,7 +90,8 @@ public class MonoControllerDriveTeleOp extends OpMode {
         motorRR = hardwareMap.get(DcMotor.class, "rearRight");
         motorRL = hardwareMap.get(DcMotor.class, "rearLeft");
 
-        motorLift = hardwareMap.get(DcMotor.class, "lift");
+        motorLiftUp = hardwareMap.get(DcMotor.class, "liftUp");
+        motorLiftDown = hardwareMap.get(DcMotor.class, "liftDown");
 
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorRL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -103,6 +110,7 @@ public class MonoControllerDriveTeleOp extends OpMode {
         motorFL.setPower(0);
         motorRR.setPower(0);
         motorRL.setPower(0);
-        motorLift.setPower(0);
+        motorLiftUp.setPower(0);
+        motorLiftDown.setPower(0);
     }
 }
