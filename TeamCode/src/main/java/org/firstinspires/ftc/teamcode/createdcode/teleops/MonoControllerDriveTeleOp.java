@@ -33,14 +33,8 @@ public class MonoControllerDriveTeleOp extends OpMode {
 
 
     private void drive() {
-        if (gamepad1.left_bumper) {
-            speed -= 0.15;
-        } else if (gamepad1.right_bumper) {
-            speed += 0.15;
-        }
-
-        if (speed > 1) speed = 1;
-        if (speed < 0) speed = -0;
+        if (gamepad1.left_bumper) speed = Math.max(0, speed - 0.01);
+        if (gamepad1.right_bumper) speed = Math.min(1, speed + 0.01);
 
         powerFR = drive - strafe;
         powerFL = drive + strafe;
