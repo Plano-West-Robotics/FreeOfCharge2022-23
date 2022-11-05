@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Autonomous
-public class AutoBlueTerminalParkingBehaviorBottom extends LinearOpMode {
+public class AutoBlueTerminalParkingBehavior extends LinearOpMode {
     SampleMecanumDrive mecanumDrive;
 
     @Override
@@ -20,22 +20,9 @@ public class AutoBlueTerminalParkingBehaviorBottom extends LinearOpMode {
 
         waitForStart();
 
-        Trajectory firstMove = makeTrajectories(
-                new Pose2d(new Vector2d(-34, 60), 0),
-                new int[]{-34},
-                new int[]{40}
-        );
-
-        mecanumDrive.followTrajectory(firstMove);
-
-        double time = getRuntime() + 5;
-        /* wait for 5 seconds to allow color sensor to settle */
-        while (true) {
-            if (!(getRuntime() < time)) break; // needed to stop android studio from yelling
-        }
-
         // init move to default terminal
-        Trajectory endpos = makeTrajectories(firstMove.end(),
+        Trajectory endpos = makeTrajectories(
+                new Pose2d(new Vector2d(-34, 60), 0),
                 new int[]{-34, -70},
                 new int[]{60, 60}
         );

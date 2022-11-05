@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Autonomous
-public class AutoBlueColorSensorBottom extends LinearOpMode {
+public class AutoBlueColorSensor extends LinearOpMode {
     SampleMecanumDrive mecanumDrive;
 
     @Override
