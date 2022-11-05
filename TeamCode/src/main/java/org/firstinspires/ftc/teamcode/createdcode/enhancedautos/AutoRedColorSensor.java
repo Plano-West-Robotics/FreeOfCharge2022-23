@@ -23,9 +23,9 @@ public class AutoRedColorSensor extends LinearOpMode {
         waitForStart();
 
         Trajectory firstMove = makeTrajectories(
-                        new Pose2d(new Vector2d(-34, -60), 0),
-                        new int[]{-34},
-                        new int[]{-40}
+                new Pose2d(new Vector2d(-34, -60), 0),
+                new int[]{-34},
+                new int[]{-40}
         );
 
         mecanumDrive.followTrajectory(firstMove);

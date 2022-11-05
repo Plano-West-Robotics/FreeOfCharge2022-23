@@ -20,19 +20,7 @@ public class DriveTeleOpv2 extends OpMode {
     private final double constantSpeedMultChangeMult = 0.25;
     private boolean wasPressingDpadUp = false, wasPressingDpadDown = false;
 
-
-
-
-
-
-
     /*
-
-
-
-
-
-
     private double holdServoPow;
     private final double servoSpeedMod = 0.01;
 
@@ -81,17 +69,7 @@ public class DriveTeleOpv2 extends OpMode {
         telemetry.addData("Constant Speed Mult", constantSpeedMult);
 
         speed = lockSpeed ? constantSpeedMult : gamepad1.right_trigger;
-
-        /*
-
-
-
-
-
-
-         */
     }
-
 
     private void drive() {
 
@@ -125,34 +103,6 @@ public class DriveTeleOpv2 extends OpMode {
         powerRL += turn;
     }
 
-
-    /*
-
-
-
-
-
-    }
-
-
-
-
-    }
-
-
-
-
-
-
-
-
-        } else {
-
-
-        }
-    }
-     */
-
     @Override
     public void init() {
         //initializes the drive motors
@@ -178,24 +128,5 @@ public class DriveTeleOpv2 extends OpMode {
         motorFL.setPower(0);
         motorRR.setPower(0);
         motorRL.setPower(0);
-
-
-        /*
-
-
-
-
-
-
-
-
-
-
-
-
-
-         */
-
-
     }
 }

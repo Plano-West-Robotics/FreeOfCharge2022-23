@@ -39,7 +39,7 @@ import java.util.ArrayList;
 
 class AprilTagDetectionPipeline extends OpenCvPipeline {
     private long nativeApriltagPtr;
-    private Mat grey = new Mat();
+    private final Mat grey = new Mat();
     private ArrayList<AprilTagDetection> detections = new ArrayList<>();
 
     private ArrayList<AprilTagDetection> detectionsUpdate = new ArrayList<>();
@@ -271,7 +271,7 @@ class AprilTagDetectionPipeline extends OpenCvPipeline {
      * A simple container to hold both rotation and translation
      * vectors, which together form a 6DOF pose.
      */
-    class Pose {
+    static class Pose {
         Mat rvec;
         Mat tvec;
 

@@ -14,36 +14,13 @@ public class DriveTeleOpv1 extends OpMode {
     private DcMotor motorFR, motorFL, motorRR, motorRL;
     private double powerFR, powerFL, powerRR, powerRL;
     private double drive = 0, strafe = 0, turn = 0;
-    private final double speed = 1;
-
-
-
-
-
-
-
-    /*
-
-
-
-
-
-
-    private double holdServoPow;
-    private final double servoSpeedMod = 0.05;
-
-    private boolean wasPressingA, wasPressingB, wasPressingX, wasPressingY;
-     */
 
     @Override
     public void loop() {
         takeControllerInput();
 
         drive();
-
-
     }
-
 
     private void takeControllerInput() {
         drive = -1 * gamepad1.left_stick_y;
@@ -51,11 +28,6 @@ public class DriveTeleOpv1 extends OpMode {
         turn = gamepad1.right_stick_x;
 
         /*
-
-
-
-
-
         if (gamepad2.a) {
             if (!wasPressingA) {
 
@@ -63,14 +35,10 @@ public class DriveTeleOpv1 extends OpMode {
             wasPressingA = true;
         } else wasPressingA = false;
 
-
-
-
         holdServoPow = gamepad2.left_stick_x;
          */
 
     }
-
 
     private void drive() {
 
@@ -82,6 +50,7 @@ public class DriveTeleOpv1 extends OpMode {
         addTurn(turn);
 
         // multiplies by speed
+        double speed = 1;
         powerFR *= speed;
         powerFL *= speed;
         powerRR *= speed;
@@ -103,29 +72,6 @@ public class DriveTeleOpv1 extends OpMode {
         powerFL += turn;
         powerRL += turn;
     }
-
-
-    /*
-
-
-
-
-    }
-
-
-
-        holdServo.setPosition(holdServo.getPosition() + -1 * holdServoPow * servoSpeedMod);
-    }
-
-
-
-
-
-
-        else
-
-    }
-     */
 
     @Override
     public void init() {
@@ -152,26 +98,5 @@ public class DriveTeleOpv1 extends OpMode {
         motorFL.setPower(0);
         motorRR.setPower(0);
         motorRL.setPower(0);
-
-
-        /*
-
-
-
-
-
-
-
-
-
-
-        holdServo = hardwareMap.get(Servo.class, "holdServo");
-
-        holdServo.setPosition(0);
-
-
-
-    }
-         */
     }
 }
