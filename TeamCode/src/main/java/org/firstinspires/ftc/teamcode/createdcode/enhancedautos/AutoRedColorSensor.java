@@ -22,13 +22,13 @@ public class AutoRedColorSensor extends LinearOpMode {
 
         waitForStart();
 
-        mecanumDrive.followTrajectory(
-                makeTrajectories(
+        Trajectory firstMove = makeTrajectories(
                         new Pose2d(new Vector2d(-34, -60), 0),
                         new int[]{-34},
                         new int[]{-40}
-                )
         );
+
+        mecanumDrive.followTrajectory(firstMove);
 
         double time = getRuntime() + 5;
         /* wait for 5 seconds to allow color sensor to settle */
@@ -44,25 +44,25 @@ public class AutoRedColorSensor extends LinearOpMode {
         Trajectory endpos;
         if (largest == r) {
             // move to position 1
-            endpos = makeTrajectories(new Pose2d(new Vector2d(-34, -40), 0),
+            endpos = makeTrajectories(firstMove.end(),
                     new int[]{-34, -12, -12},
                     new int[]{-60, -60, -12}
             );
         } else if (largest == g) {
             // move to position 2
-            endpos = makeTrajectories(new Pose2d(new Vector2d(-34, -40), 0),
+            endpos = makeTrajectories(firstMove.end(),
                     new int[]{-34, -12, -12, -34},
                     new int[]{-60, -60, -12, -12}
             );
         } else if (largest == b) {
             // move to position 3
-            endpos = makeTrajectories(new Pose2d(new Vector2d(-34, -40), 0),
+            endpos = makeTrajectories(firstMove.end(),
                     new int[]{-34, -70, -60},
                     new int[]{-60, -60, -30}
             );
         } else {
             // Color sensor broke, move to backup position
-            endpos = makeTrajectories(new Pose2d(new Vector2d(-34, -40), 0),
+            endpos = makeTrajectories(firstMove.end(),
                     new int[]{-34, -70},
                     new int[]{-60, -60}
             );
@@ -76,7 +76,7 @@ public class AutoRedColorSensor extends LinearOpMode {
         TrajectoryBuilder builder = mecanumDrive.trajectoryBuilder(startPos);
 
         for (int i = 0; i < x.length; i++) {
-            builder.strafeTo(new Vector2d(x[i], y[i]));
+            builder.splineTo(new Vector2d(x[i], y[i]), 0);
         }
 
         return builder.build();
