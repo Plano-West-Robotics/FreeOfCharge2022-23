@@ -35,7 +35,7 @@ public class AutoBlueTerminalParkingBehaviorTop extends LinearOpMode {
 
         // init move to default terminal
         Trajectory endpos = makeTrajectories(firstMove.end(),
-                new int[]{36, 70},
+                new int[]{36, -70},
                 new int[]{60, 60}
         );
 
