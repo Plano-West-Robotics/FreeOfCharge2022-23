@@ -18,7 +18,7 @@ public class AprilTagDetector {
     // private FtcDashboard dashboard = FtcDashboard.getInstance();
     // private Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
-    private HardwareMap hardwareMap;
+    private final HardwareMap hardwareMap;
     private int pos;
 
     public static final double FEET_PER_METER = 3.28084;
@@ -27,17 +27,17 @@ public class AprilTagDetector {
     // UNITS ARE PIXELS
     // NOTE: this calibration is for the C920 webcam at 800x448.
     // You will need to do your own calibration for other configurations!
-    private double fx = 578.272;
-    private double fy = 578.272;
-    private double cx = 402.145;
-    private double cy = 221.506;
+    private final double fx = 578.272;
+    private final double fy = 578.272;
+    private final double cx = 402.145;
+    private final double cy = 221.506;
 
     // UNITS ARE METERS
-    private double tagsize = 0.166;
+    private final double tagsize = 0.166;
 
-    private int LEFT = 1;
-    private int MIDDLE = 2;
-    private int RIGHT = 3;
+    private final int LEFT = 1;
+    private final int MIDDLE = 2;
+    private final int RIGHT = 3;
 
     private AprilTagDetection tagOfInterest = null;
 
