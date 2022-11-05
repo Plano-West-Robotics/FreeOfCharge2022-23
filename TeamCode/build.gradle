@@ -20,12 +20,15 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-
-    aaptOptions {
-        noCompress 'tflite'
-    }
     packagingOptions {
-        pickFirsts += ['**/*.so']
+        jniLibs {
+            pickFirsts += ['**/*.so']
+        }
+    }
+
+    namespace 'org.firstinspires.ftc.teamcode'
+    androidResources {
+        noCompress 'tflite'
     }
 }
 
