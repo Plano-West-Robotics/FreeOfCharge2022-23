@@ -5,9 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@TeleOp
-public class MonoControllerDriveTeleOp extends OpMode {
-
+@TeleOp(name = "TELEOP - USE THIS ONE")
+public class DriveTeleOp extends OpMode {
     //Drive Variables
     private DcMotor motorFR, motorFL, motorRR, motorRL;
     private double powerFR, powerFL, powerRR, powerRL;
@@ -15,7 +14,6 @@ public class MonoControllerDriveTeleOp extends OpMode {
     private double powerLift;
     private double drive = 0, strafe = 0, turn = 0;
     private double speed = 1;
-    private final boolean lockSpeed = true;
 
     @Override
     public void loop() {
@@ -29,25 +27,17 @@ public class MonoControllerDriveTeleOp extends OpMode {
         drive = -1 * gamepad1.left_stick_y;
         strafe = gamepad1.left_stick_x;
         turn = gamepad1.right_trigger - gamepad1.left_trigger;
+        powerLift = gamepad2.left_stick_y;
+        if (gamepad1.left_bumper) speed = Math.max(0, speed - 0.01);
+        if (gamepad1.right_bumper) speed = Math.min(1, speed + 0.01);
     }
 
 
     private void drive() {
-        if (gamepad1.left_bumper) speed = Math.max(0, speed - 0.01);
-        if (gamepad1.right_bumper) speed = Math.min(1, speed + 0.01);
-
         powerFR = drive - strafe;
         powerFL = drive + strafe;
         powerRR = drive + strafe;
         powerRL = drive - strafe;
-
-        if (gamepad1.a) {
-            powerLift = 0.3;
-        } else if (gamepad1.b) {
-            powerLift = -0.3;
-        } else {
-            powerLift = 0;
-        }
 
         addTurn(turn);
 
@@ -93,11 +83,13 @@ public class MonoControllerDriveTeleOp extends OpMode {
         motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         motorFR.setPower(0);
         motorFL.setPower(0);
