@@ -6,8 +6,6 @@ package org.firstinspires.ftc.teamcode.createdcode.enhancedautos;
         import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
         import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
         import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-        import com.qualcomm.robotcore.hardware.ColorSensor;
-
         import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Autonomous
@@ -34,18 +32,12 @@ public class AutoRedDefaultParkingBehaviorBottom extends LinearOpMode {
         while (true) {
             if (!(getRuntime() < time)) break; // needed to stop android studio from yelling
         }
-        int r = sensor.red();
-        int g = sensor.green();
-        int b = sensor.blue();
-
-        int largest = getLargest(r, g, b);
 
         // init move to default terminal
         Trajectory endpos = makeTrajectories(firstMove.end(),
                 new int[]{-34, -70},
                 new int[]{60, -60}
             );
-        }
 
         mecanumDrive.followTrajectory(endpos);
     }
@@ -59,9 +51,5 @@ public class AutoRedDefaultParkingBehaviorBottom extends LinearOpMode {
         }
 
         return builder.build();
-    }
-
-    private int getLargest(int x, int y, int z) {
-        return Math.max(z, (Math.max(x, y)));
     }
 }
