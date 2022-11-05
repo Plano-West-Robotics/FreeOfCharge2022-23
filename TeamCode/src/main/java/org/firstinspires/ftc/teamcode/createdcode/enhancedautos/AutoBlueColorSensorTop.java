@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Autonomous
-public class AutoBlueColorSensor extends LinearOpMode {
+public class AutoBlueColorSensorTop extends LinearOpMode {
     SampleMecanumDrive mecanumDrive;
 
     @Override
@@ -23,8 +23,8 @@ public class AutoBlueColorSensor extends LinearOpMode {
         waitForStart();
 
         Trajectory firstMove = makeTrajectories(
-                new Pose2d(new Vector2d(-34, 60), 0),
-                new int[]{-34},
+                new Pose2d(new Vector2d(36, 60), 0),
+                new int[]{36},
                 new int[]{40}
         );
 
@@ -45,25 +45,25 @@ public class AutoBlueColorSensor extends LinearOpMode {
         if (largest == r) {
             // move to position 1
             endpos = makeTrajectories(firstMove.end(),
-                    new int[]{-34, -12, -12},
+                    new int[]{36, 12, 12},
                     new int[]{60, 60, 12}
             );
         } else if (largest == g) {
             // move to position 2
             endpos = makeTrajectories(firstMove.end(),
-                    new int[]{-34, -12, -12, -34},
+                    new int[]{36, 12, 12, 36},
                     new int[]{60, 60, 12, 12}
             );
         } else if (largest == b) {
             // move to position 3
             endpos = makeTrajectories(firstMove.end(),
-                    new int[]{-34, -70, -60},
+                    new int[]{36, 70, 60},
                     new int[]{60, 60, 30}
             );
         } else {
             // Color sensor broke, move to backup position
             endpos = makeTrajectories(firstMove.end(),
-                    new int[]{-34, -70},
+                    new int[]{36, 70},
                     new int[]{60, 60}
             );
         }
