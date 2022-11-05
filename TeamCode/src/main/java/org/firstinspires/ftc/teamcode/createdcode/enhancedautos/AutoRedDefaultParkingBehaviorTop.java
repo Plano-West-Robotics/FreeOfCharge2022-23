@@ -9,7 +9,7 @@ package org.firstinspires.ftc.teamcode.createdcode.enhancedautos;
         import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Autonomous
-public class AutoRedDefaultParkingBehaviorBottom extends LinearOpMode {
+public class AutoRedDefaultParkingBehaviorTop extends LinearOpMode {
     SampleMecanumDrive mecanumDrive;
 
     @Override
@@ -20,8 +20,8 @@ public class AutoRedDefaultParkingBehaviorBottom extends LinearOpMode {
         waitForStart();
 
         Trajectory firstMove = makeTrajectories(
-                new Pose2d(new Vector2d(-34, -60), 0),
-                new int[]{-34},
+                new Pose2d(new Vector2d(36, -60), 0),
+                new int[]{36},
                 new int[]{-40}
         );
 
@@ -35,9 +35,9 @@ public class AutoRedDefaultParkingBehaviorBottom extends LinearOpMode {
 
         // init move to default terminal
         Trajectory endpos = makeTrajectories(firstMove.end(),
-                new int[]{-34, -70},
+                new int[]{36, -70},
                 new int[]{-60, -60}
-            );
+        );
 
         mecanumDrive.followTrajectory(endpos);
     }
