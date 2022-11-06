@@ -58,13 +58,17 @@ public class AutoRedColorSensor extends LinearOpMode {
             );
         } else if (largest == b) {
             // move to position 3
-            endpos = api.makeTrajectories(mecanumDrive, firstMove.end(),
+            endpos = api.makeTrajectories(
+                    mecanumDrive,
+                    firstMove.end(),
                     new int[]{-34, -70, -60},
                     new int[]{-60, -60, -30}
             );
         } else {
             // Color sensor broke, move to backup position
-            endpos = api.makeTrajectories(mecanumDrive, firstMove.end(),
+            endpos = api.makeTrajectories(
+                    mecanumDrive,
+                    firstMove.end(),
                     new int[]{-34, -70},
                     new int[]{-60, -60}
             );
