@@ -24,7 +24,7 @@ public class AutoBlueSubstationParkingBehavior extends LinearOpMode {
         // init move to default terminal
         Trajectory endpos = api.makeTrajectories(
                 mecanumDrive,
-                new Pose2d(new Vector2d(-34, 60), 0),
+                new Pose2d(new Vector2d(-34, 60), 270),
                 new int[]{-34, 1},
                 new int[]{60, 60}
         );
