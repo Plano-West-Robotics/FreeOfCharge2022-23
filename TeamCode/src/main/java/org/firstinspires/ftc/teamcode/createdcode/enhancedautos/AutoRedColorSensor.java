@@ -25,7 +25,7 @@ public class AutoRedColorSensor extends LinearOpMode {
 
         Trajectory firstMove = api.makeTrajectories(
                 mecanumDrive,
-                new Pose2d(new Vector2d(-34, -60), 0),
+                new Pose2d(new Vector2d(-34, -60), 90),
                 new int[]{-34},
                 new int[]{-40}
         );
