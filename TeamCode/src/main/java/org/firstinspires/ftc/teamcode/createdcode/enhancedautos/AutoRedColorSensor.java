@@ -18,11 +18,13 @@ public class AutoRedColorSensor extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         ColorSensor sensor = hardwareMap.get(ColorSensor.class, "color");
         mecanumDrive = new SampleMecanumDrive(hardwareMap);
+        API api = new API(this);
 
 
         waitForStart();
 
-        Trajectory firstMove = makeTrajectories(
+        Trajectory firstMove = api.makeTrajectories(
+                mecanumDrive,
                 new Pose2d(new Vector2d(-34, -60), 0),
                 new int[]{-34},
                 new int[]{-40}
@@ -30,59 +32,44 @@ public class AutoRedColorSensor extends LinearOpMode {
 
         mecanumDrive.followTrajectory(firstMove);
 
-        double time = getRuntime() + 5;
-        /* wait for 5 seconds to allow color sensor to settle */
-        while (true) {
-            if (!(getRuntime() < time)) break; // needed to stop android studio from yelling
-        }
+        api.pause(5);
         int r = sensor.red();
         int g = sensor.green();
         int b = sensor.blue();
 
-        int largest = getLargest(r, g, b);
+        int largest = api.getLargest(r, g, b);
 
         Trajectory endpos;
         if (largest == r) {
             // move to position 1
-            endpos = makeTrajectories(firstMove.end(),
+            endpos = api.makeTrajectories(
+                    mecanumDrive,
+                    firstMove.end(),
                     new int[]{-34, -12, -12},
                     new int[]{-60, -60, -12}
             );
         } else if (largest == g) {
             // move to position 2
-            endpos = makeTrajectories(firstMove.end(),
+            endpos = api.makeTrajectories(
+                    mecanumDrive,
+                    firstMove.end(),
                     new int[]{-34, -12, -12, -34},
                     new int[]{-60, -60, -12, -12}
             );
         } else if (largest == b) {
             // move to position 3
-            endpos = makeTrajectories(firstMove.end(),
+            endpos = api.makeTrajectories(mecanumDrive, firstMove.end(),
                     new int[]{-34, -70, -60},
                     new int[]{-60, -60, -30}
             );
         } else {
             // Color sensor broke, move to backup position
-            endpos = makeTrajectories(firstMove.end(),
+            endpos = api.makeTrajectories(mecanumDrive, firstMove.end(),
                     new int[]{-34, -70},
                     new int[]{-60, -60}
             );
         }
 
         mecanumDrive.followTrajectory(endpos);
-    }
-
-    private Trajectory makeTrajectories(Pose2d startPos, int[] x, int[] y) {
-        assert x.length == y.length;
-        TrajectoryBuilder builder = mecanumDrive.trajectoryBuilder(startPos);
-
-        for (int i = 0; i < x.length; i++) {
-            builder.splineTo(new Vector2d(x[i], y[i]), 0);
-        }
-
-        return builder.build();
-    }
-
-    private int getLargest(int x, int y, int z) {
-        return Math.max(z, (Math.max(x, y)));
     }
 }

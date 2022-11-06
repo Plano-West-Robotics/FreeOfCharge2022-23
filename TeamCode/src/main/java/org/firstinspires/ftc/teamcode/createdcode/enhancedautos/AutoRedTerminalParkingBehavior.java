@@ -16,12 +16,13 @@ public class AutoRedTerminalParkingBehavior extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         mecanumDrive = new SampleMecanumDrive(hardwareMap);
-
+        API api = new API(this);
 
         waitForStart();
 
         // init move to default terminal
-        Trajectory endpos = makeTrajectories(
+        Trajectory endpos = api.makeTrajectories(
+                mecanumDrive,
                 new Pose2d(new Vector2d(-34, -60), 0),
                 new int[]{-34, -70},
                 new int[]{-60, -60}
@@ -30,14 +31,4 @@ public class AutoRedTerminalParkingBehavior extends LinearOpMode {
         mecanumDrive.followTrajectory(endpos);
     }
 
-    private Trajectory makeTrajectories(Pose2d startPos, int[] x, int[] y) {
-        assert x.length == y.length;
-        TrajectoryBuilder builder = mecanumDrive.trajectoryBuilder(startPos);
-
-        for (int i = 0; i < x.length; i++) {
-            builder.splineTo(new Vector2d(x[i], y[i]), 0);
-        }
-
-        return builder.build();
-    }
 }
