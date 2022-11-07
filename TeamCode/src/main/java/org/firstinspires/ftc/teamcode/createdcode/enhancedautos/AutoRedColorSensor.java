@@ -25,7 +25,7 @@ public class AutoRedColorSensor extends LinearOpMode {
 
         Trajectory firstMove = api.makeTrajectories(
                 mecanumDrive,
-                new Pose2d(new Vector2d(-34, -60), 90),
+                new Pose2d(new Vector2d(-34, -60), Math.toRadians(90)),
                 new int[]{-34},
                 new int[]{-40}
         );
@@ -40,7 +40,7 @@ public class AutoRedColorSensor extends LinearOpMode {
         int largest = api.getLargest(r, g, b);
 
         Trajectory endpos;
-        if (largest == r) {
+        if (largest == g) {
             // move to position 1
             endpos = api.makeTrajectories(
                     mecanumDrive,
@@ -48,7 +48,7 @@ public class AutoRedColorSensor extends LinearOpMode {
                     new int[]{-34, -12, -12},
                     new int[]{-60, -60, -12}
             );
-        } else if (largest == g) {
+        } else if (largest == r) {
             // move to position 2
             endpos = api.makeTrajectories(
                     mecanumDrive,
