@@ -1,34 +1,27 @@
 package org.firstinspires.ftc.teamcode.createdcode.enhancedautos;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Autonomous
 public class AutoRedTerminalParkingBehavior extends LinearOpMode {
-    SampleMecanumDrive mecanumDrive;
-
     @Override
     public void runOpMode() throws InterruptedException {
-        mecanumDrive = new SampleMecanumDrive(hardwareMap);
+        DcMotor fl = hardwareMap.get(DcMotor.class, "frontLeft");
+        DcMotor fr = hardwareMap.get(DcMotor.class, "frontRight");
+        DcMotor rl = hardwareMap.get(DcMotor.class, "rearLeft");
+        DcMotor rr = hardwareMap.get(DcMotor.class, "rearRight");
+
         API api = new API(this);
+        MovementAPI movementAPI = new MovementAPI(api, fl, fr, rl, rr);
 
         waitForStart();
 
-        // init move to default terminal
-        Trajectory endpos = api.makeTrajectories(
-                mecanumDrive,
-                new Pose2d(new Vector2d(-34, -60), Math.toRadians(90)),
-                new int[]{-34, -70},
-                new int[]{-60, -60}
-        );
-
-        mecanumDrive.followTrajectory(endpos);
+        movementAPI.move(90, 0.7);
+        api.pause(0.7);
+        movementAPI.stop();
     }
 
 }
