@@ -18,22 +18,17 @@ public class MovementAPI {
     public DcMotor getBR() { return br; }
 
     /**
-     * Initializes the API
-     *
-     * @param _fl the front-left wheel
-     * @param _fr the front-right wheel
-     * @param _bl the back-left wheel
-     * @param _br the back-right wheel
+     * Initializes the MovementAPI
      */
-    public MovementAPI(API api, DcMotor _fl, DcMotor _fr, DcMotor _bl, DcMotor _br) {
+    public MovementAPI(API api) {
         this.api = api;
 
         api.print("Initializing MovementApi...");
 
-        fl = _fl;
-        fr = _fr;
-        bl = _bl;
-        br = _br;
+        fl = api.opMode.hardwareMap.get(DcMotor.class, "frontLeft");
+        fr = api.opMode.hardwareMap.get(DcMotor.class, "frontRight");
+        bl = api.opMode.hardwareMap.get(DcMotor.class, "rearLeft");
+        br = api.opMode.hardwareMap.get(DcMotor.class, "rearRight");
 
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);

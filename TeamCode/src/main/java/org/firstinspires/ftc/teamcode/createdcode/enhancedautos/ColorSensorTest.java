@@ -9,12 +9,13 @@ public class ColorSensorTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         ColorSensor sensor = hardwareMap.get(ColorSensor.class, "color");
+        API api = new API(this);
+
         waitForStart();
         while (opModeIsActive()) {
-           telemetry.addData("r:", sensor.red());
-           telemetry.addData("g:", sensor.green());
-           telemetry.addData("b:", sensor.blue());
-           telemetry.update();
+           api.print("r:", String.valueOf(sensor.red()));
+           api.print("g:", String.valueOf(sensor.green()));
+           api.print("b:", String.valueOf(sensor.blue()));
         }
     }
 }
