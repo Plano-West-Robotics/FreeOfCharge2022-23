@@ -37,4 +37,12 @@ public class API {
     public int getLargest(int x, int y, int z) {
         return Math.max(z, Math.max(x, y));
     }
+
+    public void print(String s) {
+        opMode.telemetry.addLine(s);
+    }
+
+    public void print(String caption, String value) {
+        opMode.telemetry.addData(caption, value);
+    }
 }
