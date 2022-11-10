@@ -37,7 +37,6 @@ public class DriveTeleOp extends OpMode {
         last_right_bumper = gamepad1.right_bumper;
     }
 
-
     private void drive() {
         powerFR = drive - strafe;
         powerFL = drive + strafe;
@@ -60,7 +59,7 @@ public class DriveTeleOp extends OpMode {
 
         motorLift.setPower(powerLift);
 
-        telemetry.addData("speed", speed);
+        telemetry.addData("speed", String.format("%.2f", speed));
         telemetry.update();
     }
 
