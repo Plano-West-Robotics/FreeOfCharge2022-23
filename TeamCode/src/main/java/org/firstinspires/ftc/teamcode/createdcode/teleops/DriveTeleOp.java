@@ -14,6 +14,8 @@ public class DriveTeleOp extends OpMode {
     private double powerLift;
     private double drive = 0, strafe = 0, turn = 0;
     private double speed = 1;
+    private boolean last_left_bumper = false;
+    private boolean last_right_bumper = false;
 
     @Override
     public void loop() {
@@ -28,8 +30,11 @@ public class DriveTeleOp extends OpMode {
         strafe = gamepad1.left_stick_x;
         turn = gamepad1.right_trigger - gamepad1.left_trigger;
         powerLift = gamepad2.left_stick_y;
-        if (gamepad1.left_bumper) speed = Math.max(0, speed - 0.01);
-        if (gamepad1.right_bumper) speed = Math.min(1, speed + 0.01);
+        if (gamepad1.left_bumper && last_left_bumper != gamepad1.left_bumper) speed = Math.max(0, speed - 0.15);
+        if (gamepad1.right_bumper && last_right_bumper != gamepad1.right_bumper) speed = Math.min(1, speed + 0.15);
+
+        last_left_bumper = gamepad1.left_bumper;
+        last_right_bumper = gamepad1.right_bumper;
     }
 
 
