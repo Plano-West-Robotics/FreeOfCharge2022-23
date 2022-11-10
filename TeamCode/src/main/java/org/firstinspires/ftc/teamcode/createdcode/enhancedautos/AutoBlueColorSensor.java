@@ -15,7 +15,9 @@ public class AutoBlueColorSensor extends LinearOpMode {
         waitForStart();
 
         movementAPI.move(0, 0.7);
-        api.pause(0.25);
+        api.pause(0.4);
+        movementAPI.move(-90, 0.7);
+        api.pause(0.15);
         movementAPI.stop();
 
         api.pause(5);
@@ -25,9 +27,7 @@ public class AutoBlueColorSensor extends LinearOpMode {
 
         if (r < 100 && g < 100 && b < 100) {
             movementAPI.move(-180, 0.7);
-            api.pause(0.25);
-            movementAPI.move(-180, 0.7);
-            api.pause(0.5);
+            api.pause(0.75);
             movementAPI.move(90, 0.7);
             api.pause(0.7);
             movementAPI.stop();
@@ -43,16 +43,24 @@ public class AutoBlueColorSensor extends LinearOpMode {
 
         if (largest == g) {
             // move to position 1
+            movementAPI.move(-180, 0.7);
+            api.pause(0.75);
             movementAPI.move(90, 0.7);
             api.pause(0.25);
+            movementAPI.move(180, 0.7);
+            api.pause(0.75);
         } else if (largest == r) {
             // move to position 2
             movementAPI.move(0, 0.7);
             api.pause(0.25);
         } else if (largest == b) {
             // move to position 3
+            movementAPI.move(-180, 0.7);
+            api.pause(0.75);
             movementAPI.move(-90, 0.7);
             api.pause(0.25);
+            movementAPI.move(180, 0.7);
+            api.pause(0.75);
         }
 
         movementAPI.stop();
