@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 public class AutoBlueColorSensor extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        ColorSensor sensor = hardwareMap.get(ColorSensor.class, "color");
+        ColorSensor sensor = hardwareMap.get(ColorSensor.class, "color2");
         API api = new API(this);
         MovementAPI movementAPI = new MovementAPI(api);
 
