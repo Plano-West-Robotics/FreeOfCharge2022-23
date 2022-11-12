@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import java.text.DecimalFormat;
 
 @TeleOp(name = "TELEOP - USE THIS ONE")
 public class DriveTeleOp extends OpMode {
@@ -61,7 +62,8 @@ public class DriveTeleOp extends OpMode {
         motorLiftLeft.setPower(powerLift);
         motorLiftRight.setPower(powerLift);
 
-        telemetry.addData("speed", String.format("%.2f", speed));
+        DecimalFormat df = new DecimalFormat("#%");
+        telemetry.addData("speed", df.format(speed));
         telemetry.update();
     }
 
