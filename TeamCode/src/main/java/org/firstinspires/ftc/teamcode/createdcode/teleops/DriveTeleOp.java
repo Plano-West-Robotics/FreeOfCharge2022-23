@@ -32,7 +32,7 @@ public class DriveTeleOp extends OpMode {
         strafe = gamepad1.left_stick_x;
         turn = gamepad1.right_stick_x;
         powerLift = -1 * gamepad2.left_stick_y;
-        if (gamepad1.left_bumper && last_left_bumper != gamepad1.left_bumper) speed = Math.max(0, speed - 0.15);
+        if (gamepad1.left_bumper && last_left_bumper != gamepad1.left_bumper) speed = Math.max(0.15, speed - 0.15);
         if (gamepad1.right_bumper && last_right_bumper != gamepad1.right_bumper) speed = Math.min(1, speed + 0.15);
 
         last_left_bumper = gamepad1.left_bumper;
