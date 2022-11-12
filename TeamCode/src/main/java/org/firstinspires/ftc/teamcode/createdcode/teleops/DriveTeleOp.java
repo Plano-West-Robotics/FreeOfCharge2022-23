@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+
 import java.text.DecimalFormat;
 
 @TeleOp(name = "TELEOP - USE THIS ONE")
@@ -14,10 +16,14 @@ public class DriveTeleOp extends OpMode {
     private DcMotor motorLiftLeft;
     private DcMotor motorLiftRight;
     private double powerLift;
+    private Servo claw;
+    private double clawPos = 0;
+    private double lastClawPos = 0;
     private double drive = 0, strafe = 0, turn = 0;
     private double speed = 1;
     private boolean last_left_bumper = false;
     private boolean last_right_bumper = false;
+    private boolean last_claw_control = false;
 
     @Override
     public void loop() {
@@ -34,6 +40,7 @@ public class DriveTeleOp extends OpMode {
         powerLift = -1 * gamepad2.left_stick_y;
         if (gamepad1.left_bumper && last_left_bumper != gamepad1.left_bumper) speed = Math.max(0.15, speed - 0.15);
         if (gamepad1.right_bumper && last_right_bumper != gamepad1.right_bumper) speed = Math.min(1, speed + 0.15);
+        if (gamepad2.a && last_claw_control != gamepad2.a) clawPos = (clawPos == 0 ? 1 : 0);
 
         last_left_bumper = gamepad1.left_bumper;
         last_right_bumper = gamepad1.right_bumper;
@@ -62,6 +69,11 @@ public class DriveTeleOp extends OpMode {
         motorLiftLeft.setPower(powerLift);
         motorLiftRight.setPower(powerLift);
 
+        // TODO: keep / remove these lines based on empirical testing
+        if (lastClawPos != clawPos) claw.setPosition(clawPos);
+
+        lastClawPos = clawPos;
+
         DecimalFormat df = new DecimalFormat("#%");
         telemetry.addData("speed", df.format(speed));
         telemetry.update();
@@ -84,6 +96,8 @@ public class DriveTeleOp extends OpMode {
 
         motorLiftLeft = hardwareMap.get(DcMotor.class, "liftLeft");
         motorLiftRight = hardwareMap.get(DcMotor.class, "liftRight");
+
+        claw = hardwareMap.get(Servo.class, "claw");
 
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorRL.setDirection(DcMotorSimple.Direction.REVERSE);
