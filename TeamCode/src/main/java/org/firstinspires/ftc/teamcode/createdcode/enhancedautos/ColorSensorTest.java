@@ -16,6 +16,7 @@ public class ColorSensorTest extends LinearOpMode {
            api.print("r:", String.valueOf(sensor.red()));
            api.print("g:", String.valueOf(sensor.green()));
            api.print("b:", String.valueOf(sensor.blue()));
+           telemetry.update();
         }
     }
 }

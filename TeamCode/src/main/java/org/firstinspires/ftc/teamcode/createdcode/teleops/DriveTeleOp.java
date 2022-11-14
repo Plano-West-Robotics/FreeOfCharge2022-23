@@ -17,8 +17,7 @@ public class DriveTeleOp extends OpMode {
     private DcMotor motorLiftRight;
     private double powerLift;
     private Servo claw;
-    private double clawPos = 0;
-    private double lastClawPos = 0;
+    private double clawPos = 1;
     private double drive = 0, strafe = 0, turn = 0;
     private double speed = 1;
     private boolean last_left_bumper = false;
@@ -37,13 +36,14 @@ public class DriveTeleOp extends OpMode {
         drive = -1 * gamepad1.left_stick_y;
         strafe = gamepad1.left_stick_x;
         turn = gamepad1.right_stick_x;
-        powerLift = -1 * gamepad2.left_stick_y;
+        powerLift = -0.75 * gamepad2.left_stick_y;
         if (gamepad1.left_bumper && last_left_bumper != gamepad1.left_bumper) speed = Math.max(0.15, speed - 0.15);
         if (gamepad1.right_bumper && last_right_bumper != gamepad1.right_bumper) speed = Math.min(1, speed + 0.15);
         if (gamepad2.a && last_claw_control != gamepad2.a) clawPos = (clawPos == 0 ? 1 : 0);
 
         last_left_bumper = gamepad1.left_bumper;
         last_right_bumper = gamepad1.right_bumper;
+        last_claw_control = gamepad2.a;
     }
 
     private void drive() {
@@ -70,12 +70,11 @@ public class DriveTeleOp extends OpMode {
         motorLiftRight.setPower(powerLift);
 
         // TODO: keep / remove these lines based on empirical testing
-        if (lastClawPos != clawPos) claw.setPosition(clawPos);
-
-        lastClawPos = clawPos;
+        claw.setPosition(clawPos);
 
         DecimalFormat df = new DecimalFormat("#%");
         telemetry.addData("speed", df.format(speed));
+        telemetry.addData("clawPos", df.format(clawPos));
         telemetry.update();
     }
 
