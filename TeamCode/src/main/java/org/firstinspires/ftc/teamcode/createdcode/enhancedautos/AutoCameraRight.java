@@ -56,7 +56,7 @@ public class AutoCameraRight extends LinearOpMode {
 
         ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
         if (currentDetections.size() != 0) {
-            detected_id = currentDetections.get(currentDetections.size() - 1).id;
+            detected_id = currentDetections.get(0).id;
             telemetry.addData("Tag found", String.valueOf(detected_id));
             telemetry.update();
         }
@@ -64,23 +64,23 @@ public class AutoCameraRight extends LinearOpMode {
         switch (detected_id) {
             case 1:
                 movementAPI.move(90, 0.7);
-                api.pause(1);
+                api.pause(0.85);
                 movementAPI.move(0, 0.5);
-                api.pause(0.7);
+                api.pause(1.4);
                 break;
             case 2:
                 movementAPI.move(0, 0.5);
-                api.pause(0.7);
+                api.pause(1.4);
                 break;
             case 3:
                 movementAPI.move(-90, 0.7);
-                api.pause(1);
+                api.pause(1.5);
                 movementAPI.move(0, 0.5);
-                api.pause(0.7);
+                api.pause(1.4);
                 break;
             default:
                 movementAPI.move(90, 0.5);
-                api.pause(0.75);
+                api.pause(1.5);
                 break;
         }
 
