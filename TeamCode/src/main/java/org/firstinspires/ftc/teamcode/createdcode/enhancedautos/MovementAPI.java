@@ -30,6 +30,11 @@ public class MovementAPI {
         bl = api.opMode.hardwareMap.get(DcMotor.class, "rearLeft");
         br = api.opMode.hardwareMap.get(DcMotor.class, "rearRight");
 
+        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);
         fr.setDirection(DcMotor.Direction.FORWARD);
