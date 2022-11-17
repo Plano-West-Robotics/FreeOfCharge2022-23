@@ -85,6 +85,7 @@ public class AutoCameraRight extends LinearOpMode {
             default:
                 movementAPI.move(90, 0.5);
                 api.pause(1.5);
+                movementAPI.move(180, 0.5);
                 break;
         }
 
