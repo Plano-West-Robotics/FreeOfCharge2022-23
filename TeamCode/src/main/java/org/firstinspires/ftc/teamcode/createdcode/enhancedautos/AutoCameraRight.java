@@ -61,6 +61,10 @@ public class AutoCameraRight extends LinearOpMode {
             telemetry.update();
         }
 
+        movementAPI.move(0, 0.5);
+        api.pause(0.1);
+        movementAPI.stop();
+
         switch (detected_id) {
             case 1:
                 movementAPI.move(90, 0.7);
