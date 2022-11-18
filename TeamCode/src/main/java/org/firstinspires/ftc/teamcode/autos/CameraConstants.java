@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.createdcode.enhancedautos;
+package org.firstinspires.ftc.teamcode.autos;
 
 public class CameraConstants {
     // Lens intrinsics
