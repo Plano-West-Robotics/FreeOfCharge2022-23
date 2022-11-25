@@ -60,6 +60,10 @@ public class MovementAPI {
             turn *= -1;
         }
 
+        // look missing, i'm adding my own code!!!
+        // only course-correct if we are not actively turning
+        if (turn == 0) turn = api.getHeading() / 180;
+
         double flPower = (powerY + turn + powerX) * speed;
         double frPower = (powerY - turn - powerX) * speed;
         double blPower = (powerY + turn - powerX) * speed;
