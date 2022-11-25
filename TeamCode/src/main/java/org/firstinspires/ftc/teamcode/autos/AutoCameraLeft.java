@@ -9,22 +9,19 @@ import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvWebcam;
 
 import java.util.ArrayList;
 
 @Autonomous
 public class AutoCameraLeft extends LinearOpMode {
-    OpenCvCamera camera;
+    OpenCvWebcam camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
     int detected_id = 0;
 
     @Override
     public void runOpMode() {
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "cameraMonitorViewId",
-                "id",
-                hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(
                 hardwareMap.get(WebcamName.class, "Webcam 1"));
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(
@@ -37,6 +34,7 @@ public class AutoCameraLeft extends LinearOpMode {
         MovementAPI movementAPI = new MovementAPI(api);
 
         camera.setPipeline(aprilTagDetectionPipeline);
+        camera.setMillisecondsPermissionTimeout(2500);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
@@ -61,32 +59,24 @@ public class AutoCameraLeft extends LinearOpMode {
             telemetry.update();
         }
 
-        movementAPI.move(0, 0.5);
-        api.pause(0.1);
+        movementAPI.moveFor(0, 0.5, 0.2);
         movementAPI.stop();
 
         switch (detected_id) {
             case 1:
-                movementAPI.move(-90, 0.7);
-                api.pause(1);
-                movementAPI.move(0, 0.5);
-                api.pause(1.4);
+                movementAPI.moveFor(-90, 0.7, 1);
+                movementAPI.moveFor(0, 0.5, 1.4);
                 break;
             case 2:
-                movementAPI.move(0, 0.5);
-                api.pause(1.4);
+                movementAPI.moveFor(0, 0.5, 1.4);
                 break;
             case 3:
-                movementAPI.move(90, 0.7);
-                api.pause(0.85);
-                movementAPI.move(0, 0.5);
-                api.pause(1.4);
+                movementAPI.moveFor(90, 0.7, 0.85);
+                movementAPI.moveFor(0, 0.5, 1.4);
                 break;
             default:
-                movementAPI.move(-90, 0.5);
-                api.pause(1.75);
-                movementAPI.move(180, 0.5);
-                api.pause(0.1);
+                movementAPI.moveFor(-90, 0.5, 1.75);
+                movementAPI.moveFor(180, 0.5, 0.1);
                 break;
         }
 

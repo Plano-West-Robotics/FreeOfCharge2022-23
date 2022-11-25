@@ -10,6 +10,9 @@ public class MovementAPI {
     private final DcMotor bl;
     private final DcMotor br;
 
+    // TODO: tune this value
+    private static final double ANGLE_THRESHOLD = 5;
+
     private boolean flipped = false;
 
     public DcMotor getFL() { return fl; }
@@ -60,10 +63,6 @@ public class MovementAPI {
             turn *= -1;
         }
 
-        // look missing, i'm adding my own code!!!
-        // only course-correct if we are not actively turning
-        if (turn == 0) turn = api.getHeading() / 180;
-
         double flPower = (powerY + turn + powerX) * speed;
         double frPower = (powerY - turn - powerX) * speed;
         double blPower = (powerY + turn - powerX) * speed;
@@ -89,36 +88,56 @@ public class MovementAPI {
     }
 
     /**
-     * Moves the robot given the speed to move forward/back and left/right
-     * @param powerY the speed to move forward/back, -1 to 1, positive being forward
-     * @param powerX the speed to move left/right, -1 to 1,  positive being to the right
-     * @param turn   the speed to turn at, -1 to 1, positive being clockwise
-     * @param speed  a multiplier on the final speed
-     *
-     */
-    public void move(double powerY, double powerX, double turn, double speed) {
-        move(powerY, powerX, turn, speed, false);
-    }
-
-    /**
-     * Moves the robot in a given direction with a given speed
-     *
-     * @param direction the direction to move in, in degrees, with positive being left of forward
-     * @param speed     the speed to move at
-     * @param verbose   whether or not to log extra data to telemetry
-     */
-    public void move(double direction, double speed, boolean verbose) {
-        move(Math.cos(Math.toRadians(direction)), Math.sin(Math.toRadians(-direction)), 0, speed, verbose);
-    }
-
-    /**
      * Moves the robot in a given direction with a given speed
      *
      * @param direction the direction to move in, in degrees, with positive being left of forward
      * @param speed     the speed to move at
      */
     public void move(double direction, double speed) {
-        move(direction, speed, false);
+        move(Math.cos(Math.toRadians(direction)), Math.sin(Math.toRadians(-direction)), 0, speed, false);
+    }
+
+    /**
+     * Moves the robot in a given direction with a given speed for a given time
+     * After moving, the bot will attempt to turn to the heading we started with, to correct for drift.
+     * <br><br>
+     * Note that because of the way {@link MovementAPI#turnTo(double, double)} works, the movement
+     * as a whole will take a little longer than the provided time.
+     * @see MovementAPI#move(double, double)
+     * @see API#pause(double)
+     * @see MovementAPI#turnTo(double, double)
+     * @param direction the direction to move in, in degrees, with positive being left of forward
+     * @param speed     the speed to move at
+     * @param seconds   how long to wait before stopping
+     */
+    public void moveFor(double direction, double speed, double seconds) {
+        double startHeading = api.getHeading();
+        move(direction, speed);
+        api.pause(seconds);
+        stop();
+        turnTo(startHeading, 0.25);
+    }
+
+    /**
+     * Turn to a given target at a given speed
+     * The target is relative to the position of the robot the last time {@link API#reset()} was called.
+     * @see API#reset()
+     * @param target target heading, in degrees, within [-180, 180) with positive being counterclockwise
+     * @param speed  the speed to move at
+     */
+    public void turnTo(double target, double speed) {
+        double currentHeading = api.getHeading();
+        while (Math.abs(currentHeading - target) > ANGLE_THRESHOLD) {
+            currentHeading = api.getHeading();
+            if (target < currentHeading) {
+                // turn clockwise
+                move(0, 0, 1, speed, false);
+            } else if (target > currentHeading) {
+                // turn counterclockwise
+                move(0, 0, -1, speed, false);
+            }
+        }
+        stop();
     }
 
     /**
