@@ -98,24 +98,38 @@ public class MovementAPI {
     }
 
     /**
-     * Moves the robot in a given direction with a given speed for a given time
-     * After moving, the bot will attempt to turn to the heading we started with, to correct for drift.
-     * <br><br>
-     * Note that because of the way {@link MovementAPI#turnTo(double, double)} works, the movement
-     * as a whole will take a little longer than the provided time.
-     * @see MovementAPI#move(double, double)
+     * Moves the direction in a given direction with a given speed, while also turning.
+     * @param direction the direction to move in, in degrees, with positive being left of forward
+     * @param turn      the speed to turn at, -1 to 1, positive being clockwise
+     * @param speed     the speed to move at
+     */
+    public void move(double direction, double turn, double speed) {
+        move(Math.cos(Math.toRadians(direction)), Math.sin(Math.toRadians(-direction)), turn, speed, false);
+    }
+
+    /**
+     * Moves the robot in a given direction with a given speed for a given time.
+     * While moving, the robot will attempt to maintain a constant heading, which is the
+     * position the robot was at the last time {@link API#reset()} was called.
+     * @see MovementAPI#move(double, double, double)
      * @see API#pause(double)
-     * @see MovementAPI#turnTo(double, double)
      * @param direction the direction to move in, in degrees, with positive being left of forward
      * @param speed     the speed to move at
      * @param seconds   how long to wait before stopping
      */
     public void moveFor(double direction, double speed, double seconds) {
-        double startHeading = api.getHeading();
-        move(direction, speed);
-        api.pause(seconds);
+        double time = api.opMode.getRuntime() + seconds;
+        while (api.opMode.getRuntime() < time) {
+            /* we use 180 here, so if the bot is 180 degrees away from target, it moves at full speed
+             * if it is 90 degrees away, half speed
+             * 45 degrees, 0.25 speed, etc
+             * this speed will be redetermined every loop
+             * in the future, it might be useful to make this a PID instead.
+             */
+            double turn = api.getHeading() / 180;
+            move(direction, turn, speed);
+        }
         stop();
-        turnTo(startHeading, 0.25);
     }
 
     /**
