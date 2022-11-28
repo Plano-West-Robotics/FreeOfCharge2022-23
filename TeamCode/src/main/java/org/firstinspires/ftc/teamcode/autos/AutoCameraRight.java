@@ -64,7 +64,7 @@ public class AutoCameraRight extends LinearOpMode {
 
         switch (detected_id) {
             case 1:
-                movementAPI.moveFor(90, 0.7, 0.05);
+                movementAPI.moveFor(90, 0.7, 0.85);
                 movementAPI.moveFor(0, 0.5, 1.4);
                 break;
             case 2:

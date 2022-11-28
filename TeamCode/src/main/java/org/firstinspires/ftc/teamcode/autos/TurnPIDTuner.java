@@ -14,9 +14,11 @@ public class TurnPIDTuner extends LinearOpMode {
      */
     @Override
     public void runOpMode() {
-        double Kp = 0;
+        // tmp
+        double Kp = 0.15;
         double Ki = 0;
         double Kd = 0;
+        double scale = 0.15;
         API api = new API(this);
         MovementAPI movementAPI = new MovementAPI(api);
         PIDController controller = new PIDController(Kp, Ki, Kd, 0);
@@ -25,22 +27,34 @@ public class TurnPIDTuner extends LinearOpMode {
 
         boolean lastLeftBumper = false;
         boolean lastRightBumper = false;
+        boolean lastUp = false;
+        boolean lastDown = false;
 
         waitForStart();
 
         while (opModeIsActive()) {
             if (gamepad1.left_bumper && lastLeftBumper != gamepad1.left_bumper) {
-                Kp -= 0.15;
+                Kd -= scale;
                 controller.setParams(Kp, Ki, Kd, 0);
             }
 
             if (gamepad1.right_bumper && lastRightBumper != gamepad1.right_bumper) {
-                Kp += 0.15;
+                Kd += scale;
                 controller.setParams(Kp, Ki, Kd, 0);
+            }
+
+            if (gamepad1.dpad_up && lastUp != gamepad1.dpad_up) {
+                scale += 0.05;
+            }
+            if (gamepad1.dpad_down && lastDown != gamepad1.dpad_down) {
+                scale -= 0.05;
             }
 
             lastLeftBumper = gamepad1.left_bumper;
             lastRightBumper = gamepad1.right_bumper;
+
+            lastUp = gamepad1.dpad_up;
+            lastDown = gamepad1.dpad_down;
 
             double error = api.getHeading();
             double out = controller.calculate(error);
@@ -48,7 +62,10 @@ public class TurnPIDTuner extends LinearOpMode {
             telemetry.addData("target", 0);
             telemetry.addData("turn", out);
             telemetry.addData("error", error);
-            movementAPI.move(0, 0, out, 1, false);
+            telemetry.addData("Kd", Kd);
+            telemetry.addData("scale", scale);
+            telemetry.update();
+            movementAPI.move(0, 0, out, 0.5, false);
         }
     }
 }

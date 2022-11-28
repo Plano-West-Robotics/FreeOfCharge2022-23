@@ -120,7 +120,7 @@ public class MovementAPI {
     public void moveFor(double direction, double speed, double seconds) {
         double time = api.opMode.getRuntime() + seconds;
         // TODO: tune these values
-        PIDController controller = new PIDController(0, 0, 0, 0);
+        PIDController controller = new PIDController(1.0/180, 0, 0, 0);
         while (api.opMode.getRuntime() < time) {
             double turn = controller.calculate(api.getHeading());
             move(direction, turn, speed);
@@ -138,7 +138,7 @@ public class MovementAPI {
     public void turnTo(double target, double speed) {
         double currentHeading = api.getHeading();
         // TODO: tune these values
-        PIDController controller = new PIDController(0, 0, 0, target);
+        PIDController controller = new PIDController(0.15, 0, 0, target);
         while (Math.abs(currentHeading - target) > ANGLE_THRESHOLD) {
             currentHeading = api.getHeading();
             move(0, 0, controller.calculate(currentHeading), speed, false);
