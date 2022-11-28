@@ -119,14 +119,10 @@ public class MovementAPI {
      */
     public void moveFor(double direction, double speed, double seconds) {
         double time = api.opMode.getRuntime() + seconds;
+        // TODO: tune these values
+        PIDController controller = new PIDController(0, 0, 0, 0);
         while (api.opMode.getRuntime() < time) {
-            /* we use 180 here, so if the bot is 180 degrees away from target, it moves at full speed
-             * if it is 90 degrees away, half speed
-             * 45 degrees, 0.25 speed, etc
-             * this speed will be redetermined every loop
-             * in the future, it might be useful to make this a PID instead.
-             */
-            double turn = api.getHeading() / 180;
+            double turn = controller.calculate(api.getHeading());
             move(direction, turn, speed);
         }
         stop();
@@ -141,15 +137,11 @@ public class MovementAPI {
      */
     public void turnTo(double target, double speed) {
         double currentHeading = api.getHeading();
+        // TODO: tune these values
+        PIDController controller = new PIDController(0, 0, 0, target);
         while (Math.abs(currentHeading - target) > ANGLE_THRESHOLD) {
             currentHeading = api.getHeading();
-            if (target < currentHeading) {
-                // turn clockwise
-                move(0, 0, 1, speed, false);
-            } else if (target > currentHeading) {
-                // turn counterclockwise
-                move(0, 0, -1, speed, false);
-            }
+            move(0, 0, controller.calculate(currentHeading), speed, false);
         }
         stop();
     }
