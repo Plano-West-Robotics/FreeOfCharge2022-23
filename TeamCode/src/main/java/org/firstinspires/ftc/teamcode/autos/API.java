@@ -62,6 +62,19 @@ public class API {
      * @return the rotation since the last time reset() was called
      */
     public double getHeading() {
-        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        return getHeading(AngleUnit.DEGREES);
+    }
+
+    /**
+     * Get the current rotation around the Z-Axis (known as heading or yaw) since the last time reset() was called.
+     * You can provide an AngleUnit to get the result in either degrees or radians
+     * This value will be normalized to be within [-180, 180) degrees (or [-π, π) radians). It follows the right-hand-rule:
+     * Positive values are <b>counter-clockwise</b> around the axis, negative values are <b>clockwise</b>.
+     * @see API#reset()
+     * @param angleUnit The unit for the result to be in
+     * @return the rotation since the last time reset() was called, in `angleUnit`s.
+     */
+    public double getHeading(AngleUnit angleUnit) {
+        return imu.getRobotYawPitchRollAngles().getYaw(angleUnit);
     }
 }

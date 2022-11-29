@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.autos;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
 public class MovementAPI {
     private final API api;
 
@@ -66,10 +68,10 @@ public class MovementAPI {
             turn *= -1;
         }
 
-        double heading = api.getHeading();
+        double heading = api.getHeading(AngleUnit.RADIANS);
 
-        double rotX = (powerX * Math.cos(Math.toRadians(heading))) - (powerY * Math.sin(Math.toRadians(heading)));
-        double rotY = (powerX * Math.sin(Math.toRadians(heading))) + (powerY * Math.cos(Math.toRadians(heading)));
+        double rotX = (powerX * Math.cos(heading)) - (powerY * Math.sin(heading));
+        double rotY = (powerX * Math.sin(heading)) + (powerY * Math.cos(heading));
 
         double flPower = (rotY + turn + rotX) * speed;
         double frPower = (rotY - turn - rotX) * speed;
