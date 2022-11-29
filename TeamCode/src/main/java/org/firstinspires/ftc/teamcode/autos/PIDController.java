@@ -18,7 +18,7 @@ public class PIDController {
     private double Ki;
     private double Kd;
 
-    private ElapsedTime timer = new ElapsedTime();
+    private final ElapsedTime timer = new ElapsedTime();
     private boolean started = false;
 
     public PIDController(double Kp, double Ki, double Kd, double target) {
@@ -28,12 +28,14 @@ public class PIDController {
         this.target = target;
     }
 
-    public double calculate(double error) {
+    public double calculate(double current) {
         // The PID loop has not been started yet, so ignore any time calculated before this point
         if (!started) {
             timer.reset();
             started = true;
         }
+
+        double error = current - target;
 
         double deltaTime = timer.seconds();
 
@@ -54,7 +56,20 @@ public class PIDController {
     }
 
     /**
-     * This method is for recalibrating tuning and should not be used during normal operation.
+     * Resets the controller to state 0 (not started, no integralSum, no lastError).
+     * Useful after changing controller parameters.
+     * @see #setParams(double, double, double, double)
+     */
+    public void reset() {
+        started = false;
+        integralSum = 0;
+        lastError = 0;
+    }
+
+    /**
+     * This method is for setting parameters to new values.
+     * May be helpful to call {@link #reset()} after this.
+     * @see #reset()
      * @param Kp     Proportional gain
      * @param Ki     Integral gain
      * @param Kd     Derivative gain
