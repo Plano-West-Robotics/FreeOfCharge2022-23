@@ -50,6 +50,9 @@ public class MovementAPI {
 
     /**
      * Moves the robot given the speed to move forward/back and left/right
+     * <br><br>
+     * <b>THIS IS FIELD CENTRIC - ROBOT WILL MOVE IN THIS DIRECTION NO MATTER WHAT THE HEADING IS</b>
+     * <b>THIS IS A BREAKING CHANGE - PREVIOUS VERSIONS OF THIS API DID NOT INCLUDE THIS BEHAVIOR</b>
      *
      * @param powerY  the speed to move forward/back, -1 to 1, positive being forward
      * @param powerX  the speed to move left/right, -1 to 1,  positive being to the right
@@ -63,10 +66,15 @@ public class MovementAPI {
             turn *= -1;
         }
 
-        double flPower = (powerY + turn + powerX) * speed;
-        double frPower = (powerY - turn - powerX) * speed;
-        double blPower = (powerY + turn - powerX) * speed;
-        double brPower = (powerY - turn + powerX) * speed;
+        double heading = api.getHeading();
+
+        double rotX = (powerX * Math.cos(Math.toRadians(heading))) - (powerY * Math.sin(Math.toRadians(heading)));
+        double rotY = (powerX * Math.sin(Math.toRadians(heading))) + (powerY * Math.cos(Math.toRadians(heading)));
+
+        double flPower = (rotY + turn + rotX) * speed;
+        double frPower = (rotY - turn - rotX) * speed;
+        double blPower = (rotY + turn - rotX) * speed;
+        double brPower = (rotY - turn + rotX) * speed;
 
         double scale = Math.max(1, (Math.abs(powerY) + Math.abs(turn) + Math.abs(powerX)) * Math.abs(speed)); // shortcut for max(abs([fl,fr,bl,br]))
         flPower /= scale;
@@ -119,8 +127,7 @@ public class MovementAPI {
      */
     public void moveFor(double direction, double speed, double seconds) {
         double time = api.opMode.getRuntime() + seconds;
-        // TODO: tune these values
-        PIDController controller = new PIDController(1.0/180, 0, 0, 0);
+        PIDController controller = new PIDController(0.15, 0, 0, 0);
         while (api.opMode.getRuntime() < time) {
             double turn = controller.calculate(api.getHeading());
             move(direction, turn, speed);
@@ -137,7 +144,6 @@ public class MovementAPI {
      */
     public void turnTo(double target, double speed) {
         double currentHeading = api.getHeading();
-        // TODO: tune these values
         PIDController controller = new PIDController(0.15, 0, 0, target);
         while (Math.abs(currentHeading - target) > ANGLE_THRESHOLD) {
             currentHeading = api.getHeading();
