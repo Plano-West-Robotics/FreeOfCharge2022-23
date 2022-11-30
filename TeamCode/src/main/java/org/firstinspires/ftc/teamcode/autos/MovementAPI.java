@@ -12,8 +12,11 @@ public class MovementAPI {
     private final DcMotor bl;
     private final DcMotor br;
 
-    // TODO: tune this value
-    private static final double ANGLE_THRESHOLD = 5;
+    private static final double ANGLE_THRESHOLD = 1;
+    // TODO: tune these values
+    private static final double TURN_KP = 0;
+    private static final double TURN_KI = 0;
+    private static final double TURN_KD = 0;
 
     private boolean flipped = false;
 
@@ -129,7 +132,7 @@ public class MovementAPI {
      */
     public void moveFor(double direction, double speed, double seconds) {
         double time = api.opMode.getRuntime() + seconds;
-        PIDController controller = new PIDController(0.15, 0, 0, 0);
+        PIDController controller = new PIDController(TURN_KP, TURN_KI, TURN_KD, 0);
         while (api.opMode.getRuntime() < time) {
             double turn = controller.calculate(api.getHeading());
             move(direction, turn, speed);
@@ -146,7 +149,7 @@ public class MovementAPI {
      */
     public void turnTo(double target, double speed) {
         double currentHeading = api.getHeading();
-        PIDController controller = new PIDController(0.15, 0, 0, target);
+        PIDController controller = new PIDController(TURN_KP, TURN_KI, TURN_KD, target);
         while (Math.abs(currentHeading - target) > ANGLE_THRESHOLD) {
             currentHeading = api.getHeading();
             move(0, 0, controller.calculate(currentHeading), speed, false);
