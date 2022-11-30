@@ -36,11 +36,13 @@ public class TurnPIDTuner extends LinearOpMode {
             if (gamepad1.left_bumper && lastLeftBumper != gamepad1.left_bumper) {
                 Kd -= scale;
                 controller.setParams(Kp, Ki, Kd, 0);
+                controller.reset();
             }
 
             if (gamepad1.right_bumper && lastRightBumper != gamepad1.right_bumper) {
                 Kd += scale;
                 controller.setParams(Kp, Ki, Kd, 0);
+                controller.reset();
             }
 
             if (gamepad1.dpad_up && lastUp != gamepad1.dpad_up) {
