@@ -13,10 +13,9 @@ public class DriveTeleOp extends OpMode {
     //Drive Variables
     private DcMotor motorFR, motorFL, motorRR, motorRL;
     private double powerFR, powerFL, powerRR, powerRL;
-    private DcMotor motorLiftLeft;
-    private DcMotor motorLiftRight;
+    private DcMotor motorLift;
     private double powerLift;
-    private Servo claw;
+//    private Servo claw;
     private double clawPos = 1;
     private double drive = 0, strafe = 0, turn = 0;
     private double speed = 1;
@@ -36,7 +35,7 @@ public class DriveTeleOp extends OpMode {
         drive = -1 * gamepad1.left_stick_y;
         strafe = gamepad1.left_stick_x;
         turn = gamepad1.right_stick_x;
-        powerLift = -0.75 * gamepad2.left_stick_y;
+        powerLift = gamepad2.left_stick_y;
         if (gamepad1.left_bumper && last_left_bumper != gamepad1.left_bumper) speed = Math.max(0.15, speed - 0.15);
         if (gamepad1.right_bumper && last_right_bumper != gamepad1.right_bumper) speed = Math.min(1, speed + 0.15);
         if (gamepad2.a && last_claw_control != gamepad2.a) clawPos = (clawPos == 0 ? 1 : 0);
@@ -66,11 +65,10 @@ public class DriveTeleOp extends OpMode {
         motorRR.setPower(powerRR);
         motorRL.setPower(powerRL);
 
-        motorLiftLeft.setPower(powerLift);
-        motorLiftRight.setPower(powerLift);
+        motorLift.setPower(powerLift);
 
         // TODO: keep / remove these lines based on empirical testing
-        claw.setPosition(clawPos);
+//        claw.setPosition(clawPos);
 
         DecimalFormat df = new DecimalFormat("#%");
         telemetry.addData("speed", df.format(speed));
@@ -93,10 +91,9 @@ public class DriveTeleOp extends OpMode {
         motorRR = hardwareMap.get(DcMotor.class, "rearRight");
         motorRL = hardwareMap.get(DcMotor.class, "rearLeft");
 
-        motorLiftLeft = hardwareMap.get(DcMotor.class, "liftLeft");
-        motorLiftRight = hardwareMap.get(DcMotor.class, "liftRight");
+        motorLift = hardwareMap.get(DcMotor.class, "slide");
 
-        claw = hardwareMap.get(Servo.class, "claw");
+//        claw = hardwareMap.get(Servo.class, "claw");
 
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorRL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -115,7 +112,6 @@ public class DriveTeleOp extends OpMode {
         motorFL.setPower(0);
         motorRR.setPower(0);
         motorRL.setPower(0);
-        motorLiftLeft.setPower(0);
-        motorLiftRight.setPower(0);
+        motorLift.setPower(0);
     }
 }
