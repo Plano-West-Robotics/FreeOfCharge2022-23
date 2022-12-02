@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Motor wrapper to run to position using PID. Tune this using the PositionPIDTuner.
+ * Requires an encoder to be plugged in with the motor.
  */
 public class PositionPIDMotor {
     private final DcMotor motor;
