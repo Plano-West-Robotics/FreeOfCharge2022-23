@@ -11,9 +11,10 @@ public class LinearSlidesPresets extends LinearOpMode {
 
     //inches
     public static final double CLAW_TO_GROUND = 3;
-    public static final double SMALL_JUNCTIONS = 13.3;
-    public static final double MEDIUM_JUNCTIONS = 23.1;
-    public static final double TALL_JUNCTIONS = 33.2;
+    public static final double GROUND_JUNCTIONS = 0.56;
+    public static final double SMALL_JUNCTIONS = 13.5;
+    public static final double MEDIUM_JUNCTIONS = 23.5;
+    public static final double TALL_JUNCTIONS = 33.5;
     public static final double CIRCUMFERENCE = 4.40945;
     public static final double TICKS_PER_REV = 537.7;
 
@@ -28,7 +29,7 @@ public class LinearSlidesPresets extends LinearOpMode {
     // num of inches / circum  * ticks
 
 
-
+   double targetPosGround = (GROUND_JUNCTIONS/CIRCUMFERENCE) * TICKS_PER_REV;
    double targetPosSmall =  (SMALL_JUNCTIONS/CIRCUMFERENCE) * TICKS_PER_REV;
    double targetPosMedium =  (MEDIUM_JUNCTIONS/CIRCUMFERENCE) * TICKS_PER_REV;
    double targetPosTall =  (TALL_JUNCTIONS/CIRCUMFERENCE) * TICKS_PER_REV;
