@@ -1,3 +1,8 @@
+/**
+* Making preset buttons which move the linear slides to the height of the junction
+* given input. 
+* */ 
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -9,7 +14,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 @Autonomous
 public class LinearSlidesPresets extends LinearOpMode {
 
-    //inches
+   /* Motor: 5203 Series Yellow GoBilda motor
+     RPM: 223
+     spool = 4.40945 */ 
+    
+    //measurements in inches
     public static final double CLAW_TO_GROUND = 3;
     public static final double GROUND_JUNCTIONS = 0.56;
     public static final double SMALL_JUNCTIONS = 13.5;
@@ -17,17 +26,9 @@ public class LinearSlidesPresets extends LinearOpMode {
     public static final double TALL_JUNCTIONS = 33.5;
     public static final double CIRCUMFERENCE = 4.40945;
     public static final double TICKS_PER_REV = 537.7;
-
-    //motor: 5203 Series Yellow GoBilda motor
-    // RPM: 223
-    // spool = 4.40945
-
-
-
-
+    
     //Ticks per revolutions: 537.7
-    // num of inches / circum  * ticks
-
+    // Formula: Target = (num of inches/ circumference)  * ticks per revolution
 
    double targetPosGround = (GROUND_JUNCTIONS/CIRCUMFERENCE) * TICKS_PER_REV;
    double targetPosSmall =  (SMALL_JUNCTIONS/CIRCUMFERENCE) * TICKS_PER_REV;
@@ -57,12 +58,6 @@ public class LinearSlidesPresets extends LinearOpMode {
             }
         }
     }
-
-
-    //switch case
-
-
-
 
 
 
