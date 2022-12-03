@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.PIDController;
 
 @Autonomous(group="tune")
@@ -24,7 +23,7 @@ public class TurnPIDTuner extends LinearOpMode {
         MovementAPI movementAPI = new MovementAPI(api);
         PIDController controller = new PIDController(Kp, Ki, Kd, 0);
         FtcDashboard dashboard = FtcDashboard.getInstance();
-        Telemetry telemetry = dashboard.getTelemetry();
+        telemetry = dashboard.getTelemetry();
 
         boolean lastLeftBumper = false;
         boolean lastRightBumper = false;
