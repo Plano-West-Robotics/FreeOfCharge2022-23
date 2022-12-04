@@ -41,7 +41,7 @@ public class PIDController {
 
         // derivative, AKA rate of change of the error
         double derivative = (error - lastError) / deltaTime;
-        // we do a little riemann sum
+        // calculate the Riemann sum of the error, also known as Forward Euler Integration.
         integralSum += error * deltaTime;
 
         // add all the parts together
