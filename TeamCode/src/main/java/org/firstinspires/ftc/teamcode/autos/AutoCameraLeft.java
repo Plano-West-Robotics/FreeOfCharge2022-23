@@ -1,7 +1,9 @@
+//Imports the package file
 package org.firstinspires.ftc.teamcode.autos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+//Imports the files that are needed for the Left Camera Sensor
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.vendor.AprilTagDetectionPipeline;
@@ -19,7 +21,7 @@ public class AutoCameraLeft extends LinearOpMode {
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
     int detected_id = 0;
-
+//Scans while the robot is moving and the movement based on the camera
     @Override
     public void runOpMode() {
         camera = OpenCvCameraFactory.getInstance().createWebcam(
@@ -49,7 +51,7 @@ public class AutoCameraLeft extends LinearOpMode {
 
         waitForStart();
 
-        // let the camera settle
+        // Allows the camera settle
         api.pause(5);
 
         ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
@@ -58,10 +60,10 @@ public class AutoCameraLeft extends LinearOpMode {
             telemetry.addData("Tag found", String.valueOf(detected_id));
             telemetry.update();
         }
-
+//Camera scans movement and determines how long the robot moves
         movementAPI.moveFor(0, 0.5, 0.2);
         movementAPI.stop();
-
+//Based on the different case scenarios will move for a certain amount of time 
         switch (detected_id) {
             case 1:
                 movementAPI.moveFor(-90, 0.7, 1);
@@ -79,7 +81,7 @@ public class AutoCameraLeft extends LinearOpMode {
                 movementAPI.moveFor(180, 0.5, 0.1);
                 break;
         }
-
+//Stops the robot after the movements
         movementAPI.stop();
     }
 }
