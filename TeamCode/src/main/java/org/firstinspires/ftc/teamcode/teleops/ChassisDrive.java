@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode.teleops;
-
+//Imports the necessary files that is required for the code below
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
