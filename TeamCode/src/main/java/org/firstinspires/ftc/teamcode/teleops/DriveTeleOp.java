@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode.teleops;
-
+//imports 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,6 +8,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import java.text.DecimalFormat;
 
+/**
+* DriveTeleOps utilizes inheritance by extending to 
+* OpMode. Initalizing variables for the drive constants. 
+*/ 
 @TeleOp(name = "TELEOP - USE THIS ONE")
 public class DriveTeleOp extends OpMode {
     //Drive Variables
@@ -30,7 +34,9 @@ public class DriveTeleOp extends OpMode {
         drive();
     }
 
-
+       /**
+       * Utilizes inout given from the controller. 
+       */ 
     private void takeControllerInput() {
         drive = -1 * gamepad1.left_stick_y;
         strafe = gamepad1.left_stick_x;
