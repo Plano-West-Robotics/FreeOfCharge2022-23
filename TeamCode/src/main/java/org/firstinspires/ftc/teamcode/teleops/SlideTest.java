@@ -4,6 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+/**
+* Testing the linear slides and checking if they are operating 
+* using DcMotor class. 
+*/ 
 @TeleOp(group="test")
 public class SlideTest extends LinearOpMode {
     @Override
