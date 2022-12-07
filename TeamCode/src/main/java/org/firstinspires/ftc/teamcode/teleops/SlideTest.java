@@ -13,10 +13,13 @@ public class SlideTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         DcMotor slideMotor = hardwareMap.get(DcMotor.class, "slide");
+        slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         waitForStart();
 
         while (opModeIsActive()) {
             slideMotor.setPower(gamepad2.left_stick_y);
+            telemetry.addData("position", slideMotor.getCurrentPosition());
         }
     }
 }
