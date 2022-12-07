@@ -73,7 +73,7 @@ public class PositionPIDTuner extends LinearOpMode {
             telemetry.addData("Kd", Kd);
             telemetry.addData("scale", scale);
             telemetry.update();
-            motor.setPower(out);
+            motor.setPower(out * -0.75);
         }
     }
 }

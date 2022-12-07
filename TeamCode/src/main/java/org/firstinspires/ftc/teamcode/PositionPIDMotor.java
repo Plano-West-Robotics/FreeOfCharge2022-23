@@ -16,6 +16,8 @@ public class PositionPIDMotor {
 
     private int targetPosition = 0;
 
+    private double speedMultiplier = 0.75;
+
     /**
      * Initialize using default PID parameters.
      *
@@ -87,9 +89,9 @@ public class PositionPIDMotor {
      * Change the PID parameters.
      * Really only useful during tuning, but someone smarter than me may be able to find a use for this
      *
-     * @param Kp
-     * @param Ki
-     * @param Kd
+     * @param Kp Proportional gain
+     * @param Ki Integral gain
+     * @param Kd Derivative gain
      */
     public void setParams(double Kp, double Ki, double Kd) {
         this.Kp = Kp;
@@ -115,7 +117,7 @@ public class PositionPIDMotor {
     public void updatePosition() {
         double pidval = controller.calculate(getCurrentPosition());
 
-        motor.setPower(pidval);
+        motor.setPower(-pidval * getSpeedMultiplier());
     }
 
     /**
@@ -126,5 +128,13 @@ public class PositionPIDMotor {
         while (isBusy()) {
             updatePosition();
         }
+    }
+
+    public void setSpeedMultiplier(double speed) {
+        speedMultiplier = speed;
+    }
+
+    public double getSpeedMultiplier() {
+        return speedMultiplier;
     }
 }

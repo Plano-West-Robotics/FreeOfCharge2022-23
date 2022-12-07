@@ -18,8 +18,9 @@ public class SlideTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            slideMotor.setPower(gamepad2.left_stick_y);
+            slideMotor.setPower(gamepad2.left_stick_y * 0.75);
             telemetry.addData("position", slideMotor.getCurrentPosition());
+            telemetry.update();
         }
     }
 }
