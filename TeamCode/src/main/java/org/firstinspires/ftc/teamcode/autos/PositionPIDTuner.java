@@ -29,7 +29,6 @@ public class PositionPIDTuner extends LinearOpMode {
         boolean lastRightBumper = false;
         boolean lastUp = false;
         boolean lastDown = false;
-        boolean lastReset = false;
 
         waitForStart();
 
@@ -53,9 +52,6 @@ public class PositionPIDTuner extends LinearOpMode {
                 scale -= 0.05;
             }
 
-            if (gamepad1.x && lastReset != gamepad1.x) {
-                controller.reset();
-            }
 
             lastLeftBumper = gamepad1.left_bumper;
             lastRightBumper = gamepad1.right_bumper;
@@ -63,13 +59,16 @@ public class PositionPIDTuner extends LinearOpMode {
             lastUp = gamepad1.dpad_up;
             lastDown = gamepad1.dpad_down;
 
-            lastReset = gamepad1.x;
-
             double error = motor.getCurrentPosition();
             double out = controller.calculate(error);
 
+            if (gamepad1.x) {
+                out = 0;
+                controller.reset();
+            }
+
             telemetry.addData("target", 0);
-            telemetry.addData("turn", out);
+            telemetry.addData("out", out);
             telemetry.addData("error", error);
             telemetry.addData("Kd", Kd);
             telemetry.addData("scale", scale);
