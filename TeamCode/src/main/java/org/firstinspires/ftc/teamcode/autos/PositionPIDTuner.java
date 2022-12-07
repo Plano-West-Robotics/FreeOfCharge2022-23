@@ -21,7 +21,9 @@ public class PositionPIDTuner extends LinearOpMode {
         double Kd = 0;
         double scale = 0.15;
         DcMotor motor = hardwareMap.get(DcMotor.class, "slide");
-        PIDController controller = new PIDController(Kp, Ki, Kd, 500);
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        PIDController controller = new PIDController(Kp, Ki, Kd, -500);
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = dashboard.getTelemetry();
 
