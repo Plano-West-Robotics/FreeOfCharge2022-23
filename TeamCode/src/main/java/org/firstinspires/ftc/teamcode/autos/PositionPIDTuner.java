@@ -37,13 +37,13 @@ public class PositionPIDTuner extends LinearOpMode {
         while (opModeIsActive()) {
             if (gamepad1.left_bumper && lastLeftBumper != gamepad1.left_bumper) {
                 Kp -= scale;
-                controller.setParams(Kp, Ki, Kd, 0);
+                controller.setParams(Kp, Ki, Kd, -500);
                 controller.reset();
             }
 
             if (gamepad1.right_bumper && lastRightBumper != gamepad1.right_bumper) {
                 Kp += scale;
-                controller.setParams(Kp, Ki, Kd, 0);
+                controller.setParams(Kp, Ki, Kd, -500);
                 controller.reset();
             }
 
@@ -69,10 +69,10 @@ public class PositionPIDTuner extends LinearOpMode {
                 controller.reset();
             }
 
-            telemetry.addData("target", 0);
+            telemetry.addData("target", -500);
             telemetry.addData("out", out);
             telemetry.addData("error", error);
-            telemetry.addData("Kd", Kd);
+            telemetry.addData("Kp", Kp);
             telemetry.addData("scale", scale);
             telemetry.update();
             motor.setPower(out * -0.75);
