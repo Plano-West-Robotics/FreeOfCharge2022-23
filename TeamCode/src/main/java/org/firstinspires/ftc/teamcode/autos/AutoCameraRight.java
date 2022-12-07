@@ -22,8 +22,10 @@ public class AutoCameraRight extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        // get the camera from the hardware map
         camera = OpenCvCameraFactory.getInstance().createWebcam(
                 hardwareMap.get(WebcamName.class, "Webcam 1"));
+        // set up the pipeline
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(
                 CameraConstants.TAGSIZE,
                 CameraConstants.FX,
@@ -34,6 +36,7 @@ public class AutoCameraRight extends LinearOpMode {
         MovementAPI movementAPI = new MovementAPI(api);
 
         camera.setPipeline(aprilTagDetectionPipeline);
+        // if the camera isn't detected in 2.5 seconds, stop attempting to connect
         camera.setMillisecondsPermissionTimeout(2500);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
@@ -49,9 +52,10 @@ public class AutoCameraRight extends LinearOpMode {
 
         waitForStart();
 
-        // let the camera settle
+        // Allows the camera to settle
         api.pause(5);
 
+        // get the first detection from the list
         ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
         if (currentDetections.size() != 0) {
             detected_id = currentDetections.get(0).id;
@@ -59,9 +63,11 @@ public class AutoCameraRight extends LinearOpMode {
             telemetry.update();
         }
 
+        // move forward to prevent scraping against the wall
         movementAPI.moveFor(0, 0.5, 0.1);
         movementAPI.stop();
 
+        // Based on which tag was detected, move to the corresponding position
         switch (detected_id) {
             case 1:
                 movementAPI.moveFor(90, 0.7, 0.85);
@@ -75,6 +81,7 @@ public class AutoCameraRight extends LinearOpMode {
                 movementAPI.moveFor(0, 0.5, 1.4);
                 break;
             default:
+                // no tag was detected or camera broke, move to the fallback position
                 movementAPI.moveFor(90, 0.5, 1.5);
                 movementAPI.moveFor(180, 0.5, 0.1);
                 break;
