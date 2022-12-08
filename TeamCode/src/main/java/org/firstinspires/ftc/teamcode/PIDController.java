@@ -35,7 +35,7 @@ public class PIDController {
             started = true;
         }
 
-        double error = current - target;
+        double error = target - current; //should be target - current
 
         double deltaTime = timer.seconds();
 
