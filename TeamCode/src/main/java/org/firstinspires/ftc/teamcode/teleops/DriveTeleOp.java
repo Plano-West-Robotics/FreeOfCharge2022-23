@@ -19,7 +19,7 @@ public class DriveTeleOp extends OpMode {
     private double powerFR, powerFL, powerRR, powerRL;
     private DcMotor motorLift;
     private double powerLift;
-//    private Servo claw;
+    private Servo claw;
     private double clawPos = 1;
     private double drive = 0, strafe = 0, turn = 0;
     private double speed = 1;
@@ -74,7 +74,7 @@ public class DriveTeleOp extends OpMode {
         motorLift.setPower(powerLift);
 
         // TODO: keep / remove these lines based on empirical testing
-//        claw.setPosition(clawPos);
+        claw.setPosition(clawPos);
 
         DecimalFormat df = new DecimalFormat("#%");
         telemetry.addData("speed", df.format(speed));
@@ -99,7 +99,7 @@ public class DriveTeleOp extends OpMode {
 
         motorLift = hardwareMap.get(DcMotor.class, "slide");
 
-//        claw = hardwareMap.get(Servo.class, "claw");
+        claw = hardwareMap.get(Servo.class, "claw");
 
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorRL.setDirection(DcMotorSimple.Direction.REVERSE);
