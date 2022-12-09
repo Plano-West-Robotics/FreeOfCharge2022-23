@@ -100,6 +100,8 @@ public class DriveTeleOp extends OpMode {
         motorLift = hardwareMap.get(DcMotor.class, "slide");
 
         claw = hardwareMap.get(Servo.class, "claw");
+        // only allow claw to move hal
+        claw.scaleRange(0, 0.5);
 
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorRL.setDirection(DcMotorSimple.Direction.REVERSE);
