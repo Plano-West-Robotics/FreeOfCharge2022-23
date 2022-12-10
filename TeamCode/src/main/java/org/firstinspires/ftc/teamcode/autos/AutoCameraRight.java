@@ -77,13 +77,13 @@ public class AutoCameraRight extends LinearOpMode {
                 movementAPI.moveFor(0, 0.5, 1.4);
                 break;
             case 3:
-                movementAPI.moveFor(-90, 0.7, 1.5);
+                movementAPI.moveFor(-90, 0.7, 1.15);
                 movementAPI.moveFor(0, 0.5, 1.4);
                 break;
             default:
                 // no tag was detected or camera broke, move to the fallback position
-                movementAPI.moveFor(90, 0.5, 1.5);
-                movementAPI.moveFor(180, 0.5, 0.1);
+                movementAPI.moveFor(90, 0.5, 1);
+                movementAPI.moveFor(0, 0.5, 0.1);
                 break;
         }
 

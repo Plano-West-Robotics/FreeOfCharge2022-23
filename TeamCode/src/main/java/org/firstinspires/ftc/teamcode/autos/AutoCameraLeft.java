@@ -70,14 +70,14 @@ public class AutoCameraLeft extends LinearOpMode {
         // Based on which tag was detected, move to the corresponding position
         switch (detected_id) {
             case 1:
-                movementAPI.moveFor(-90, 0.7, 1);
+                movementAPI.moveFor(90, 0.7, 0.85);
                 movementAPI.moveFor(0, 0.5, 1.4);
                 break;
             case 2:
                 movementAPI.moveFor(0, 0.5, 1.4);
                 break;
             case 3:
-                movementAPI.moveFor(90, 0.7, 0.85);
+                movementAPI.moveFor(-90, 0.7, 1);
                 movementAPI.moveFor(0, 0.5, 1.4);
                 break;
             default:
