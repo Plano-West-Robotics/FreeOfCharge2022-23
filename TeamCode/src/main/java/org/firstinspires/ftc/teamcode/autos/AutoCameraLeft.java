@@ -98,8 +98,5 @@ public class AutoCameraLeft extends LinearOpMode {
         }
 
         movementAPI.stop();
-        lift.setPower(1);
-        api.pause(1);
-        lift.setPower(0);
     }
 }
