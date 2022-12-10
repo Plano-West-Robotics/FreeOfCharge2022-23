@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.autos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.vendor.AprilTagDetectionPipeline;
@@ -34,6 +36,10 @@ public class AutoCameraRight extends LinearOpMode {
                 CameraConstants.CY);
         API api = new API(this);
         MovementAPI movementAPI = new MovementAPI(api);
+        DcMotor lift = hardwareMap.get(DcMotor.class, "slide");
+        Servo claw = hardwareMap.get(Servo.class, "claw");
+        claw.scaleRange(0, 0.5);
+        claw.setPosition(0);
 
         camera.setPipeline(aprilTagDetectionPipeline);
         // if the camera isn't detected in 2.5 seconds, stop attempting to connect
@@ -51,6 +57,10 @@ public class AutoCameraRight extends LinearOpMode {
         });
 
         waitForStart();
+
+        lift.setPower(-1);
+        api.pause(1);
+        lift.setPower(0);
 
         // Allows the camera to settle
         api.pause(5);
@@ -88,5 +98,8 @@ public class AutoCameraRight extends LinearOpMode {
         }
 
         movementAPI.stop();
+        lift.setPower(1);
+        api.pause(1);
+        lift.setPower(0);
     }
 }
