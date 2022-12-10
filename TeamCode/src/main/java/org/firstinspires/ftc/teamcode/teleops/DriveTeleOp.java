@@ -106,16 +106,6 @@ public class DriveTeleOp extends OpMode {
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorRL.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorRR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorRL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorRL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         motorFR.setPower(0);
         motorFL.setPower(0);
         motorRR.setPower(0);
