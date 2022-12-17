@@ -13,5 +13,14 @@ public class DriveIPSTuner extends LinearOpMode {
         waitForStart();
 
         movementAPI.moveFor(0, 0.5, 1);
+
+        while (opModeIsActive()) {
+            telemetry.addLine(movementAPI.getFL().getCurrentPosition() + System.lineSeparator() +
+                              movementAPI.getFR().getCurrentPosition() + System.lineSeparator() +
+                              movementAPI.getBL().getCurrentPosition() + System.lineSeparator() +
+                              movementAPI.getBR().getCurrentPosition() + System.lineSeparator()
+            );
+            telemetry.update();
+        }
     }
 }
