@@ -4,9 +4,19 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+/**
+ * InchWorm: API for moving a certain number of inches. Make sure to tune DRIVE_TPI and STRAFE_TPI.
+ */
 public class InchWorm {
-    // determine these values through measurement
+    /**
+     * Ticks/inch for each motor (fl, fr, bl, br, respectively) going forward/backward.
+     * Tune this using the DriveIPSTuner.
+     */
     public static final int[] DRIVE_TPI = {0, 0, 0, 0};
+    /**
+     * Ticks/inch for each motor (fl, fr, bl, br, respectively) going left/right.
+     * Tune this using the StrafeIPSTuner.
+     */
     public static final int[] STRAFE_TPI = {0, 0, 0, 0};
 
     private final DcMotor fl;
@@ -42,6 +52,11 @@ public class InchWorm {
         br.setDirection(DcMotor.Direction.FORWARD);
     }
 
+    /**
+     * Whether any motors are currently attempting to run to the target position.
+     * Also includes a safeguard for stopping the opMode mid-move.
+     * @return Whether any motor is busy, or if the opMode should stop.
+     */
     public boolean isBusy() {
         return fl.isBusy() ||
                fr.isBusy() ||
@@ -50,6 +65,10 @@ public class InchWorm {
                opMode.isStopRequested();
     }
 
+    /**
+     * Drive (forward/backward) a certain number of inches. Negative inches means backwards.
+     * @param inches Number of inches to move; positive means forward, negative means backwards
+     */
     public void drive(double inches) {
         int posFL = fl.getCurrentPosition() + (int) (Math.round(DRIVE_TPI[0] * inches));
         int posFR = fr.getCurrentPosition() + (int) (Math.round(DRIVE_TPI[1] * inches));
@@ -79,6 +98,11 @@ public class InchWorm {
         br.setPower(0);
     }
 
+    /**
+     * Strafe (left/right) a certain number of inches.
+     * Negative inches means right.
+     * @param inches Number of inches to move; positive means left, negative means right
+     */
     public void strafe(double inches) {
         int posFL = fl.getCurrentPosition() + (int) (Math.round(STRAFE_TPI[0] * inches));
         int posFR = fr.getCurrentPosition() + (int) (Math.round(STRAFE_TPI[1] * inches));
