@@ -53,16 +53,16 @@ public class InchWorm {
     }
 
     /**
-     * Whether any motors are currently attempting to run to the target position.
+     * Whether motors are currently attempting to run to the target position.
      * Also includes a safeguard for stopping the opMode mid-move.
-     * @return Whether any motor is busy, or if the opMode should stop.
+     * @return Whether all motors are busy, AND if the opMode is still running.
      */
     public boolean isBusy() {
-        return fl.isBusy() ||
-               fr.isBusy() ||
-               bl.isBusy() ||
-               br.isBusy() ||
-               opMode.isStopRequested();
+        return fl.isBusy() &&
+               fr.isBusy() &&
+               bl.isBusy() &&
+               br.isBusy() &&
+               opMode.opModeIsActive();
     }
 
     /**
