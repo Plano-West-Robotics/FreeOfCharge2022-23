@@ -34,12 +34,15 @@ public class AutoCameraRight extends LinearOpMode {
                 CameraConstants.FY,
                 CameraConstants.CX,
                 CameraConstants.CY);
+        // set up the API
         API api = new API(this);
-        MovementAPI movementAPI = new MovementAPI(api);
-        DcMotor lift = hardwareMap.get(DcMotor.class, "slide");
-        Servo claw = hardwareMap.get(Servo.class, "claw");
-        claw.scaleRange(0, 0.5);
-        claw.setPosition(0);
+        // set up InchWorm
+        InchWorm inchWorm = new InchWorm(this);
+        // disabled for now because slide is broken
+//        DcMotor lift = hardwareMap.get(DcMotor.class, "slide");
+//        Servo claw = hardwareMap.get(Servo.class, "claw");
+//        claw.scaleRange(0, 0.5);
+//        claw.setPosition(0);
 
         camera.setPipeline(aprilTagDetectionPipeline);
         // if the camera isn't detected in 2.5 seconds, stop attempting to connect
@@ -58,9 +61,9 @@ public class AutoCameraRight extends LinearOpMode {
 
         waitForStart();
 
-        lift.setPower(-1);
-        api.pause(1);
-        lift.setPower(0);
+//        lift.setPower(-1);
+//        api.pause(1);
+//        lift.setPower(0);
 
         // Allows the camera to settle
         api.pause(5);
@@ -74,29 +77,27 @@ public class AutoCameraRight extends LinearOpMode {
         }
 
         // move forward to prevent scraping against the wall
-        movementAPI.moveFor(0, 0.5, 0.1);
-        movementAPI.stop();
+        inchWorm.drive(4.5);
 
         // Based on which tag was detected, move to the corresponding position
         switch (detected_id) {
             case 1:
-                movementAPI.moveFor(90, 0.7, 0.85);
-                movementAPI.moveFor(0, 0.5, 1.4);
+                inchWorm.strafe(20);
+                inchWorm.drive(35);
                 break;
             case 2:
-                movementAPI.moveFor(0, 0.5, 1.4);
+                inchWorm.strafe(-3);
+                inchWorm.drive(35);
                 break;
             case 3:
-                movementAPI.moveFor(-90, 0.7, 1.15);
-                movementAPI.moveFor(0, 0.5, 1.4);
+                inchWorm.strafe(-27);
+                inchWorm.drive(35);
                 break;
             default:
                 // no tag was detected or camera broke, move to the fallback position
-                movementAPI.moveFor(90, 0.5, 1);
-                movementAPI.moveFor(0, 0.5, 0.1);
+                inchWorm.strafe(30);
+                inchWorm.drive(-4.5);
                 break;
         }
-
-        movementAPI.stop();
     }
 }
