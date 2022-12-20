@@ -156,8 +156,9 @@ public class InchWorm {
 
     /**
      * Calculates average motor power based on an elliptical curve.
-     * The ellipse centered around (0, 0) with a vertical radius (b) of 1 or 0.5 (depending on whether we're strafing or not),
+     * The ellipse is centered around (0, 0) with a vertical radius (b) of 1 or 0.5 (depending on whether we're strafing or not),
      * and a horizontal radius (a) of target.
+     * See https://en.wikipedia.org/wiki/Ellipse for the ellipse equation.
      * @param current The current position
      * @param target  The target position of the whole movement
      * @param strafe Whether we're strafing or not. If false, sets the vertical radius (max power) to 0.5, otherwise 1.
