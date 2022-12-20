@@ -19,6 +19,11 @@ public class InchWorm {
      */
     public static final int[] STRAFE_TPI = {-60, 62, 64, -60};
 
+    /**
+     * Whether to print debug values to telemetry. Defaults to false.
+     */
+    private static boolean debug = true;
+
     private final DcMotor fl;
     private final DcMotor fr;
     private final DcMotor bl;
@@ -59,10 +64,10 @@ public class InchWorm {
      */
     public boolean isBusy() {
         return fl.isBusy() &&
-               fr.isBusy() &&
-               bl.isBusy() &&
-               br.isBusy() &&
-               opMode.opModeIsActive();
+                fr.isBusy() &&
+                bl.isBusy() &&
+                br.isBusy() &&
+                opMode.opModeIsActive();
     }
 
     /**
@@ -80,22 +85,24 @@ public class InchWorm {
         bl.setTargetPosition(posBL);
         br.setTargetPosition(posBR);
 
-        fl.setPower(0.5);
-        fr.setPower(0.5);
-        bl.setPower(0.5);
-        br.setPower(0.5);
-
         fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (isBusy()) {}
+        int avgTarget = Math.round((Math.abs(posFL) + Math.abs(posFR) + Math.abs(posBL) + Math.abs(posBR)) / 4.0f);
 
-        fl.setPower(0);
-        fr.setPower(0);
-        bl.setPower(0);
-        br.setPower(0);
+        while (isBusy()) {
+            int avgPos = Math.round((Math.abs(fl.getCurrentPosition()) +
+                    Math.abs(fr.getCurrentPosition()) +
+                    Math.abs(bl.getCurrentPosition()) +
+                    Math.abs(br.getCurrentPosition())) / 4.0f);
+
+            double power = ellipticCurve(avgPos, avgTarget, false);
+            setPowers(power);
+        }
+
+        setPowers(0);
     }
 
     /**
@@ -114,21 +121,67 @@ public class InchWorm {
         bl.setTargetPosition(posBL);
         br.setTargetPosition(posBR);
 
-        fl.setPower(0.5);
-        fr.setPower(0.5);
-        bl.setPower(0.5);
-        br.setPower(0.5);
-
         fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (isBusy()) {}
+        int avgTarget = Math.round((Math.abs(posFL) + Math.abs(posFR) + Math.abs(posBL) + Math.abs(posBR)) / 4.0f);
 
-        fl.setPower(0);
-        fr.setPower(0);
-        bl.setPower(0);
-        br.setPower(0);
+        while (isBusy()) {
+            int avgPos = Math.round((Math.abs(fl.getCurrentPosition()) +
+                    Math.abs(fr.getCurrentPosition()) +
+                    Math.abs(bl.getCurrentPosition()) +
+                    Math.abs(br.getCurrentPosition())) / 4.0f);
+
+            double power = ellipticCurve(avgPos, avgTarget, true);
+            setPowers(power);
+        }
+
+        setPowers(0);
+    }
+
+    private void setPowers(double power) {
+        opMode.telemetry.addData("power", power);
+        if (debug) opMode.telemetry.update();
+        fl.setPower(power);
+        fr.setPower(power);
+        bl.setPower(power);
+        br.setPower(power);
+    }
+
+    /**
+     * Calculates average motor power based on an elliptical curve.
+     * The ellipse centered around (0, 0) with a vertical radius (b) of 1 or 0.5 (depending on whether we're strafing or not),
+     * and a horizontal radius (a) of target.
+     * @param current The current position
+     * @param target  The target position of the whole movement
+     * @param strafe Whether we're strafing or not. If false, sets the vertical radius (max power) to 0.5, otherwise 1.
+     * @return An output power
+     */
+    private double ellipticCurve(int current, int target, boolean strafe) {
+        opMode.telemetry.addData("current", current);
+        opMode.telemetry.addData("target", target);
+        double shift;
+        if (current < target) shift = Math.pow(Math.abs((double) current) / (double) target, 2);
+        else shift = Math.pow(Math.abs((double) target) / (double) current, 2);
+        opMode.telemetry.addData("shift", shift);
+        return Math.sqrt(Math.pow(strafe ? 1 : 0.5, 2) * (1 - shift));
+    }
+
+    /**
+     * Enable/disable debug mode.
+     * @param newDebug Whether or not to print debug data to telemetry
+     */
+    public void setDebug(boolean newDebug) {
+        debug = newDebug;
+    }
+
+    /**
+     * Return debug mode status
+     * @return Whether or not debug mode is enabled
+     */
+    public boolean getDebug() {
+        return debug;
     }
 }
