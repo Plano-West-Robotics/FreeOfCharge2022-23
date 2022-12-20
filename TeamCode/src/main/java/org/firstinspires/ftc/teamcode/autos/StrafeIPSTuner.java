@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.autos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous(group = "tune")
 public class StrafeIPSTuner extends LinearOpMode {
@@ -9,7 +10,18 @@ public class StrafeIPSTuner extends LinearOpMode {
     public void runOpMode() {
         API api = new API(this);
         MovementAPI movementAPI = new MovementAPI(api);
-        
+
+        // reset encoders to 0
+        movementAPI.getFL().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        movementAPI.getFR().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        movementAPI.getBL().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        movementAPI.getBR().setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        movementAPI.getFL().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        movementAPI.getFR().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        movementAPI.getBL().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        movementAPI.getBR().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         waitForStart();
         
         movementAPI.moveFor(90, 0.5, 1);
