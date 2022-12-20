@@ -12,12 +12,12 @@ public class InchWorm {
      * Ticks/inch for each motor (fl, fr, bl, br, respectively) going forward/backward.
      * Tune this using the DriveIPSTuner.
      */
-    public static final int[] DRIVE_TPI = {0, 0, 0, 0};
+    public static final int[] DRIVE_TPI = {58, 55, 57, 56};
     /**
      * Ticks/inch for each motor (fl, fr, bl, br, respectively) going left/right.
      * Tune this using the StrafeIPSTuner.
      */
-    public static final int[] STRAFE_TPI = {0, 0, 0, 0};
+    public static final int[] STRAFE_TPI = {-60, 62, 64, -60};
 
     private final DcMotor fl;
     private final DcMotor fr;
