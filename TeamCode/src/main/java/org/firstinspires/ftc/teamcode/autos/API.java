@@ -1,17 +1,16 @@
 package org.firstinspires.ftc.teamcode.autos;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 public class API {
-    OpMode opMode;
+    LinearOpMode opMode;
     IMU imu;
 
-    public API(OpMode opMode) {
+    public API(LinearOpMode opMode) {
         this.opMode = opMode;
         imu = opMode.hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(
@@ -28,9 +27,7 @@ public class API {
 
     public void pause(double seconds) {
         double time = opMode.getRuntime() + seconds;
-        while (true) {
-            if (!(opMode.getRuntime() < time)) break; // stop android studio from yelling
-        }
+        while (opMode.getRuntime() < time && !opMode.isStopRequested()) {}
     }
 
     public int getLargest(int x, int y, int z) {
@@ -76,5 +73,12 @@ public class API {
      */
     public double getHeading(AngleUnit angleUnit) {
         return imu.getRobotYawPitchRollAngles().getYaw(angleUnit);
+    }
+
+    /**
+     * LinearOpMode's waitForStart, but doesn't crash the robot when the stop button is pressed.
+     */
+    public void waitForStart() {
+        while (!opMode.isStarted() && !opMode.isStopRequested());
     }
 }

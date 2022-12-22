@@ -22,7 +22,7 @@ public class DriveIPSTuner extends LinearOpMode {
         movementAPI.getBL().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         movementAPI.getBR().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        waitForStart();
+        api.waitForStart();
 
         movementAPI.moveFor(0, 0.5, 1);
 

@@ -20,6 +20,7 @@ public class PositionPIDTuner extends LinearOpMode {
         double Ki = 0;
         double Kd = 0;
         double scale = 0.15;
+        API api = new API(this);
         DcMotor motor = hardwareMap.get(DcMotor.class, "slide");
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -32,7 +33,7 @@ public class PositionPIDTuner extends LinearOpMode {
         boolean lastUp = false;
         boolean lastDown = false;
 
-        waitForStart();
+        api.waitForStart();
 
         while (opModeIsActive()) {
             if (gamepad1.left_bumper && lastLeftBumper != gamepad1.left_bumper) {

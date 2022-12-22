@@ -18,10 +18,9 @@ public class CameraTest extends LinearOpMode {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
-    // meters
-
     @Override
     public void runOpMode() {
+        API api = new API(this);
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(
@@ -46,7 +45,7 @@ public class CameraTest extends LinearOpMode {
             }
         });
 
-        waitForStart();
+        api.waitForStart();
 
         while (opModeIsActive()) {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();

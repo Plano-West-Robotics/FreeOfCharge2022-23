@@ -64,7 +64,7 @@ public class AutoCameraRight extends LinearOpMode {
             }
         });
 
-        waitForStart();
+        api.waitForStart();
 
         // Allows the camera to settle
         api.pause(5);
@@ -97,6 +97,8 @@ public class AutoCameraRight extends LinearOpMode {
         // move back to starting configuration
         inchWorm.drive(-4.25);
         lift.setTargetPosition(0);
+        while (lift.isBusy()) {}
+        lift.setPower(0);
         inchWorm.strafe(-9);
 
         // Based on which tag was detected, move to the corresponding position

@@ -22,7 +22,7 @@ public class StrafeIPSTuner extends LinearOpMode {
         movementAPI.getBL().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         movementAPI.getBR().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        waitForStart();
+        api.waitForStart();
         
         movementAPI.moveFor(90, 0.5, 1);
 

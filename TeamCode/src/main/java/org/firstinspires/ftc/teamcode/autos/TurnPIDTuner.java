@@ -30,7 +30,7 @@ public class TurnPIDTuner extends LinearOpMode {
         boolean lastUp = false;
         boolean lastDown = false;
 
-        waitForStart();
+        api.waitForStart();
 
         while (opModeIsActive()) {
             if (gamepad1.left_bumper && lastLeftBumper != gamepad1.left_bumper) {
