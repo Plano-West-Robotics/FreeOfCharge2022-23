@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 import java.text.DecimalFormat;
 
@@ -45,6 +46,8 @@ public class DriveTeleOp extends OpMode {
         if (gamepad1.left_bumper && last_left_bumper != gamepad1.left_bumper) speed = Math.max(0.15, speed - 0.15);
         if (gamepad1.right_bumper && last_right_bumper != gamepad1.right_bumper) speed = Math.min(1, speed + 0.15);
         if (gamepad2.a && last_claw_control != gamepad2.a) clawPos = (clawPos == 0 ? 1 : 0);
+
+        if (motorLift.getCurrentPosition() > -10) powerLift = Range.clip(powerLift, -1, 0);
 
         last_left_bumper = gamepad1.left_bumper;
         last_right_bumper = gamepad1.right_bumper;
@@ -98,6 +101,8 @@ public class DriveTeleOp extends OpMode {
         motorRL = hardwareMap.get(DcMotor.class, "rearLeft");
 
         motorLift = hardwareMap.get(DcMotor.class, "slide");
+        motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         claw = hardwareMap.get(Servo.class, "claw");
         // only allow claw to move hal
