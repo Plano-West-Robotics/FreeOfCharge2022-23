@@ -90,13 +90,13 @@ public class InchWorm {
         bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        int avgTarget = Math.round((Math.abs(posFL) + Math.abs(posFR) + Math.abs(posBL) + Math.abs(posBR)) / 4.0f);
+        double avgTarget = (Math.abs(posFL) + Math.abs(posFR) + Math.abs(posBL) + Math.abs(posBR)) / 4.0;
 
         while (isBusy()) {
-            int avgPos = Math.round((Math.abs(fl.getCurrentPosition()) +
+            double avgPos = (Math.abs(fl.getCurrentPosition()) +
                     Math.abs(fr.getCurrentPosition()) +
                     Math.abs(bl.getCurrentPosition()) +
-                    Math.abs(br.getCurrentPosition())) / 4.0f);
+                    Math.abs(br.getCurrentPosition())) / 4.0;
 
             double power = ellipticCurve(avgPos, avgTarget, false);
             setPowers(power);
@@ -126,15 +126,15 @@ public class InchWorm {
         bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        int avgTarget = Math.round((Math.abs(posFL) + Math.abs(posFR) + Math.abs(posBL) + Math.abs(posBR)) / 4.0f);
+        double avgTarget = (Math.abs(posFL) + Math.abs(posFR) + Math.abs(posBL) + Math.abs(posBR)) / 4.0;
 
         while (isBusy()) {
-            int avgPos = Math.round((Math.abs(fl.getCurrentPosition()) +
+            double avgPos = (Math.abs(fl.getCurrentPosition()) +
                     Math.abs(fr.getCurrentPosition()) +
                     Math.abs(bl.getCurrentPosition()) +
-                    Math.abs(br.getCurrentPosition())) / 4.0f);
+                    Math.abs(br.getCurrentPosition())) / 4.0;
 
-            double power = ellipticCurve(avgPos, avgTarget, true);
+            double power = ellipticCurve(avgPos, avgTarget, false);
             setPowers(power);
         }
 
@@ -164,9 +164,11 @@ public class InchWorm {
      * @param strafe Whether we're strafing or not. If false, sets the vertical radius (max power) to 0.5, otherwise 1.
      * @return An output power
      */
-    private double ellipticCurve(int current, int target, boolean strafe) {
+    private double ellipticCurve(double current, double target, boolean strafe) {
         opMode.telemetry.addData("current", current);
         opMode.telemetry.addData("target", target);
+        current = Math.abs(current);
+        target = Math.abs(target);
         /*
          * This peculiar piece of code is to prevent imaginary numbers when we sqrt later.
          * If direction is positive (driving forward/strafing left), current will be less than target,
@@ -177,10 +179,10 @@ public class InchWorm {
          */
         double shift;
         if (current < target) {
-            shift = Math.pow(Math.abs((double) current) / (double) target, 2);
+            shift = Math.pow(current / (target + (target * 0.025)), 2);
         }
         else {
-            shift = Math.pow(Math.abs((double) target) / (double) current, 2);
+            shift = Math.pow((target - (target * 0.025)) / current, 2);
         }
         opMode.telemetry.addData("shift", shift);
         // if strafing, set multiplier to 1 instead of 0.5

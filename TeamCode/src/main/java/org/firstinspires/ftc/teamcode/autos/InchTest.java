@@ -11,9 +11,9 @@ public class InchTest extends LinearOpMode {
 
         waitForStart();
 
-        inchWorm.drive(24);
         inchWorm.strafe(24);
-        inchWorm.strafe(-24);
+        inchWorm.drive(24);
         inchWorm.drive(-24);
+        inchWorm.strafe(-24);
     }
 }
