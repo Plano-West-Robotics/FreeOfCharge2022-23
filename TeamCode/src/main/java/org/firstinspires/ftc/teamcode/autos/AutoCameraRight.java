@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.autos;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -39,10 +40,14 @@ public class AutoCameraRight extends LinearOpMode {
         // set up InchWorm
         InchWorm inchWorm = new InchWorm(this);
         // disabled for now because slide is broken
-//        DcMotor lift = hardwareMap.get(DcMotor.class, "slide");
-//        Servo claw = hardwareMap.get(Servo.class, "claw");
-//        claw.scaleRange(0, 0.5);
-//        claw.setPosition(0);
+        DcMotor lift = hardwareMap.get(DcMotor.class, "slide");
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setTargetPosition(0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
+        Servo claw = hardwareMap.get(Servo.class, "claw");
+        claw.scaleRange(0, 0.5);
+        claw.setPosition(0);
 
         camera.setPipeline(aprilTagDetectionPipeline);
         // if the camera isn't detected in 2.5 seconds, stop attempting to connect
@@ -61,10 +66,6 @@ public class AutoCameraRight extends LinearOpMode {
 
         waitForStart();
 
-//        lift.setPower(-1);
-//        api.pause(1);
-//        lift.setPower(0);
-
         // Allows the camera to settle
         api.pause(5);
 
@@ -76,8 +77,22 @@ public class AutoCameraRight extends LinearOpMode {
             telemetry.update();
         }
 
+        lift.setTargetPosition(1846);
+        lift.setPower(0.75);
+        while (lift.isBusy()) {}
+
         // move forward to prevent scraping against the wall
         inchWorm.drive(4.5);
+        inchWorm.strafe(9);
+        inchWorm.drive(4.25);
+        lift.setTargetPosition(0);
+        while (lift.isBusy()) {}
+        claw.setPosition(1);
+        lift.setTargetPosition(1846);
+        while (lift.isBusy()) {}
+        inchWorm.drive(-4.25);
+        lift.setTargetPosition(0);
+        inchWorm.strafe(-9);
 
         // Based on which tag was detected, move to the corresponding position
         switch (detected_id) {
