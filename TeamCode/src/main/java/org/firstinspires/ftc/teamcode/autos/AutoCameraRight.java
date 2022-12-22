@@ -77,6 +77,8 @@ public class AutoCameraRight extends LinearOpMode {
             telemetry.update();
         }
 
+        camera.stopStreaming();
+
         lift.setTargetPosition(1846);
         lift.setPower(0.75);
         while (lift.isBusy()) {}
