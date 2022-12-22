@@ -119,7 +119,7 @@ public class AutoCameraLeft extends LinearOpMode {
                 break;
             default:
                 // no tag was detected or camera broke, move to the fallback position
-                inchWorm.drive(-35);
+                inchWorm.strafe(-35);
                 inchWorm.drive(-4.5);
                 break;
         }
