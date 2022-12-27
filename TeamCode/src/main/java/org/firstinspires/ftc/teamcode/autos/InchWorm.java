@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.autos;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Range;
 
 /**
  * InchWorm: API for moving a certain number of inches. Make sure to tune DRIVE_TPI and STRAFE_TPI.
@@ -40,16 +41,11 @@ public class InchWorm {
         bl = hardwareMap.get(DcMotor.class, "rearLeft");
         br = hardwareMap.get(DcMotor.class, "rearRight");
 
-        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        // reset encoders to 0
+        setModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // this is a temporary measure. modes will be reset once actually moving
-        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        setModes(DcMotor.RunMode.RUN_USING_ENCODER);
 
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);
@@ -75,31 +71,30 @@ public class InchWorm {
      * @param inches Number of inches to move; positive means forward, negative means backwards
      */
     public void drive(double inches) {
-        int posFL = fl.getCurrentPosition() + (int) (Math.round(DRIVE_TPI[0] * inches));
-        int posFR = fr.getCurrentPosition() + (int) (Math.round(DRIVE_TPI[1] * inches));
-        int posBL = bl.getCurrentPosition() + (int) (Math.round(DRIVE_TPI[2] * inches));
-        int posBR = br.getCurrentPosition() + (int) (Math.round(DRIVE_TPI[3] * inches));
+        int posFL = (int) (DRIVE_TPI[0] * inches);
+        int posFR = (int) (DRIVE_TPI[1] * inches);
+        int posBL = (int) (DRIVE_TPI[2] * inches);
+        int posBR = (int) (DRIVE_TPI[3] * inches);
+
+        // reset encoders to 0
+        setModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         fl.setTargetPosition(posFL);
         fr.setTargetPosition(posFR);
         bl.setTargetPosition(posBL);
         br.setTargetPosition(posBR);
 
-        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        double avgTarget = (Math.abs(posFL) + Math.abs(posFR) + Math.abs(posBL) + Math.abs(posBR)) / 4.0;
+        setModes(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (isBusy()) {
-            double avgPos = (Math.abs(fl.getCurrentPosition()) +
-                    Math.abs(fr.getCurrentPosition()) +
-                    Math.abs(bl.getCurrentPosition()) +
-                    Math.abs(br.getCurrentPosition())) / 4.0;
-
-            double power = ellipticCurve(avgPos, avgTarget, false);
-            setPowers(power);
+            double flPower = ellipticCurve(fl.getCurrentPosition(), fl.getTargetPosition());
+            double frPower = ellipticCurve(fr.getCurrentPosition(), fr.getTargetPosition());
+            double blPower = ellipticCurve(bl.getCurrentPosition(), bl.getTargetPosition());
+            double brPower = ellipticCurve(br.getCurrentPosition(), br.getTargetPosition());
+            fl.setPower(flPower);
+            fr.setPower(frPower);
+            bl.setPower(blPower);
+            br.setPower(brPower);
         }
 
         setPowers(0);
@@ -111,31 +106,30 @@ public class InchWorm {
      * @param inches Number of inches to move; positive means left, negative means right
      */
     public void strafe(double inches) {
-        int posFL = fl.getCurrentPosition() + (int) (Math.round(STRAFE_TPI[0] * inches));
-        int posFR = fr.getCurrentPosition() + (int) (Math.round(STRAFE_TPI[1] * inches));
-        int posBL = bl.getCurrentPosition() + (int) (Math.round(STRAFE_TPI[2] * inches));
-        int posBR = br.getCurrentPosition() + (int) (Math.round(STRAFE_TPI[3] * inches));
+        int posFL = (int) (STRAFE_TPI[0] * inches);
+        int posFR = (int) (STRAFE_TPI[1] * inches);
+        int posBL = (int) (STRAFE_TPI[2] * inches);
+        int posBR = (int) (STRAFE_TPI[3] * inches);
+
+        // reset encoders to 0
+        setModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         fl.setTargetPosition(posFL);
         fr.setTargetPosition(posFR);
         bl.setTargetPosition(posBL);
         br.setTargetPosition(posBR);
 
-        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        double avgTarget = (Math.abs(posFL) + Math.abs(posFR) + Math.abs(posBL) + Math.abs(posBR)) / 4.0;
+        setModes(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (isBusy()) {
-            double avgPos = (Math.abs(fl.getCurrentPosition()) +
-                    Math.abs(fr.getCurrentPosition()) +
-                    Math.abs(bl.getCurrentPosition()) +
-                    Math.abs(br.getCurrentPosition())) / 4.0;
-
-            double power = ellipticCurve(avgPos, avgTarget, false);
-            setPowers(power);
+            double flPower = ellipticCurve(fl.getCurrentPosition(), fl.getTargetPosition());
+            double frPower = ellipticCurve(fr.getCurrentPosition(), fr.getTargetPosition());
+            double blPower = ellipticCurve(bl.getCurrentPosition(), bl.getTargetPosition());
+            double brPower = ellipticCurve(br.getCurrentPosition(), br.getTargetPosition());
+            fl.setPower(flPower);
+            fr.setPower(frPower);
+            bl.setPower(blPower);
+            br.setPower(brPower);
         }
 
         setPowers(0);
@@ -155,10 +149,20 @@ public class InchWorm {
     }
 
     /**
+     * Set mode of all motors
+     * @param mode Mode to set
+     */
+    private void setModes(DcMotor.RunMode mode) {
+        fl.setMode(mode);
+        fr.setMode(mode);
+        bl.setMode(mode);
+        br.setMode(mode);
+    }
+
+    /**
      * Calculates average motor power based on an elliptical curve.
      * The ellipse is centered around (0, 0) with a vertical radius (b) of 1 or 0.5 (depending on whether we're strafing or not),
      * and a horizontal radius (a) of target.
-     * See https://en.wikipedia.org/wiki/Ellipse for the ellipse equation.
      * @param current The current position
      * @param target  The target position of the whole movement
      * @param strafe Whether we're strafing or not. If false, sets the vertical radius (max power) to 0.5, otherwise 1.
@@ -187,6 +191,31 @@ public class InchWorm {
         opMode.telemetry.addData("shift", shift);
         // if strafing, set multiplier to 1 instead of 0.5
         return Math.sqrt(Math.pow(strafe ? 1 : 0.5, 2) * (1 - shift));
+    }
+
+    /**
+     * Calculates motor power based on an elliptic curve.
+     * It creates an ellipse on a position vs power graph centered around (target / 2)
+     * with a vertical radius of 0.5 and a horizontal radius of (midpoint * 1.025).
+     * See https://en.wikipedia.org/wiki/Ellipse for the ellipse equation.
+     * @param position The current position.
+     * @param target The target position
+     * @return Output power.
+     */
+    private double ellipticCurve(double position, double target) {
+        position = Math.abs(position);
+        target = Math.abs(target);
+        // midpoint of the radius, will shift the x-coordinates by `midpoint`
+        double midpoint = target / 2;
+        // 2.5% overshoot in the radius to make sure robot never fully stops
+        double radius = midpoint * 1.025;
+
+        // see the ellipse formula on wikipedia for more info
+        double shift = Math.pow((position - midpoint) / radius, 2);
+        double pow = Math.sqrt(Math.pow(0.5, 2) * Math.abs(1 - shift));
+
+        // make sure power does not go over 0.5
+        return Range.clip(pow, 0, 0.5);
     }
 
     /**
