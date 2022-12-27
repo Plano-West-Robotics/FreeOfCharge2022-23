@@ -86,46 +86,43 @@ public class AutoCameraRight extends LinearOpMode {
         while (lift.isBusy()) {}
 
         // move forward to prevent scraping against the wall
-        inchWorm.drive(4.5);
+        inchWorm.drive(3.5);
         // strafe to be inline with the junction
-        inchWorm.strafe(34);
+        inchWorm.strafe(33.083);
         // drive until the cone is above the junction
-        inchWorm.drive(22.5);
+        inchWorm.drive(23.5);
         // move lift up
         lift.setTargetPosition(3950);
         while (lift.isBusy()) {}
         // drive towards junction
-        inchWorm.drive(0.75);
+        inchWorm.drive(1);
         // move lift down & open claw
         lift.setTargetPosition(0);
         while (lift.isBusy()) {}
         claw.setPosition(1);
-        // move back to starting configuration
-        inchWorm.drive(-27.75);
+        // drive back for next movements
+        inchWorm.drive(-4.5);
+        // move lift down
         lift.setTargetPosition(0);
         while (lift.isBusy()) {}
         lift.setPower(0);
-        inchWorm.strafe(-34);
 
         // Based on which tag was detected, move to the corresponding position
         switch (detected_id) {
-            case 1:
-                inchWorm.strafe(20);
-                inchWorm.drive(35);
-                break;
             case 2:
-                inchWorm.strafe(-3);
-                inchWorm.drive(35);
+                inchWorm.strafe(-36);
                 break;
             case 3:
-                inchWorm.strafe(-27);
-                inchWorm.drive(35);
+                inchWorm.strafe(-58.25);
                 break;
+            case 1: // case 1 is also default
             default:
                 // no tag was detected or camera broke, move to the fallback position
-                inchWorm.strafe(30.5);
-                inchWorm.drive(-4.5);
+                inchWorm.strafe(-11.25);
                 break;
         }
+
+        // move so that we are inside both squares
+        inchWorm.drive(13);
     }
 }
