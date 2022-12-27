@@ -88,24 +88,24 @@ public class AutoCameraLeft extends LinearOpMode {
         // move forward to prevent scraping against the wall
         inchWorm.drive(4.5);
         // strafe to be inline with the junction
-        inchWorm.strafe(-38.75);
+        inchWorm.strafe(-39.5);
         // drive until the cone is above the junction
         inchWorm.drive(22.5);
         // move lift up
         lift.setTargetPosition(3950);
         while (lift.isBusy()) {}
         // drive towards junction
-        inchWorm.drive(4.5);
+        inchWorm.drive(0.75);
         // move lift down & open claw
         lift.setTargetPosition(0);
         while (lift.isBusy()) {}
         claw.setPosition(1);
         // move back to starting configuration
-        inchWorm.drive(-27.25);
+        inchWorm.drive(-28);
         lift.setTargetPosition(0);
         while (lift.isBusy()) {}
         lift.setPower(0);
-        inchWorm.strafe(38.75);
+        inchWorm.strafe(39.5);
 
         // Based on which tag was detected, move to the corresponding position
         switch (detected_id) {

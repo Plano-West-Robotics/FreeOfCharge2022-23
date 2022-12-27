@@ -18,7 +18,7 @@ public class InchWorm {
      * Ticks/inch for each motor (fl, fr, bl, br, respectively) going left/right.
      * Tune this using the StrafeIPSTuner.
      */
-    public static final int[] STRAFE_TPI = {-60, 62, 64, -60};
+    public static final int[] STRAFE_TPI = {-62, 62, 62, -62};
 
     /**
      * Whether to print debug values to telemetry. Defaults to false.
@@ -87,14 +87,19 @@ public class InchWorm {
         setModes(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (isBusy()) {
+            opMode.telemetry.addLine("fl");
             double flPower = ellipticCurve(fl.getCurrentPosition(), fl.getTargetPosition());
+            opMode.telemetry.addLine("fr");
             double frPower = ellipticCurve(fr.getCurrentPosition(), fr.getTargetPosition());
+            opMode.telemetry.addLine("bl");
             double blPower = ellipticCurve(bl.getCurrentPosition(), bl.getTargetPosition());
+            opMode.telemetry.addLine("br");
             double brPower = ellipticCurve(br.getCurrentPosition(), br.getTargetPosition());
             fl.setPower(flPower);
             fr.setPower(frPower);
             bl.setPower(blPower);
             br.setPower(brPower);
+            if (debug) opMode.telemetry.update();
         }
 
         stop();
@@ -122,14 +127,19 @@ public class InchWorm {
         setModes(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (isBusy()) {
+            opMode.telemetry.addLine("fl");
             double flPower = ellipticCurve(fl.getCurrentPosition(), fl.getTargetPosition());
+            opMode.telemetry.addLine("fr");
             double frPower = ellipticCurve(fr.getCurrentPosition(), fr.getTargetPosition());
+            opMode.telemetry.addLine("bl");
             double blPower = ellipticCurve(bl.getCurrentPosition(), bl.getTargetPosition());
+            opMode.telemetry.addLine("br");
             double brPower = ellipticCurve(br.getCurrentPosition(), br.getTargetPosition());
             fl.setPower(flPower);
             fr.setPower(frPower);
             bl.setPower(blPower);
             br.setPower(brPower);
+            if (debug) opMode.telemetry.update();
         }
 
         stop();
@@ -166,6 +176,9 @@ public class InchWorm {
      * @return Output power.
      */
     private double ellipticCurve(double position, double target) {
+        opMode.telemetry.addLine("position: " + position);
+        opMode.telemetry.addLine("target: " + target);
+
         position = Math.abs(position);
         target = Math.abs(target);
         // midpoint of the radius, will shift the x-coordinates by `midpoint`
@@ -177,11 +190,8 @@ public class InchWorm {
         double shift = Math.pow((position - midpoint) / radius, 2);
         double pow = Math.sqrt(Math.pow(0.5, 2) * Math.abs(1 - shift));
 
-        opMode.telemetry.addData("position", position);
-        opMode.telemetry.addData("target", target);
-        opMode.telemetry.addData("shift", shift);
-        opMode.telemetry.addData("pow", pow);
-        if (debug) opMode.telemetry.update();
+        opMode.telemetry.addLine("shift: " + shift);
+        opMode.telemetry.addLine("pow: " + pow);
 
         // make sure power does not go over 0.5
         return Range.clip(pow, 0, 0.5);
