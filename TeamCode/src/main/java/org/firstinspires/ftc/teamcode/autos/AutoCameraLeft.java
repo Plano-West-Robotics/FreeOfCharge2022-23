@@ -89,7 +89,7 @@ public class AutoCameraLeft extends LinearOpMode {
         // strafe to be inline with the junction
         inchWorm.strafe(-38.75);
         // drive until the cone is above the junction
-        inchWorm.drive(22.5);
+        inchWorm.drive(23.5);
         // move lift up
         lift.setTargetPosition(3950);
         while (lift.isBusy()) {}
