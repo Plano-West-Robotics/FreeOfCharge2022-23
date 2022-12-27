@@ -8,6 +8,7 @@ public class InchTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         InchWorm inchWorm = new InchWorm(this);
+        inchWorm.setDebug(true);
         API api = new API(this);
 
         api.waitForStart();

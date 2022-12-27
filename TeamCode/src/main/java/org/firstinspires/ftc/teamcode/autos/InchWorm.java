@@ -23,7 +23,7 @@ public class InchWorm {
     /**
      * Whether to print debug values to telemetry. Defaults to false.
      */
-    private static boolean debug = true;
+    private static boolean debug = false;
 
     private final DcMotor fl;
     private final DcMotor fr;
@@ -97,7 +97,7 @@ public class InchWorm {
             br.setPower(brPower);
         }
 
-        setPowers(0);
+        stop();
     }
 
     /**
@@ -132,20 +132,17 @@ public class InchWorm {
             br.setPower(brPower);
         }
 
-        setPowers(0);
+        stop();
     }
 
     /**
-     * Set power of all motors
-     * @param power Power to set
+     * Stops all motors
      */
-    private void setPowers(double power) {
-        opMode.telemetry.addData("power", power);
-        if (debug) opMode.telemetry.update();
-        fl.setPower(power);
-        fr.setPower(power);
-        bl.setPower(power);
-        br.setPower(power);
+    private void stop() {
+        fl.setPower(0);
+        fr.setPower(0);
+        bl.setPower(0);
+        br.setPower(0);
     }
 
     /**
@@ -157,40 +154,6 @@ public class InchWorm {
         fr.setMode(mode);
         bl.setMode(mode);
         br.setMode(mode);
-    }
-
-    /**
-     * Calculates average motor power based on an elliptical curve.
-     * The ellipse is centered around (0, 0) with a vertical radius (b) of 1 or 0.5 (depending on whether we're strafing or not),
-     * and a horizontal radius (a) of target.
-     * @param current The current position
-     * @param target  The target position of the whole movement
-     * @param strafe Whether we're strafing or not. If false, sets the vertical radius (max power) to 0.5, otherwise 1.
-     * @return An output power
-     */
-    private double ellipticCurve(double current, double target, boolean strafe) {
-        opMode.telemetry.addData("current", current);
-        opMode.telemetry.addData("target", target);
-        current = Math.abs(current);
-        target = Math.abs(target);
-        /*
-         * This peculiar piece of code is to prevent imaginary numbers when we sqrt later.
-         * If direction is positive (driving forward/strafing left), current will be less than target,
-         * so we can use an ellipse centered around the origin.
-         * However, if the direction is negative (driving backward/strafing right),
-         * current will be greater than target, so we use an ellipse that is shifted such that the left edge is at the target.
-         * This makes the effect the same in that it slows down in an elliptical pattern.
-         */
-        double shift;
-        if (current < target) {
-            shift = Math.pow(current / (target + (target * 0.025)), 2);
-        }
-        else {
-            shift = Math.pow((target - (target * 0.025)) / current, 2);
-        }
-        opMode.telemetry.addData("shift", shift);
-        // if strafing, set multiplier to 1 instead of 0.5
-        return Math.sqrt(Math.pow(strafe ? 1 : 0.5, 2) * (1 - shift));
     }
 
     /**
@@ -213,6 +176,12 @@ public class InchWorm {
         // see the ellipse formula on wikipedia for more info
         double shift = Math.pow((position - midpoint) / radius, 2);
         double pow = Math.sqrt(Math.pow(0.5, 2) * Math.abs(1 - shift));
+
+        opMode.telemetry.addData("position", position);
+        opMode.telemetry.addData("target", target);
+        opMode.telemetry.addData("shift", shift);
+        opMode.telemetry.addData("pow", pow);
+        if (debug) opMode.telemetry.update();
 
         // make sure power does not go over 0.5
         return Range.clip(pow, 0, 0.5);

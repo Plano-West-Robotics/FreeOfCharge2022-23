@@ -39,6 +39,7 @@ public class AutoCameraRight extends LinearOpMode {
         API api = new API(this);
         // set up InchWorm
         InchWorm inchWorm = new InchWorm(this);
+        inchWorm.setDebug(true);
         // disabled for now because slide is broken
         DcMotor lift = hardwareMap.get(DcMotor.class, "slide");
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
