@@ -21,7 +21,7 @@ public class DriveTeleOp extends OpMode {
     private DcMotor motorLift;
     private double powerLift;
     private Servo claw;
-    private double clawPos = 1;
+    private double clawPos = 0.4;
     private double drive = 0, strafe = 0, turn = 0;
     private double speed = 1;
     private boolean last_left_bumper = false;

@@ -23,7 +23,7 @@ public class MonoDrive extends OpMode {
     private Servo claw;
     private double clawPos = 1;
     private double drive = 0, strafe = 0, turn = 0;
-    private double speed = 1;
+    private double speed = 0.4;
     private boolean last_left_bumper = false;
     private boolean last_right_bumper = false;
     private boolean last_claw_control = false;
