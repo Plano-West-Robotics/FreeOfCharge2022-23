@@ -102,26 +102,26 @@ public class AutoCameraLeft extends LinearOpMode {
         claw.setPosition(1);
         // drive back for next movements
         inchWorm.drive(-4.5);
+        // move lift down
         lift.setTargetPosition(0);
         while (lift.isBusy()) {}
         lift.setPower(0);
+        inchWorm.strafe(12.5);
+        inchWorm.drive(24);
 
         // Based on which tag was detected, move to the corresponding position
         switch (detected_id) {
-            case 2:
-                inchWorm.strafe(34.5);
-                break;
             case 1:
-                inchWorm.strafe(60);
+                inchWorm.strafe(47.5);
                 break;
-            case 3: // case 3 is also default
+            case 2:
+                inchWorm.strafe(22);
+                break;
             default:
-                // no tag was detected or camera broke, move to the fallback position
-                inchWorm.strafe(12.5);
                 break;
         }
 
         // move so that we are inside both squares
-        inchWorm.drive(13);
+        inchWorm.drive(-13);
     }
 }
