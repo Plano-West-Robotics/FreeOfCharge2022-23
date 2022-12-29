@@ -86,16 +86,19 @@ public class AutoCameraRight extends LinearOpMode {
         while (lift.isBusy()) {}
 
         // move forward to prevent scraping against the wall
+        inchWorm.setSpeedMultiplier(0.1);
         inchWorm.drive(3.5);
+        inchWorm.setSpeedMultiplier(0.25);
         // strafe to be inline with the junction
         inchWorm.strafe(33.083);
         // drive until the cone is above the junction
+        inchWorm.setSpeedMultiplier(0.5);
         inchWorm.drive(23.5);
         // move lift up
         lift.setTargetPosition(3950);
         while (lift.isBusy()) {}
         // drive towards junction
-        inchWorm.drive(1.25);
+        inchWorm.drive(2.25);
         // move lift down & open claw
         lift.setTargetPosition(0);
         while (lift.isBusy()) {}
@@ -120,6 +123,6 @@ public class AutoCameraRight extends LinearOpMode {
         }
 
         // move so that we are inside both squares
-        inchWorm.drive(-13);
+        inchWorm.drive(-10);
     }
 }
