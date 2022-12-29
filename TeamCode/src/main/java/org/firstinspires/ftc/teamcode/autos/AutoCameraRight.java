@@ -68,18 +68,24 @@ public class AutoCameraRight extends LinearOpMode {
 
         api.waitForStart();
 
-        // Allows the camera to settle
-        api.pause(5);
+        // wait for the camera to detect something OR for 5 seconds to pass, whichever happens first
+        double stopTime = getRuntime() + 5;
+        ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
+        while (currentDetections.size() == 0 && getRuntime() < stopTime) {
+            currentDetections = aprilTagDetectionPipeline.getLatestDetections();
+        }
 
         // get the first detection from the list
-        ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
+        // we check size again in case the while loop was stopped due to time
         if (currentDetections.size() != 0) {
             detected_id = currentDetections.get(0).id;
             telemetry.addData("Tag found", String.valueOf(detected_id));
             telemetry.update();
         }
 
-        camera.stopStreaming();
+        try {
+            camera.stopStreaming();
+        } catch (Exception ignored) {}
 
         // move lift up to prevent cone from scraping on the floor
         lift.setTargetPosition(SlidePresets.LOW.position);
