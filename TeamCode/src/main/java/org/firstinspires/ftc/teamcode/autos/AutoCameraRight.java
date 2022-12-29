@@ -95,7 +95,7 @@ public class AutoCameraRight extends LinearOpMode {
         lift.setTargetPosition(3950);
         while (lift.isBusy()) {}
         // drive towards junction
-        inchWorm.drive(1);
+        inchWorm.drive(1.25);
         // move lift down & open claw
         lift.setTargetPosition(0);
         while (lift.isBusy()) {}

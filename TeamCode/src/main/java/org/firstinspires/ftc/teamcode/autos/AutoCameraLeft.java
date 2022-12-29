@@ -86,16 +86,16 @@ public class AutoCameraLeft extends LinearOpMode {
         while (lift.isBusy()) {}
 
         // move forward to prevent scraping against the wall
-        inchWorm.drive(3.5);
+        inchWorm.drive(4.5);
         // strafe to be inline with the junction
         inchWorm.strafe(-39.5);
         // drive until the cone is above the junction
-        inchWorm.drive(23.5);
+        inchWorm.drive(22.5);
         // move lift up
         lift.setTargetPosition(3950);
         while (lift.isBusy()) {}
         // drive towards junction
-        inchWorm.drive(0.5);
+        inchWorm.drive(1);
         // move lift down & open claw
         lift.setTargetPosition(0);
         while (lift.isBusy()) {}
