@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.SlidePresets;
 import org.firstinspires.ftc.teamcode.vendor.AprilTagDetectionPipeline;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -81,7 +82,7 @@ public class AutoCameraRight extends LinearOpMode {
         camera.stopStreaming();
 
         // move lift up to prevent cone from scraping on the floor
-        lift.setTargetPosition(1846);
+        lift.setTargetPosition(SlidePresets.LOW.position);
         lift.setPower(0.75);
         while (lift.isBusy()) {}
 
@@ -95,20 +96,17 @@ public class AutoCameraRight extends LinearOpMode {
         inchWorm.setSpeedMultiplier(0.5);
         inchWorm.drive(23.5);
         // move lift up
-        lift.setTargetPosition(3950);
+        lift.setTargetPosition(SlidePresets.HIGH.position);
         while (lift.isBusy()) {}
         // drive towards junction
         inchWorm.drive(2.25);
         // move lift down & open claw
-        lift.setTargetPosition(0);
+        lift.setTargetPosition(SlidePresets.GROUND.position);
         while (lift.isBusy()) {}
+        lift.setPower(0);
         claw.setPosition(1);
         // drive back for next movements
         inchWorm.drive(-4.5);
-        // move lift down
-        lift.setTargetPosition(0);
-        while (lift.isBusy()) {}
-        lift.setPower(0);
         inchWorm.strafe(-11.25);
         inchWorm.drive(24);
 
