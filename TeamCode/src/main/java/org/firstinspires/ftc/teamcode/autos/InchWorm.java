@@ -23,7 +23,12 @@ public class InchWorm {
     /**
      * Whether to print debug values to telemetry. Defaults to false.
      */
-    private static boolean debug = false;
+    private boolean debug = false;
+
+    /**
+     * Vertical radius of the elliptical curve. Defaults to 0.5.
+     */
+    private double speedMultiplier = 0.5;
 
     private final DcMotor fl;
     private final DcMotor fr;
@@ -139,7 +144,7 @@ public class InchWorm {
             fr.setPower(frPower);
             bl.setPower(blPower);
             br.setPower(brPower);
-            if (debug) opMode.telemetry.update();
+            if (getDebug()) opMode.telemetry.update();
         }
 
         stop();
@@ -188,7 +193,7 @@ public class InchWorm {
 
         // see the ellipse formula on wikipedia for more info
         double shift = Math.pow((position - midpoint) / radius, 2);
-        double pow = Math.sqrt(Math.pow(0.5, 2) * Math.abs(1 - shift));
+        double pow = Math.sqrt(Math.pow(getSpeedMultiplier(), 2) * Math.abs(1 - shift));
 
         opMode.telemetry.addLine("shift: " + shift);
         opMode.telemetry.addLine("pow: " + pow);
@@ -211,5 +216,13 @@ public class InchWorm {
      */
     public boolean getDebug() {
         return debug;
+    }
+
+    public void setSpeedMultiplier(double newSpeed) {
+        speedMultiplier = newSpeed;
+    }
+
+    public double getSpeedMultiplier() {
+        return speedMultiplier;
     }
 }
