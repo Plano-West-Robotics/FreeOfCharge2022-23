@@ -21,6 +21,13 @@ public class InchWorm {
     public static final int[] STRAFE_TPI = {-62, 62, 62, -62};
 
     /**
+     * Ticks/radian for each motor (fl, fr, bl, br, respectively).
+     * Tune this using the TurnTPRTuner.
+     */
+    // TODO: tune these values
+    public static final int[] TICKS_PER_RADIAN = {-59, 59, -59, 59};
+
+    /**
      * Whether to print debug values to telemetry. Defaults to false.
      */
     private boolean debug = false;
@@ -154,6 +161,55 @@ public class InchWorm {
         }
 
         stop();
+    }
+
+    /**
+     * Turn the specified number of radians (relative to the current position),
+     * positive being counterclockwise, negative being clockwise.
+     * @param radians Number of radians to turn, within [-π, π), positive being counterclockwise.
+     */
+    public void turnRadians(double radians) {
+        int posFL = (int) (TICKS_PER_RADIAN[0] * radians);
+        int posFR = (int) (TICKS_PER_RADIAN[1] * radians);
+        int posBL = (int) (TICKS_PER_RADIAN[2] * radians);
+        int posBR = (int) (TICKS_PER_RADIAN[3] * radians);
+
+        // reset encoder positions to 0
+        setModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        fl.setTargetPosition(posFL);
+        fr.setTargetPosition(posFR);
+        bl.setTargetPosition(posBL);
+        br.setTargetPosition(posBR);
+
+        setModes(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (isBusy()) {
+            opMode.telemetry.addLine("fl");
+            double flPower = ellipticCurve(fl.getCurrentPosition(), fl.getTargetPosition());
+            opMode.telemetry.addLine("fr");
+            double frPower = ellipticCurve(fr.getCurrentPosition(), fr.getTargetPosition());
+            opMode.telemetry.addLine("bl");
+            double blPower = ellipticCurve(bl.getCurrentPosition(), bl.getTargetPosition());
+            opMode.telemetry.addLine("br");
+            double brPower = ellipticCurve(br.getCurrentPosition(), br.getTargetPosition());
+            fl.setPower(flPower);
+            fr.setPower(frPower);
+            bl.setPower(blPower);
+            br.setPower(brPower);
+            if (getDebug()) opMode.telemetry.update();
+        }
+
+        stop();
+    }
+
+    /**
+     * Turn the specified number of degrees (relative to the current position),
+     * positive being counterclockwise, negative being clockwise.
+     * @param degrees Number of degrees to turn, within [-180, 180), positive being counterclockwise
+     */
+    public void turnDegrees(double degrees) {
+        turnRadians(Math.toRadians(degrees));
     }
 
     /**
