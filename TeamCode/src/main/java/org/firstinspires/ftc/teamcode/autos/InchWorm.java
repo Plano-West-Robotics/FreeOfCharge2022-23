@@ -25,7 +25,7 @@ public class InchWorm {
      * Tune this using the TurnTPRTuner.
      */
     // TODO: tune these values
-    public static final int[] TICKS_PER_RADIAN = {-59, 59, -59, 59};
+    public static final int[] TICKS_PER_RADIAN = {-703, 709, -655, 652};
 
     /**
      * Whether to print debug values to telemetry. Defaults to false.

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@Autonomous(group = "test")
+@Autonomous(group = "tune")
 public class TurnTPRTuner extends LinearOpMode {
     @Override
     public void runOpMode() {
@@ -24,8 +24,11 @@ public class TurnTPRTuner extends LinearOpMode {
         movementAPI.getBL().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         movementAPI.getBR().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        movementAPI.move(0, -1, 0.5);
+        api.waitForStart();
+
+        movementAPI.move(0, 0, -1, 0.25, false);
         api.pause(1);
+        movementAPI.stop();
 
         while (opModeIsActive()) {
             telemetry.addLine(api.getHeading(AngleUnit.RADIANS) + System.lineSeparator() +
@@ -34,6 +37,7 @@ public class TurnTPRTuner extends LinearOpMode {
                     movementAPI.getBL().getCurrentPosition() + System.lineSeparator() +
                     movementAPI.getBR().getCurrentPosition() + System.lineSeparator()
             );
+            telemetry.update();
         }
     }
 }

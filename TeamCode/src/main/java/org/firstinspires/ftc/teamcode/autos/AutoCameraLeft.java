@@ -124,11 +124,10 @@ public class AutoCameraLeft extends LinearOpMode {
             case 2:
                 inchWorm.strafe(22);
                 break;
-            default:
-                break;
         }
 
-        // move so that we are inside both squares
-        inchWorm.drive(-10);
+        // turn around and move so that we are inside both squares
+        inchWorm.turnDegrees(-180);
+        inchWorm.drive(10);
     }
 }
