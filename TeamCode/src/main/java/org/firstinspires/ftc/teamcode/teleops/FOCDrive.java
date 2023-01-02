@@ -90,6 +90,7 @@ public class FOCDrive extends OpMode {
         DecimalFormat df = new DecimalFormat("#%");
         telemetry.addData("speed", df.format(speed));
         telemetry.addData("clawPos", df.format(clawPos));
+        telemetry.addData("heading", Math.toDegrees(heading));
         telemetry.update();
     }
 
