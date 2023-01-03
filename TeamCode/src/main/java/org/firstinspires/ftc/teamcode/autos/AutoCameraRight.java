@@ -126,8 +126,7 @@ public class AutoCameraRight extends LinearOpMode {
                 break;
         }
 
-        // turn around and move so that we are inside both squares
-        inchWorm.turnDegrees(-180);
-        inchWorm.drive(10);
+        // move so that we are inside both squares
+        inchWorm.drive(-10);
     }
 }
