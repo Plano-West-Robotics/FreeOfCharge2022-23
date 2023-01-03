@@ -102,7 +102,6 @@ public class MonoDrive extends OpMode {
 
         motorLift = hardwareMap.get(DcMotor.class, "slide");
         motorLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         claw = hardwareMap.get(Servo.class, "claw");
