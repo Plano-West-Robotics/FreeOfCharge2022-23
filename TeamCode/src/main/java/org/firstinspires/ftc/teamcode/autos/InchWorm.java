@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.PositionPIDMotor;
-
 /**
  * InchWorm: API for moving a certain number of inches. Make sure to tune DRIVE_TPI and STRAFE_TPI.
  */
@@ -39,42 +37,38 @@ public class InchWorm {
      */
     private double speedMultiplier = 0.5;
 
-    private final PositionPIDMotor fl;
-    private final PositionPIDMotor fr;
-    private final PositionPIDMotor bl;
-    private final PositionPIDMotor br;
+    private final DcMotor fl;
+    private final DcMotor fr;
+    private final DcMotor bl;
+    private final DcMotor br;
 
     private final LinearOpMode opMode;
-
-    // these are the default values for the rev motors
-    private static final double KP = 10;
-    private static final double KI = 0.049988;
-    private static final double KD = 0;
 
     public InchWorm(LinearOpMode mode) {
         opMode = mode;
         HardwareMap hardwareMap = opMode.hardwareMap;
 
-        fl = new PositionPIDMotor(hardwareMap.get(DcMotor.class, "frontLeft"), KP, KI, KD);
-        fr = new PositionPIDMotor(hardwareMap.get(DcMotor.class, "frontRight"), KP, KI, KD);
-        bl = new PositionPIDMotor(hardwareMap.get(DcMotor.class, "rearLeft"), KP, KI, KD);
-        br = new PositionPIDMotor(hardwareMap.get(DcMotor.class, "rearRight"), KP, KI, KD);
+        fl = hardwareMap.get(DcMotor.class, "frontLeft");
+        fr = hardwareMap.get(DcMotor.class, "frontRight");
+        bl = hardwareMap.get(DcMotor.class, "rearLeft");
+        br = hardwareMap.get(DcMotor.class, "rearRight");
 
         // reset encoders to 0
         setModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        // this is a temporary measure. modes will be reset once actually moving
         setModes(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        fl.inner().setDirection(DcMotor.Direction.REVERSE);
-        bl.inner().setDirection(DcMotor.Direction.REVERSE);
-        fr.inner().setDirection(DcMotor.Direction.FORWARD);
-        br.inner().setDirection(DcMotor.Direction.FORWARD);
+        fl.setDirection(DcMotor.Direction.REVERSE);
+        bl.setDirection(DcMotor.Direction.REVERSE);
+        fr.setDirection(DcMotor.Direction.FORWARD);
+        br.setDirection(DcMotor.Direction.FORWARD);
 
         // counteract inertia
-        fl.inner().setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        fr.inner().setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        bl.inner().setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        br.inner().setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     /**
@@ -107,6 +101,8 @@ public class InchWorm {
         fr.setTargetPosition(posFR);
         bl.setTargetPosition(posBL);
         br.setTargetPosition(posBR);
+
+        setModes(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (isBusy()) {
             opMode.telemetry.addLine("fl");
@@ -146,6 +142,8 @@ public class InchWorm {
         bl.setTargetPosition(posBL);
         br.setTargetPosition(posBR);
 
+        setModes(DcMotor.RunMode.RUN_TO_POSITION);
+
         while (isBusy()) {
             opMode.telemetry.addLine("fl");
             double flPower = ellipticCurve(fl.getCurrentPosition(), fl.getTargetPosition());
@@ -183,6 +181,8 @@ public class InchWorm {
         fr.setTargetPosition(posFR);
         bl.setTargetPosition(posBL);
         br.setTargetPosition(posBR);
+
+        setModes(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (isBusy()) {
             opMode.telemetry.addLine("fl");
@@ -227,10 +227,10 @@ public class InchWorm {
      * @param mode Mode to set
      */
     private void setModes(DcMotor.RunMode mode) {
-        fl.inner().setMode(mode);
-        fr.inner().setMode(mode);
-        bl.inner().setMode(mode);
-        br.inner().setMode(mode);
+        fl.setMode(mode);
+        fr.setMode(mode);
+        bl.setMode(mode);
+        br.setMode(mode);
     }
 
     /**
