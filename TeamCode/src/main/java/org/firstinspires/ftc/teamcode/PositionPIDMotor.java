@@ -137,4 +137,12 @@ public class PositionPIDMotor {
     public double getSpeedMultiplier() {
         return speedMultiplier;
     }
+
+    public void setPower(double pow) {
+        setSpeedMultiplier(pow);
+    }
+
+    public DcMotor inner() {
+        return motor;
+    }
 }
