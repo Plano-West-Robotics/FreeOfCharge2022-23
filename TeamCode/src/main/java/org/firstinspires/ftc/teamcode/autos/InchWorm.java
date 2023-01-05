@@ -171,10 +171,10 @@ public class InchWorm {
      * @param radians Number of radians to turn, within [-π, π), positive being counterclockwise.
      */
     public void turnRadians(double radians) {
-        int posFL = (int) (TICKS_PER_RADIAN[0] * radians);
-        int posFR = (int) (TICKS_PER_RADIAN[1] * radians);
-        int posBL = (int) (TICKS_PER_RADIAN[2] * radians);
-        int posBR = (int) (TICKS_PER_RADIAN[3] * radians);
+        int posFL = (int) Math.ceil(TICKS_PER_RADIAN[0] * radians);
+        int posFR = (int) Math.ceil(TICKS_PER_RADIAN[1] * radians);
+        int posBL = (int) Math.ceil(TICKS_PER_RADIAN[2] * radians);
+        int posBR = (int) Math.ceil(TICKS_PER_RADIAN[3] * radians);
 
         // reset encoder positions to 0
         setModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
