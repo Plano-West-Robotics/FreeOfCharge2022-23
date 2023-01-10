@@ -17,5 +17,9 @@ public class InchTest extends LinearOpMode {
         inchWorm.drive(24);
         inchWorm.drive(-24);
         inchWorm.strafe(-24);
+
+        inchWorm.turnDegrees(90);
+        inchWorm.turnDegrees(-180);
+        inchWorm.turnDegrees(90);
     }
 }

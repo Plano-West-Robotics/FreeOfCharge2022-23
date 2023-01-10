@@ -13,19 +13,18 @@ public class InchWorm {
      * Ticks/inch for each motor (fl, fr, bl, br, respectively) going forward/backward.
      * Tune this using the DriveIPSTuner.
      */
-    public static final int[] DRIVE_TPI = {57, 57, 57, 57};
+    public static final int[] DRIVE_TPI = {59, 59, 59, 59};
     /**
      * Ticks/inch for each motor (fl, fr, bl, br, respectively) going left/right.
      * Tune this using the StrafeIPSTuner.
      */
-    public static final int[] STRAFE_TPI = {-62, 62, 62, -62};
+    public static final int[] STRAFE_TPI = {-59, 59, 59, -59};
 
     /**
      * Ticks/radian for each motor (fl, fr, bl, br, respectively).
      * Tune this using the TurnTPRTuner.
      */
-    // TODO: tune these values
-    public static final int[] TICKS_PER_RADIAN = {-59, 59, -59, 59};
+    public static final int[] TICKS_PER_RADIAN = {-712, 702, -672, 654};
 
     /**
      * Whether to print debug values to telemetry. Defaults to false.
@@ -89,10 +88,10 @@ public class InchWorm {
      * @param inches Number of inches to move; positive means forward, negative means backwards
      */
     public void drive(double inches) {
-        int posFL = (int) (DRIVE_TPI[0] * inches);
-        int posFR = (int) (DRIVE_TPI[1] * inches);
-        int posBL = (int) (DRIVE_TPI[2] * inches);
-        int posBR = (int) (DRIVE_TPI[3] * inches);
+        int posFL = (int) Math.ceil(DRIVE_TPI[0] * inches);
+        int posFR = (int) Math.ceil(DRIVE_TPI[1] * inches);
+        int posBL = (int) Math.ceil(DRIVE_TPI[2] * inches);
+        int posBR = (int) Math.ceil(DRIVE_TPI[3] * inches);
 
         // reset encoders to 0
         setModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -129,10 +128,10 @@ public class InchWorm {
      * @param inches Number of inches to move; positive means left, negative means right
      */
     public void strafe(double inches) {
-        int posFL = (int) (STRAFE_TPI[0] * inches);
-        int posFR = (int) (STRAFE_TPI[1] * inches);
-        int posBL = (int) (STRAFE_TPI[2] * inches);
-        int posBR = (int) (STRAFE_TPI[3] * inches);
+        int posFL = (int) Math.ceil(STRAFE_TPI[0] * inches);
+        int posFR = (int) Math.ceil(STRAFE_TPI[1] * inches);
+        int posBL = (int) Math.ceil(STRAFE_TPI[2] * inches);
+        int posBR = (int) Math.ceil(STRAFE_TPI[3] * inches);
 
         // reset encoders to 0
         setModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
