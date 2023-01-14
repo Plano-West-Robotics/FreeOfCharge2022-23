@@ -34,7 +34,7 @@ public class CameraTest extends LinearOpMode {
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-                camera.startStreaming(800, 448, OpenCvCameraRotation.SIDEWAYS_LEFT);
+                camera.startStreaming(800, 448, OpenCvCameraRotation.UPRIGHT);
                 FtcDashboard dashboard = FtcDashboard.getInstance();
                 dashboard.startCameraStream(camera, 0);
             }
