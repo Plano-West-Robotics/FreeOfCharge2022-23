@@ -11,12 +11,10 @@ repositories {
 dependencies {
     def multidex_version = "2.0.1"
     implementation "androidx.multidex:multidex:$multidex_version"
-    implementation 'org.openftc:apriltag:1.1.0'
-    implementation 'org.openftc:easyopencv:1.5.2'
+    implementation 'org.openftc:apriltag:1.1.1'
+    implementation 'org.openftc:easyopencv:1.5.3'
     implementation 'org.jetbrains:annotations:15.0'
-    implementation('com.acmerobotics.dashboard:dashboard:0.4.6') {
-        exclude group: 'org.firstinspires.ftc'
-    }
+    implementation 'com.acmerobotics.dashboard:dashboard:0.4.8'
     implementation 'org.firstinspires.ftc:Inspection:8.1.1'
     implementation 'org.firstinspires.ftc:Blocks:8.1.1'
     implementation 'org.firstinspires.ftc:Tfod:8.1.1'
@@ -26,7 +24,7 @@ dependencies {
     implementation 'org.firstinspires.ftc:Hardware:8.1.1'
     implementation 'org.firstinspires.ftc:FtcCommon:8.1.1'
     implementation 'org.tensorflow:tensorflow-lite-task-vision:0.2.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'org.firstinspires.ftc:gameAssets-PowerPlay:1.0.0'
 }
 
