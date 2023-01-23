@@ -93,6 +93,10 @@ public class InchWorm2 {
         stop();
     }
 
+    public void moveTo(double x, double y) {
+        moveTo(new Pose(x, y));
+    }
+
     private Pose getCurrentPose() {
         double currentX = (fl.getCurrentPosition() + fr.getCurrentPosition() - bl.getCurrentPosition() - br.getCurrentPosition()) / 4.0;
         double currentY = (fl.getCurrentPosition() + fr.getCurrentPosition() + bl.getCurrentPosition() + br.getCurrentPosition()) / 4.0;
