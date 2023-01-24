@@ -98,7 +98,7 @@ public class InchWorm2 {
     }
 
     private Pose getCurrentPose() {
-        double currentX = (fl.getCurrentPosition() + fr.getCurrentPosition() - bl.getCurrentPosition() - br.getCurrentPosition()) / 4.0;
+        double currentX = (bl.getCurrentPosition() + fr.getCurrentPosition() - fl.getCurrentPosition() - br.getCurrentPosition()) / 4.0;
         double currentY = (fl.getCurrentPosition() + fr.getCurrentPosition() + bl.getCurrentPosition() + br.getCurrentPosition()) / 4.0;
 
         return new Pose(currentX, currentY);
@@ -114,6 +114,7 @@ public class InchWorm2 {
     private int[] getWheelTargets(Pose target) {
         int[] output = new int[4];
 
+        // fl, fr, bl, br, respectively
         output[0] = (int) Math.round(target.y - target.x);
         output[1] = (int) Math.round(target.y + target.x);
         output[2] = (int) Math.round(target.y + target.x);
