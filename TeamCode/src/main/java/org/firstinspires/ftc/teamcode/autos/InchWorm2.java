@@ -49,11 +49,11 @@ public class InchWorm2 {
     // todo: add theta
     public void moveTo(Pose pose) {
         // convert pose in inches to pose in ticks
-        pose.mul(TPI);
+        pose = pose.mul(TPI);
         // get current pose using forward kinematics
         Pose current = getCurrentPose();
         // get the distance to the target
-        Pose diff = pose.getDiff(current);
+        Pose diff = pose.sub(current);
 
         int[] targets = getWheelTargets(diff);
 
@@ -67,10 +67,10 @@ public class InchWorm2 {
         int blStart = bl.getCurrentPosition();
         int brStart = br.getCurrentPosition();
 
-        fl.setTargetPosition(posFL);
-        fr.setTargetPosition(posFR);
-        bl.setTargetPosition(posBL);
-        br.setTargetPosition(posBR);
+        fl.setTargetPosition(flStart + posFL);
+        fr.setTargetPosition(frStart + posFR);
+        bl.setTargetPosition(blStart + posBL);
+        br.setTargetPosition(brStart + posBR);
 
         setModes(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -187,8 +187,8 @@ public class InchWorm2 {
             y = Y;
         }
 
-        public Pose getDiff(Pose other) {
-            return new Pose(other.x - this.x, other.y - this.y);
+        public Pose sub(Pose other) {
+            return new Pose(this.x - other.x, this.y - other.y);
         }
 
         public Pose mul(double n) {
