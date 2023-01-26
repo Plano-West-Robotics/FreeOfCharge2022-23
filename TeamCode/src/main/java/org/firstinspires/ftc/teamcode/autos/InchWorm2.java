@@ -8,7 +8,13 @@ import com.qualcomm.robotcore.util.Range;
 public class InchWorm2 {
     public static final double TICKS_PER_REV = 560;
     public static final double WHEEL_DIAMETER_INCHES = 3;
-    public final double TPI = TICKS_PER_REV / (WHEEL_DIAMETER_INCHES * Math.PI);
+    // todo: tune these values
+    public static final double WHEELBASE_WIDTH_INCHES = 0;
+    public static final double WHEELBASE_LENGTH_INCHES = 0;
+    public static final double WHEELBASE_DIAGONAL_INCHES = Math.hypot(WHEELBASE_WIDTH_INCHES, WHEELBASE_LENGTH_INCHES);
+    public static final double TPI = TICKS_PER_REV / (WHEEL_DIAMETER_INCHES * Math.PI);
+    public static final double DEGREES_PER_INCH = 360 / (WHEELBASE_DIAGONAL_INCHES * Math.PI);
+    public static final double TICKS_PER_DEGREE = 1 / (DEGREES_PER_INCH / TPI);
     private final DcMotor fl;
     private final DcMotor fr;
     private final DcMotor bl;
@@ -48,7 +54,7 @@ public class InchWorm2 {
     // todo: add theta
     public void moveTo(Pose pose) {
         // convert pose in inches to pose in ticks
-        pose = pose.mul(TPI);
+        pose = pose.toTicks();
 
         int[] targets = getWheelTargets(pose);
 
@@ -89,6 +95,9 @@ public class InchWorm2 {
     public void moveTo(double x, double y) {
         moveTo(new Pose(x, y));
     }
+    public void moveTo(double x, double y, double theta) {
+        moveTo(new Pose(x, y, theta));
+    }
 
     private void setModes(DcMotor.RunMode mode) {
         fl.setMode(mode);
@@ -100,11 +109,14 @@ public class InchWorm2 {
     private int[] getWheelTargets(Pose target) {
         int[] output = new int[4];
 
+        // assuming pose has already been converted to ticks
+        int rotation = (int) Math.floor((WHEELBASE_WIDTH_INCHES * TPI) * target.theta);
+
         // fl, fr, bl, br, respectively
-        output[0] = (int) Math.floor(target.y - target.x);
-        output[1] = (int) Math.floor(target.y + target.x);
-        output[2] = (int) Math.floor(target.y + target.x);
-        output[3] = (int) Math.floor(target.y - target.x);
+        output[0] = (int) Math.floor(target.y - target.x + rotation);
+        output[1] = (int) Math.floor(target.y + target.x - rotation);
+        output[2] = (int) Math.floor(target.y + target.x + rotation);
+        output[3] = (int) Math.floor(target.y - target.x - rotation);
 
         return output;
     }
@@ -176,18 +188,21 @@ public class InchWorm2 {
     public static class Pose {
         double x;
         double y;
+        double theta = 0;
 
         public Pose(double X, double Y) {
             x = X;
             y = Y;
         }
 
-        public Pose sub(Pose other) {
-            return new Pose(this.x - other.x, this.y - other.y);
+        public Pose(double X, double Y, double angle) {
+            x = X;
+            y = Y;
+            theta = angle;
         }
 
-        public Pose mul(double n) {
-            return new Pose(this.x * n, this.y * n);
+        public Pose toTicks() {
+            return new Pose(this.x * TPI, this.y * TPI, this.theta / TICKS_PER_DEGREE);
         }
     }
 }
