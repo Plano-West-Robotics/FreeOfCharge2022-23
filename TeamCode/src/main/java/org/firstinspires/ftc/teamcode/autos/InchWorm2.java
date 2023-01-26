@@ -3,22 +3,25 @@ package org.firstinspires.ftc.teamcode.autos;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.PIDController;
 
 public class InchWorm2 {
     public static final double TICKS_PER_REV = 560;
     public static final double WHEEL_DIAMETER_INCHES = 3;
-    // todo: tune these values
-    public static final double WHEELBASE_WIDTH_INCHES = 0;
-    public static final double WHEELBASE_LENGTH_INCHES = 0;
-    public static final double WHEELBASE_DIAGONAL_INCHES = Math.hypot(WHEELBASE_WIDTH_INCHES, WHEELBASE_LENGTH_INCHES);
     public static final double TPI = TICKS_PER_REV / (WHEEL_DIAMETER_INCHES * Math.PI);
-    public static final double DEGREES_PER_INCH = 360 / (WHEELBASE_DIAGONAL_INCHES * Math.PI);
-    public static final double TICKS_PER_DEGREE = 1 / (DEGREES_PER_INCH / TPI);
     private final DcMotor fl;
     private final DcMotor fr;
     private final DcMotor bl;
     private final DcMotor br;
+    private final IMU imu;
+    // todo: tune these values
+    private final PIDController controllerX = new PIDController(10, 0.05, 0, 0);
+    private final PIDController controllerY = new PIDController(10, 0.05, 0, 0);
+    private final PIDController controllerTheta = new PIDController(0, 0, 0, 0);
 
     private double speed = 0.5;
 
@@ -32,6 +35,8 @@ public class InchWorm2 {
         fr = hardwareMap.get(DcMotor.class, "frontRight");
         bl = hardwareMap.get(DcMotor.class, "rearLeft");
         br = hardwareMap.get(DcMotor.class, "rearRight");
+
+        imu = hardwareMap.get(IMU.class, "imu");
 
         // reset encoders to 0
         setModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -54,42 +59,25 @@ public class InchWorm2 {
     // todo: add theta
     public void moveTo(Pose pose) {
         // convert pose in inches to pose in ticks
-        pose = pose.toTicks();
-
-        int[] targets = getWheelTargets(pose);
-
-        int posFL = targets[0];
-        int posFR = targets[1];
-        int posBL = targets[2];
-        int posBR = targets[3];
-
-        int flStart = fl.getCurrentPosition();
-        int frStart = fr.getCurrentPosition();
-        int blStart = bl.getCurrentPosition();
-        int brStart = br.getCurrentPosition();
-
-        fl.setTargetPosition(posFL);
-        fr.setTargetPosition(posFR);
-        bl.setTargetPosition(posBL);
-        br.setTargetPosition(posBR);
-
-        setModes(DcMotor.RunMode.RUN_TO_POSITION);
+        pose = pose.toTicks().normalizeAngle();
+        controllerX.setTarget(pose.x);
+        controllerY.setTarget(pose.y);
+        controllerTheta.setTarget(pose.theta);
+        controllerX.reset();
+        controllerY.reset();
 
         while (isBusy()) {
-            opMode.telemetry.addLine("fl");
-            double flPower = ellipticCurve(flStart, fl.getCurrentPosition(), fl.getTargetPosition());
-            opMode.telemetry.addLine("fr");
-            double frPower = ellipticCurve(frStart, fr.getCurrentPosition(), fr.getTargetPosition());
-            opMode.telemetry.addLine("bl");
-            double blPower = ellipticCurve(blStart, bl.getCurrentPosition(), bl.getTargetPosition());
-            opMode.telemetry.addLine("br");
-            double brPower = ellipticCurve(brStart, br.getCurrentPosition(), br.getTargetPosition());
-            fl.setPower(flPower);
-            fr.setPower(frPower);
-            bl.setPower(blPower);
-            br.setPower(brPower);
-            opMode.telemetry.update();
+            Pose current = getCurrentPose();
+            Pose out = new Pose(controllerX.calculate(current.x), controllerY.calculate(current.y), controllerTheta.calculate(current.theta));
+
+            double heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            double rotX = out.x * Math.cos(heading) - out.y * Math.sin(heading);
+            double rotY = out.x * Math.sin(heading) + out.y * Math.cos(heading);
+
+            moveWheels(rotY, rotX, out.theta, getSpeedMultiplier());
         }
+
+        stop();
     }
 
     public void moveTo(double x, double y) {
@@ -106,19 +94,11 @@ public class InchWorm2 {
         br.setMode(mode);
     }
 
-    private int[] getWheelTargets(Pose target) {
-        int[] output = new int[4];
+    private Pose getCurrentPose() {
+        double y = ((fl.getCurrentPosition() + fr.getCurrentPosition() + bl.getCurrentPosition() + br.getCurrentPosition()) / 4.0);
+        double x = ((fl.getCurrentPosition() - fr.getCurrentPosition() - bl.getCurrentPosition() + br.getCurrentPosition()) / 4.0);
 
-        // assuming pose has already been converted to ticks
-        int rotation = (int) Math.floor((WHEELBASE_WIDTH_INCHES * TPI) * target.theta);
-
-        // fl, fr, bl, br, respectively
-        output[0] = (int) Math.floor(target.y - target.x + rotation);
-        output[1] = (int) Math.floor(target.y + target.x - rotation);
-        output[2] = (int) Math.floor(target.y + target.x + rotation);
-        output[3] = (int) Math.floor(target.y - target.x - rotation);
-
-        return output;
+        return new Pose(x, y, imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
     }
 
     /**
@@ -127,11 +107,8 @@ public class InchWorm2 {
      * @return Whether all motors are busy, AND if the opMode is still running.
      */
     public boolean isBusy() {
-        return fl.isBusy() &&
-                fr.isBusy() &&
-                bl.isBusy() &&
-                br.isBusy() &&
-                opMode.opModeIsActive();
+        // todo: make this real
+        return opMode.opModeIsActive();
     }
 
     /**
@@ -142,6 +119,25 @@ public class InchWorm2 {
         fr.setPower(0);
         bl.setPower(0);
         br.setPower(0);
+    }
+
+    public void moveWheels(double powerY, double powerX, double turn, double speed) {
+        double flPower = (powerX + powerY + turn) * speed;
+        double frPower = (powerX - powerY - turn) * speed;
+        double blPower = (powerX - powerY + turn) * speed;
+        double brPower = (powerX + powerY - turn) * speed;
+
+        double scale = Math.max(1, (Math.abs(powerY) + Math.abs(turn) + Math.abs(powerX)) * Math.abs(speed)); // shortcut for max(abs([fl,fr,bl,br]))
+        flPower /= scale;
+        frPower /= scale;
+        blPower /= scale;
+        brPower /= scale;
+
+        fl.setPower(flPower);
+        fr.setPower(frPower);
+        bl.setPower(blPower);
+        br.setPower(brPower);
+
     }
 
     /**
@@ -202,7 +198,15 @@ public class InchWorm2 {
         }
 
         public Pose toTicks() {
-            return new Pose(this.x * TPI, this.y * TPI, this.theta / TICKS_PER_DEGREE);
+            return new Pose(this.x * TPI, this.y * TPI, this.theta);
+        }
+
+        public Pose normalizeAngle() {
+            double radians = this.theta;
+            while (radians > Math.PI) radians -= 2 * Math.PI;
+            while (radians < Math.PI) radians += 2 * Math.PI;
+
+            return new Pose(this.x, this.y, radians);
         }
     }
 }

@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class InchTest2 extends LinearOpMode {
     @Override
     public void runOpMode() {
-        InchWorm2 inchWorm = new InchWorm2(this);
         API api = new API(this);
+        InchWorm2 inchWorm = new InchWorm2(this);
 
         api.waitForStart();
 

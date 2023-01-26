@@ -81,4 +81,12 @@ public class PIDController {
         this.Kd = Kd;
         this.target = target;
     }
+
+    /**
+     * Sets the new target.
+     * @param target New target position.
+     */
+    public void setTarget(double target) {
+        this.target = target;
+    }
 }
