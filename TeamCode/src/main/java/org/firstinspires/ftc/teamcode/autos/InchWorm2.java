@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 public class InchWorm2 {
     public static final double TICKS_PER_REV = 560;
     public static final double WHEEL_DIAMETER_INCHES = 3;
-    public final double TPI;
+    public final double TPI = TICKS_PER_REV / (WHEEL_DIAMETER_INCHES * Math.PI);
     private final DcMotor fl;
     private final DcMotor fr;
     private final DcMotor bl;
@@ -17,9 +17,6 @@ public class InchWorm2 {
     private final LinearOpMode opMode;
 
     public InchWorm2(LinearOpMode mode) {
-        double wheelCircumference = WHEEL_DIAMETER_INCHES * Math.PI;
-        TPI = TICKS_PER_REV / wheelCircumference;
-
         opMode = mode;
         HardwareMap hardwareMap = opMode.hardwareMap;
 
