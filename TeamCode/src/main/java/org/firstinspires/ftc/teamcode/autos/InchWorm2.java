@@ -47,12 +47,8 @@ public class InchWorm2 {
     public void moveTo(Pose pose) {
         // convert pose in inches to pose in ticks
         pose = pose.mul(TPI);
-        // get current pose using forward kinematics
-        Pose current = getCurrentPose();
-        // get the distance to the target
-        Pose diff = pose.sub(current);
 
-        int[] targets = getWheelTargets(diff);
+        int[] targets = getWheelTargets(pose);
 
         int posFL = targets[0];
         int posFR = targets[1];
@@ -64,10 +60,10 @@ public class InchWorm2 {
         int blStart = bl.getCurrentPosition();
         int brStart = br.getCurrentPosition();
 
-        fl.setTargetPosition(flStart + posFL);
-        fr.setTargetPosition(frStart + posFR);
-        bl.setTargetPosition(blStart + posBL);
-        br.setTargetPosition(brStart + posBR);
+        fl.setTargetPosition(posFL);
+        fr.setTargetPosition(posFR);
+        bl.setTargetPosition(posBL);
+        br.setTargetPosition(posBR);
 
         setModes(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -90,13 +86,6 @@ public class InchWorm2 {
 
     public void moveTo(double x, double y) {
         moveTo(new Pose(x, y));
-    }
-
-    private Pose getCurrentPose() {
-        double currentX = (bl.getCurrentPosition() + fr.getCurrentPosition() - fl.getCurrentPosition() - br.getCurrentPosition()) / 4.0;
-        double currentY = (fl.getCurrentPosition() + fr.getCurrentPosition() + bl.getCurrentPosition() + br.getCurrentPosition()) / 4.0;
-
-        return new Pose(currentX, currentY);
     }
 
     private void setModes(DcMotor.RunMode mode) {
