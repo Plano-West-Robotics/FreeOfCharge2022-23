@@ -20,10 +20,6 @@ public class EncoderIntegrator {
     Telemetry telemetry;
 
     public final double MM_PER_ENCODER_TICK = (96 * Math.PI) / 537.7;
-    public final double WHEELBASE_LENGTH = 337;
-    public final double WHEELBASE_WIDTH = 355;
-    public final double WHEELBASE_DIAGONAL = Math.hypot(WHEELBASE_LENGTH, WHEELBASE_WIDTH );
-    public final double DEGREES_PER_MM = 360 / (WHEELBASE_DIAGONAL * Math.PI);
 
     public EncoderIntegrator(Hardware hardware, FieldVector initialPos, double initialYaw, Telemetry telemetry) {
         this.hardware = hardware;
@@ -68,29 +64,8 @@ public class EncoderIntegrator {
         double brDiff = newBr - this.br;
         double imuYawDiff = newImuYaw - this.imuYaw;
 
-//        telemetry.addData("flDiff", flDiff);
-//        telemetry.addData("frDiff", frDiff);
-//        telemetry.addData("blDiff", blDiff);
-//        telemetry.addData("brDiff", brDiff);
-//        telemetry.addData("imuYawDiff", imuYawDiff);
-
-//        fl = powerY + powerX + turn + noop
-//        fr = powerY - powerX - turn + noop
-//        bl = powerY - powerX + turn - noop
-//        br = powerY + powerX - turn - noop
-
         double relativeYDiff = ((flDiff + frDiff + blDiff + brDiff) / 4.) * MM_PER_ENCODER_TICK;
         double relativeXDiff = ((flDiff - frDiff - blDiff + brDiff) / 4.) * MM_PER_ENCODER_TICK;
-        double turnDiff = ((flDiff - frDiff + blDiff - brDiff) / 4.) * MM_PER_ENCODER_TICK * DEGREES_PER_MM;
-        double noopDiff = (flDiff + frDiff - blDiff - brDiff) / 4.;
-
-        // aaaaand then we are just going to ignore `turnDiff` and `noopDiff`. there is nothing
-        // meaningful we can do with these values to help correct the other values. the noop value
-        // is ignored for obvious reasons. the turn value is ignored since we get the turn from the
-        // imu and using encoders for turn has proven to work poorly.
-
-//        telemetry.addData("relativeYDiff", relativeYDiff);
-//        telemetry.addData("relativeXDiff", relativeXDiff);
 
         double imuYawDiffRadians = Math.toRadians(imuYawDiff);
         double poseExponentiationX = cosc(imuYawDiffRadians);
@@ -102,10 +77,9 @@ public class EncoderIntegrator {
         );
 
         FieldVector posDiff = relativePosDiff.rot(this.imuYaw);
-        double yawDiff = imuYawDiff;
 
         this.pos = this.pos.add(posDiff);
-        this.yaw += yawDiff;
+        this.yaw += imuYawDiff;
 
         this.fl = newFl;
         this.fr = newFr;

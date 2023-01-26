@@ -19,7 +19,7 @@ public class NullablePose {
     public NullablePose(FieldVector pos, double yaw, LiftPosition liftPos) {
         this.pos = pos;
         this.yaw = yaw;
-        this.liftPos = liftPos.getEncoderVal();
+        this.liftPos = liftPos.position;
     }
 
     public NullablePose(FieldVector pos, double yaw) {
@@ -37,7 +37,7 @@ public class NullablePose {
     public NullablePose(double yaw, LiftPosition liftPos) {
         this.pos = null;
         this.yaw = yaw;
-        this.liftPos = liftPos.getEncoderVal();
+        this.liftPos = liftPos.position;
     }
 
     public NullablePose(FieldVector pos, int liftPos) {
@@ -49,7 +49,7 @@ public class NullablePose {
     public NullablePose(FieldVector pos, LiftPosition liftPos) {
         this.pos = pos;
         this.yaw = null;
-        this.liftPos = liftPos.getEncoderVal();
+        this.liftPos = liftPos.position;
     }
 
     public NullablePose(FieldVector pos) {
@@ -73,7 +73,7 @@ public class NullablePose {
     public NullablePose(LiftPosition liftPos) {
         this.pos = null;
         this.yaw = null;
-        this.liftPos = liftPos.getEncoderVal();
+        this.liftPos = liftPos.position;
     }
 
     public NullablePose() {
