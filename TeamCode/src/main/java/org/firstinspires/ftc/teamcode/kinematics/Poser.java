@@ -4,10 +4,12 @@ import com.acmerobotics.dashboard.config.Config;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
+import org.firstinspires.ftc.teamcode.MovementAPI;
 
 @Config
 public class Poser {
     Hardware hardware;
+    MovementAPI movement;
     Telemetry telemetry;
     EncoderIntegrator integrator;
 
@@ -18,11 +20,12 @@ public class Poser {
     public static int LIFT_STOP_THRESHOLD = 7;
     public static int SLOWDOWN_THRESHOLD_FACTOR = 40;
 
-    public Poser(Hardware hardware, double speed, FieldVector initialPos, double initialYaw) {
+    public Poser(Hardware hardware, double speed, FieldVector initalPos, double initialYaw) {
         this.hardware = hardware;
+        this.movement = new MovementAPI(hardware);
         this.speed = speed;
         this.telemetry = hardware.opMode.telemetry;
-        this.integrator = new EncoderIntegrator(hardware, initialPos, initialYaw, telemetry);
+        this.integrator = new EncoderIntegrator(hardware, initalPos, initialYaw, telemetry);
     }
 
     private Pose getPose() {
@@ -74,8 +77,8 @@ public class Poser {
             }
 
             if (loopsCorrect >= 120) {
-                hardware.stop();
-                hardware.lift.setPower(0);
+                movement.stop();
+                hardware.spool.setPower(0);
                 break;
             }
 
@@ -103,13 +106,13 @@ public class Poser {
             telemetry.update();
 
             posPower = posPower.rot(-currentPose.yaw);
-            hardware.move(
+            movement.move(
                     posPower.x.valInDefaultUnits(),
                     posPower.y.valInDefaultUnits(),
                     yawPower,
                     speed
             );
-            hardware.lift.setPower(liftPower);
+            hardware.spool.setPower(liftPower);
         }
     }
 }

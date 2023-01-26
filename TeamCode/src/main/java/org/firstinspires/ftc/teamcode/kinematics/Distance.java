@@ -8,7 +8,6 @@ public class Distance {
     public static final double MM_PER_FOOT = 304.8; // 25.4 * 12 but without floating point problems
 
     public static final Distance ZERO = new Distance(0);
-    // todo: tune these values
     public static final Distance ROBOT_LENGTH = Distance.inInches(18);
     public static final Distance ROBOT_WIDTH = Distance.inInches(15.5);
 
