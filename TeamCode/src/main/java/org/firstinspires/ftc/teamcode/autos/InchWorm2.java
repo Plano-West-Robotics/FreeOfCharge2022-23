@@ -89,8 +89,6 @@ public class InchWorm2 {
             br.setPower(brPower);
             opMode.telemetry.update();
         }
-
-        stop();
     }
 
     public void moveTo(double x, double y) {
@@ -115,10 +113,10 @@ public class InchWorm2 {
         int[] output = new int[4];
 
         // fl, fr, bl, br, respectively
-        output[0] = (int) Math.round(target.y - target.x);
-        output[1] = (int) Math.round(target.y + target.x);
-        output[2] = (int) Math.round(target.y + target.x);
-        output[3] = (int) Math.round(target.y - target.x);
+        output[0] = (int) Math.floor(target.y - target.x);
+        output[1] = (int) Math.floor(target.y + target.x);
+        output[2] = (int) Math.floor(target.y + target.x);
+        output[3] = (int) Math.floor(target.y - target.x);
 
         return output;
     }
@@ -156,6 +154,7 @@ public class InchWorm2 {
      * @return Output power.
      */
     private double ellipticCurve(double start, double position, double target) {
+        opMode.telemetry.addLine("start: " + start);
         opMode.telemetry.addLine("position: " + position);
         opMode.telemetry.addLine("target: " + target);
 
