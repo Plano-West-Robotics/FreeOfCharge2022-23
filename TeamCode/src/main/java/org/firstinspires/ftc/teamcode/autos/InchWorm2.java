@@ -14,6 +14,8 @@ public class InchWorm2 {
     private final DcMotor bl;
     private final DcMotor br;
 
+    private double speed = 0.5;
+
     private final LinearOpMode opMode;
 
     public InchWorm2(LinearOpMode mode) {
@@ -154,13 +156,21 @@ public class InchWorm2 {
 
         // see the ellipse formula on wikipedia for more info
         double shift = Math.pow((position - midpoint) / radius, 2);
-        double pow = Math.sqrt(Math.pow(0.5, 2) * Math.abs(1 - shift));
+        double pow = Math.sqrt(Math.pow(getSpeedMultiplier(), 2) * Math.abs(1 - shift));
 
         opMode.telemetry.addLine("shift: " + shift);
         opMode.telemetry.addLine("pow: " + pow);
 
         // make sure power does not go over 0.5
-        return Range.clip(pow, 0, 0.5);
+        return Range.clip(pow, 0, getSpeedMultiplier());
+    }
+
+    public void setSpeedMultiplier(double newSpeed) {
+        speed = newSpeed;
+    }
+
+    public double getSpeedMultiplier() {
+        return speed;
     }
 
     public static class Pose {
