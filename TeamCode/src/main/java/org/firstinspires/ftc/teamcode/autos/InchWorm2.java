@@ -181,6 +181,14 @@ public class InchWorm2 {
         return speed;
     }
 
+    public double getYaw(AngleUnit angleUnit) {
+        return imu.getRobotYawPitchRollAngles().getYaw(angleUnit);
+    }
+
+    public double getYaw() {
+        return getYaw(AngleUnit.RADIANS);
+    }
+
     public static class Pose {
         double x;
         double y;
@@ -230,13 +238,13 @@ public class InchWorm2 {
         private int lastBR = 0;
 
         private double sinc(double x) {
-            return x == 0 ? 0 : Math.sin(x) / x;
+            return x == 0 ? 1 : Math.sin(x) / x;
         }
 
         // this function doesn't really have a standard name, but it's similar to sinc so cosc it is
         // not to be confused with cosec
         private double cosc(double x) {
-            return x == 0 ? 1 : (1 - Math.cos(x)) / x;
+            return x == 0 ? 0 : (1 - Math.cos(x)) / x;
         }
 
         public void update() {
@@ -245,7 +253,7 @@ public class InchWorm2 {
             int newBL = bl.getCurrentPosition();
             int newBR = br.getCurrentPosition();
 
-            double newYaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            double newYaw = getYaw();
             double yawDiff = newYaw - currentPos.theta;
 
             int flDiff = newFL - lastFL;
