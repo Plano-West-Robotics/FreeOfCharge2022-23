@@ -19,6 +19,7 @@ public class InchWorm2 {
     private final DcMotor bl;
     private final DcMotor br;
     private final IMU imu;
+    private final PositionTracker tracker = new PositionTracker();
     // todo: tune these values
     private final PIDController controllerX = new PIDController(10, 0.05, 0, 0);
     private final PIDController controllerY = new PIDController(10, 0.05, 0, 0);
@@ -64,23 +65,23 @@ public class InchWorm2 {
     }
 
     public void moveTo(Pose pose) {
-        // convert pose in inches to pose in ticks
+        // convert pose in inches to pose in ticks & normalize angle to [-π, π] radians
         pose = pose.toTicks().normalizeAngle();
         controllerX.setTarget(pose.x);
         controllerY.setTarget(pose.y);
         controllerTheta.setTarget(pose.theta);
         controllerX.reset();
         controllerY.reset();
+        controllerTheta.reset();
 
         while (isBusy()) {
-            Pose current = getCurrentPose();
+            Pose current = tracker.currentPos;
             Pose out = new Pose(controllerX.calculate(current.x), controllerY.calculate(current.y), controllerTheta.calculate(current.theta));
 
-            double heading = current.theta;
-            double rotX = out.x * Math.cos(heading) - out.y * Math.sin(heading);
-            double rotY = out.x * Math.sin(heading) + out.y * Math.cos(heading);
+            out = out.rot(current.theta);
 
-            moveWheels(rotX, rotY, out.theta, getSpeedMultiplier());
+            moveWheels(out.x, out.y, out.theta, getSpeedMultiplier());
+            tracker.update();
         }
 
         stop();
@@ -98,13 +99,6 @@ public class InchWorm2 {
         fr.setMode(mode);
         bl.setMode(mode);
         br.setMode(mode);
-    }
-
-    private Pose getCurrentPose() {
-        double y = ((fl.getCurrentPosition() + fr.getCurrentPosition() + bl.getCurrentPosition() + br.getCurrentPosition()) / 4.0);
-        double x = ((fl.getCurrentPosition() - fr.getCurrentPosition() - bl.getCurrentPosition() + br.getCurrentPosition()) / 4.0);
-
-        return new Pose(x, y, imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
     }
 
     /**
@@ -213,6 +207,67 @@ public class InchWorm2 {
             while (radians < Math.PI) radians += 2 * Math.PI;
 
             return new Pose(this.x, this.y, radians);
+        }
+
+        // only rotates movement vectors, does not touch theta
+        public Pose rot(double angle) {
+            double rotX = this.x * Math.cos(angle) - this.y * Math.sin(angle);
+            double rotY = this.x * Math.sin(angle) + this.y * Math.cos(angle);
+
+            return new Pose(rotX, rotY, this.theta);
+        }
+
+        public Pose add(Pose other) {
+            return new Pose(this.x + other.x, this.y + other.y, this.theta + other.theta);
+        }
+    }
+
+    public class PositionTracker {
+        public Pose currentPos = new Pose(0, 0, 0);
+        private int lastFL = 0;
+        private int lastFR = 0;
+        private int lastBL = 0;
+        private int lastBR = 0;
+
+        private double sinc(double x) {
+            return x == 0 ? 0 : Math.sin(x) / x;
+        }
+
+        // this function doesn't really have a standard name, but it's similar to sinc so cosc it is
+        // not to be confused with cosec
+        private double cosc(double x) {
+            return x == 0 ? 1 : (1 - Math.cos(x)) / x;
+        }
+
+        public void update() {
+            int newFL = fl.getCurrentPosition();
+            int newFR = fr.getCurrentPosition();
+            int newBL = bl.getCurrentPosition();
+            int newBR = br.getCurrentPosition();
+
+            double newYaw = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            double yawDiff = newYaw - currentPos.theta;
+
+            int flDiff = newFL - lastFL;
+            int frDiff = newFR - lastFR;
+            int blDiff = newBL - lastBL;
+            int brDiff = newBR - lastBR;
+
+            double yDiff = ((flDiff + frDiff + blDiff + brDiff) / 4.0);
+            double xDiff = ((flDiff - frDiff - blDiff + brDiff) / 4.0);
+
+            double expX = cosc(yawDiff);
+            double expY = sinc(yawDiff);
+
+            Pose posDiff = new Pose(yDiff * expX + xDiff * expY, yDiff * expY - xDiff * expX, newYaw);
+            posDiff = posDiff.rot(currentPos.theta);
+
+            currentPos = currentPos.add(posDiff);
+
+            lastFL = newFL;
+            lastFR = newFR;
+            lastBL = newBL;
+            lastBR = newBR;
         }
     }
 }
