@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.autos;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -37,6 +38,12 @@ public class InchWorm2 {
         br = hardwareMap.get(DcMotor.class, "rearRight");
 
         imu = hardwareMap.get(IMU.class, "imu");
+        imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(
+                // TODO: change these parameters if they are not accurate
+                RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
+                RevHubOrientationOnRobot.UsbFacingDirection.LEFT
+        )));
+        imu.resetYaw();
 
         // reset encoders to 0
         setModes(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -56,7 +63,6 @@ public class InchWorm2 {
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    // todo: add theta
     public void moveTo(Pose pose) {
         // convert pose in inches to pose in ticks
         pose = pose.toTicks().normalizeAngle();
@@ -70,11 +76,11 @@ public class InchWorm2 {
             Pose current = getCurrentPose();
             Pose out = new Pose(controllerX.calculate(current.x), controllerY.calculate(current.y), controllerTheta.calculate(current.theta));
 
-            double heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            double heading = current.theta;
             double rotX = out.x * Math.cos(heading) - out.y * Math.sin(heading);
             double rotY = out.x * Math.sin(heading) + out.y * Math.cos(heading);
 
-            moveWheels(rotY, rotX, out.theta, getSpeedMultiplier());
+            moveWheels(rotX, rotY, out.theta, getSpeedMultiplier());
         }
 
         stop();
@@ -121,7 +127,7 @@ public class InchWorm2 {
         br.setPower(0);
     }
 
-    public void moveWheels(double powerY, double powerX, double turn, double speed) {
+    public void moveWheels(double powerX, double powerY, double turn, double speed) {
         double flPower = (powerX + powerY + turn) * speed;
         double frPower = (powerX - powerY - turn) * speed;
         double blPower = (powerX - powerY + turn) * speed;
