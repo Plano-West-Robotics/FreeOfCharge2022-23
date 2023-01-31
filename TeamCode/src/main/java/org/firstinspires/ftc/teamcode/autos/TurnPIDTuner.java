@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.PIDController;
 @Autonomous(group="tune")
 public class TurnPIDTuner extends LinearOpMode {
     /*
-     * This class should be used to tune Ku with the Ziegler–Nichols method.
-     * Requires a gamepad. Make sure to write down the tuned value, or it will be lost forever.
+     * This class should be used to tune turn PID for InchWorm2.
+     * Requires a gamepad. Make sure to write down the tuned values, or they will be lost forever.
      */
     @Override
     public void runOpMode() {
@@ -19,7 +19,7 @@ public class TurnPIDTuner extends LinearOpMode {
         double Kd = 0;
         double scale = 0.15;
         API api = new API(this);
-        MovementAPI movementAPI = new MovementAPI(api);
+        InchWorm2 inchWorm = new InchWorm2(this);
         PIDController controller = new PIDController(Kp, Ki, Kd, 0);
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = dashboard.getTelemetry();
@@ -57,7 +57,8 @@ public class TurnPIDTuner extends LinearOpMode {
             lastUp = gamepad1.dpad_up;
             lastDown = gamepad1.dpad_down;
 
-            double error = api.getHeading();
+            InchWorm2.Pose current = inchWorm.tracker.currentPos;
+            double error = current.theta;
             double out = controller.calculate(error);
 
             if (gamepad1.x) {
@@ -71,7 +72,9 @@ public class TurnPIDTuner extends LinearOpMode {
             telemetry.addData("Kd", Kd);
             telemetry.addData("scale", scale);
             telemetry.update();
-            movementAPI.move(0, 0, out, 0.5, false);
+
+            inchWorm.moveWheels(0, 0, out, 0.5);
+            inchWorm.tracker.update();
         }
     }
 }

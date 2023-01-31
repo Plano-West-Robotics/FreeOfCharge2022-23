@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.PIDController;
 @Autonomous(group="tune")
 public class TranslationalPIDTuner extends LinearOpMode {
     /*
-     * This class should be used to tune Ku with the Ziegler–Nichols method.
-     * Requires a gamepad. Make sure to write down the tuned value, or it will be lost forever.
+     * This class should be used to tune translational PID for InchWorm2.
+     * Requires a gamepad. Make sure to write down the tuned values, or they will be lost forever.
      */
     @Override
     public void runOpMode() {
@@ -19,7 +19,7 @@ public class TranslationalPIDTuner extends LinearOpMode {
         double Kd = 0;
         double scale = 0.15;
         API api = new API(this);
-        MovementAPI movementAPI = new MovementAPI(api);
+        InchWorm2 inchWorm = new InchWorm2(this);
         PIDController controller = new PIDController(Kp, Ki, Kd, 0);
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = dashboard.getTelemetry();
@@ -30,6 +30,9 @@ public class TranslationalPIDTuner extends LinearOpMode {
         boolean lastDown = false;
 
         api.waitForStart();
+
+        InchWorm2.Pose target = new InchWorm2.Pose(0, 24, 0).toTicks();
+        controller.setTarget(target.y);
 
         while (opModeIsActive()) {
             if (gamepad1.left_bumper && lastLeftBumper != gamepad1.left_bumper) {
@@ -57,8 +60,8 @@ public class TranslationalPIDTuner extends LinearOpMode {
             lastUp = gamepad1.dpad_up;
             lastDown = gamepad1.dpad_down;
 
-            double error = api.getHeading();
-            double out = controller.calculate(error);
+            InchWorm2.Pose current = inchWorm.tracker.currentPos;
+            double out = controller.calculate(current.y);
 
             if (gamepad1.x) {
                 out = 0;
@@ -67,13 +70,14 @@ public class TranslationalPIDTuner extends LinearOpMode {
 
             telemetry.addData("target", 0);
             telemetry.addData("out", out);
-            telemetry.addData("error", error);
+            telemetry.addData("error", target.y - current.y);
             telemetry.addData("Kp", Kp);
             telemetry.addData("Ki", Ki);
             telemetry.addData("Kd", Kd);
             telemetry.addData("scale", scale);
             telemetry.update();
-            movementAPI.move(out, 0, 0, 0.5, false);
+            inchWorm.moveWheels(0, out, 0, 0.5);
+            inchWorm.tracker.update();
         }
     }
 }

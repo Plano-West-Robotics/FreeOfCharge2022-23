@@ -19,7 +19,7 @@ public class InchWorm2 {
     private final DcMotor bl;
     private final DcMotor br;
     private final IMU imu;
-    private final PositionTracker tracker = new PositionTracker();
+    public final PositionTracker tracker = new PositionTracker();
     // todo: tune these values
     private final PIDController controllerX = new PIDController(10, 0.05, 0, 0);
     private final PIDController controllerY = new PIDController(10, 0.05, 0, 0);
