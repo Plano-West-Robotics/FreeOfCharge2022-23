@@ -61,7 +61,7 @@ public class MovementAPI {
      * <b>THIS IS A BREAKING CHANGE - PREVIOUS VERSIONS OF THIS API DID NOT INCLUDE THIS BEHAVIOR</b>
      *
      * @param powerY  the speed to move forward/back, -1 to 1, positive being forward
-     * @param powerX  the speed to move left/right, -1 to 1,  positive being to the right
+     * @param powerX  the speed to move left/right, -1 to 1,  positive being to the left
      * @param turn    the speed to turn at, -1 to 1, positive being clockwise
      * @param speed   a multiplier on the final speed
      * @param verbose whether or not to log extra data to telemetry
@@ -72,15 +72,10 @@ public class MovementAPI {
             turn *= -1;
         }
 
-        double heading = api.getHeading(AngleUnit.RADIANS);
-
-        double rotX = (powerX * Math.cos(heading)) - (powerY * Math.sin(heading));
-        double rotY = (powerX * Math.sin(heading)) + (powerY * Math.cos(heading));
-
-        double flPower = (rotY + turn + rotX) * speed;
-        double frPower = (rotY - turn - rotX) * speed;
-        double blPower = (rotY + turn - rotX) * speed;
-        double brPower = (rotY - turn + rotX) * speed;
+        double flPower = (powerY - powerX + turn) * speed;
+        double frPower = (powerY + powerX - turn) * speed;
+        double blPower = (powerY + powerX + turn) * speed;
+        double brPower = (powerY - powerX - turn) * speed;
 
         double scale = Math.max(1, (Math.abs(powerY) + Math.abs(turn) + Math.abs(powerX)) * Math.abs(speed)); // shortcut for max(abs([fl,fr,bl,br]))
         flPower /= scale;

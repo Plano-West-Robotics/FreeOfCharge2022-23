@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.PIDController;
 
 @Autonomous(group="tune")
-public class TurnPIDTuner extends LinearOpMode {
+public class TranslationalPIDTuner extends LinearOpMode {
     /*
      * This class should be used to tune Ku with the Ziegler–Nichols method.
      * Requires a gamepad. Make sure to write down the tuned value, or it will be lost forever.
@@ -66,12 +66,14 @@ public class TurnPIDTuner extends LinearOpMode {
             }
 
             telemetry.addData("target", 0);
-            telemetry.addData("turn", out);
+            telemetry.addData("out", out);
             telemetry.addData("error", error);
+            telemetry.addData("Kp", Kp);
+            telemetry.addData("Ki", Ki);
             telemetry.addData("Kd", Kd);
             telemetry.addData("scale", scale);
             telemetry.update();
-            movementAPI.move(0, 0, out, 0.5, false);
+            movementAPI.move(out, 0, 0, 0.5, false);
         }
     }
 }
