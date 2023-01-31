@@ -122,10 +122,10 @@ public class InchWorm2 {
     }
 
     public void moveWheels(double powerX, double powerY, double turn, double speed) {
-        double flPower = (powerY + powerX + turn) * speed;
-        double frPower = (powerY - powerX - turn) * speed;
-        double blPower = (powerY - powerX + turn) * speed;
-        double brPower = (powerY + powerX - turn) * speed;
+        double flPower = (powerY - powerX + turn) * speed;
+        double frPower = (powerY + powerX - turn) * speed;
+        double blPower = (powerY + powerX + turn) * speed;
+        double brPower = (powerY - powerX - turn) * speed;
 
         double scale = Math.max(1, (Math.abs(powerY) + Math.abs(turn) + Math.abs(powerX)) * Math.abs(speed)); // shortcut for max(abs([fl,fr,bl,br]))
         flPower /= scale;
@@ -262,7 +262,7 @@ public class InchWorm2 {
             int brDiff = newBR - lastBR;
 
             double yDiff = ((flDiff + frDiff + blDiff + brDiff) / 4.0);
-            double xDiff = ((flDiff - frDiff - blDiff + brDiff) / 4.0);
+            double xDiff = ((blDiff + frDiff - flDiff - brDiff) / 4.0);
 
             double expX = cosc(yawDiff);
             double expY = sinc(yawDiff);

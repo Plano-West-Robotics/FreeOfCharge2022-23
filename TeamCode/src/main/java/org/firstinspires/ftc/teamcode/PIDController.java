@@ -29,13 +29,16 @@ public class PIDController {
     }
 
     public double calculate(double current) {
+        double error = target - current;
+
         // The PID loop has not been started yet, so ignore any time calculated before this point
         if (!started) {
             timer.reset();
             started = true;
+            integralSum = 0;
+            lastError = error;
         }
 
-        double error = target - current; //should be target - current
 
         double deltaTime = timer.seconds();
 
@@ -62,8 +65,6 @@ public class PIDController {
      */
     public void reset() {
         started = false;
-        integralSum = 0;
-        lastError = 0;
     }
 
     /**
