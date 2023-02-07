@@ -14,6 +14,7 @@ public class InchWorm2 {
     public static final double TICKS_PER_REV = 560;
     public static final double WHEEL_DIAMETER_INCHES = 3;
     public static final double TPI = TICKS_PER_REV / (WHEEL_DIAMETER_INCHES * Math.PI);
+    private static final double TRANSLATIONAL_CLAMP = 95;
     private final DcMotor fl;
     private final DcMotor fr;
     private final DcMotor bl;
@@ -21,8 +22,8 @@ public class InchWorm2 {
     private final IMU imu;
     public final PositionTracker tracker = new PositionTracker();
     // todo: tune these values
-    private final PIDController controllerX = new PIDController(10, 0.05, 0, 0);
-    private final PIDController controllerY = new PIDController(10, 0.05, 0, 0);
+    private final PIDController controllerX = new PIDController(0.06, 0, 0, 0);
+    private final PIDController controllerY = new PIDController(0.06, 0, 0, 0);
     private final PIDController controllerTheta = new PIDController(0, 0, 0, 0);
 
     private double speed = 0.5;
@@ -80,7 +81,7 @@ public class InchWorm2 {
 
             out = out.rot(current.theta);
 
-            moveWheels(out.x, out.y, out.theta, getSpeedMultiplier());
+            moveWheels(out.x/TRANSLATIONAL_CLAMP, out.y/TRANSLATIONAL_CLAMP, out.theta, getSpeedMultiplier());
             tracker.update();
         }
 

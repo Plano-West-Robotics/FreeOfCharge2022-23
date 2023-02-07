@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 /**
  * Class which manages a PID controller.
@@ -13,6 +14,7 @@ public class PIDController {
     private double target;
     private double integralSum = 0;
     private double lastError;
+    private double lastFilterEstimate = 0;
 
     private double Kp;
     private double Ki;
@@ -42,8 +44,11 @@ public class PIDController {
 
         double deltaTime = timer.seconds();
 
+        double currentFilterEstimate = (0.6 * lastFilterEstimate) + (1-0.6) * (error - lastError);
+        lastFilterEstimate = currentFilterEstimate;
+
         // derivative, AKA rate of change of the error
-        double derivative = (error - lastError) / deltaTime;
+        double derivative = currentFilterEstimate / deltaTime;
         // calculate the Riemann sum of the error, also known as Forward Euler Integration.
         integralSum += error * deltaTime;
 

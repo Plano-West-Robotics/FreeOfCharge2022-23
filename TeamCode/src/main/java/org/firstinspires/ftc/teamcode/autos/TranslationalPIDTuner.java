@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.autos;
 
+import android.annotation.SuppressLint;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -8,13 +10,15 @@ import org.firstinspires.ftc.teamcode.PIDController;
 
 @Autonomous(group="tune")
 public class TranslationalPIDTuner extends LinearOpMode {
+    public static final double CLAMP = 95;
     /*
      * This class should be used to tune translational PID for InchWorm2.
      * Requires a gamepad. Make sure to write down the tuned values, or they will be lost forever.
      */
+    @SuppressLint("DefaultLocale")
     @Override
     public void runOpMode() {
-        double Kp = 0;
+        double Kp = 0.06;
         double Ki = 0;
         double Kd = 0;
         double scale = 0.15;
@@ -62,6 +66,7 @@ public class TranslationalPIDTuner extends LinearOpMode {
 
             InchWorm2.Pose current = inchWorm.tracker.currentPos;
             double out = controller.calculate(current.y);
+            out /= CLAMP;
 
             if (gamepad1.x) {
                 out = 0;
@@ -70,10 +75,10 @@ public class TranslationalPIDTuner extends LinearOpMode {
 
             telemetry.addData("target", target.y);
             telemetry.addData("out", out);
-            telemetry.addData("error", target.y - current.y);
-            telemetry.addData("Kp", Kp);
-            telemetry.addData("Ki", Ki);
-            telemetry.addData("Kd", Kd);
+            telemetry.addData("error", String.format("%.2f", target.y - current.y));
+            telemetry.addData("Kp", String.format("%.2f", Kp));
+            telemetry.addData("Ki", String.format("%.2f", Ki));
+            telemetry.addData("Kd", String.format("%.2f", Kd));
             telemetry.addData("scale", scale);
             telemetry.update();
             inchWorm.moveWheels(0, out, 0, 0.5);
