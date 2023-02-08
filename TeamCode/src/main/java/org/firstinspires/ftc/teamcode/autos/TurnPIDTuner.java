@@ -4,10 +4,12 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.PIDController;
 
 @Autonomous(group="tune")
 public class TurnPIDTuner extends LinearOpMode {
+    public static final double MAX_ANG_VEL = 35;
     /*
      * This class should be used to tune turn PID for InchWorm2.
      * Requires a gamepad. Make sure to write down the tuned values, or they will be lost forever.
@@ -18,9 +20,10 @@ public class TurnPIDTuner extends LinearOpMode {
         double Ki = 0;
         double Kd = 0;
         double scale = 0.15;
+        double target = 90;
         API api = new API(this);
         InchWorm2 inchWorm = new InchWorm2(this);
-        PIDController controller = new PIDController(Kp, Ki, Kd, 0);
+        PIDController controller = new PIDController(Kp, Ki, Kd, target);
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = dashboard.getTelemetry();
 
@@ -33,14 +36,14 @@ public class TurnPIDTuner extends LinearOpMode {
 
         while (opModeIsActive()) {
             if (gamepad1.left_bumper && lastLeftBumper != gamepad1.left_bumper) {
-                Kd -= scale;
-                controller.setParams(Kp, Ki, Kd, 0);
+                Kp -= scale;
+                controller.setParams(Kp, Ki, Kd, target);
                 controller.reset();
             }
 
             if (gamepad1.right_bumper && lastRightBumper != gamepad1.right_bumper) {
-                Kd += scale;
-                controller.setParams(Kp, Ki, Kd, 0);
+                Kp += scale;
+                controller.setParams(Kp, Ki, Kd, target);
                 controller.reset();
             }
 
@@ -57,24 +60,25 @@ public class TurnPIDTuner extends LinearOpMode {
             lastUp = gamepad1.dpad_up;
             lastDown = gamepad1.dpad_down;
 
-            InchWorm2.Pose current = inchWorm.tracker.currentPos;
-            double error = current.theta;
-            double out = controller.calculate(error);
+            double current = -inchWorm.getYaw(AngleUnit.DEGREES);
+            double out = controller.calculate(current);
 
             if (gamepad1.x) {
                 out = 0;
                 controller.reset();
             }
 
-            telemetry.addData("target", 0);
-            telemetry.addData("turn", out);
-            telemetry.addData("error", error);
-            telemetry.addData("Kd", Kd);
+            telemetry.addData("target", target);
+            telemetry.addData("out", out);
+            telemetry.addData("error", target - current);
+            telemetry.addData("current", String.format("%.2f", current));
+            telemetry.addData("Kp", String.format("%.2f", Kp));
+            telemetry.addData("Ki", String.format("%.2f", Ki));
+            telemetry.addData("Kd", String.format("%.2f", Kd));
             telemetry.addData("scale", scale);
             telemetry.update();
 
             inchWorm.moveWheels(0, 0, out, 0.5);
-            inchWorm.tracker.update();
         }
     }
 }

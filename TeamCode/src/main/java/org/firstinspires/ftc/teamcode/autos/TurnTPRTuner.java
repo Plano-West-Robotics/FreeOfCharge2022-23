@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@Autonomous(group = "test")
+@Autonomous(group = "tune")
 public class TurnTPRTuner extends LinearOpMode {
     @Override
     public void runOpMode() {

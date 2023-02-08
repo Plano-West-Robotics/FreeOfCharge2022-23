@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.PIDController;
 
 @Autonomous(group="tune")
 public class TranslationalPIDTuner extends LinearOpMode {
-    public static final double CLAMP = 95;
+    public static final double MAX_VEL = 95;
     /*
      * This class should be used to tune translational PID for InchWorm2.
      * Requires a gamepad. Make sure to write down the tuned values, or they will be lost forever.
@@ -66,7 +66,7 @@ public class TranslationalPIDTuner extends LinearOpMode {
 
             InchWorm2.Pose current = inchWorm.tracker.currentPos;
             double out = controller.calculate(current.y);
-            out /= CLAMP;
+            out /= MAX_VEL;
 
             if (gamepad1.x) {
                 out = 0;
@@ -79,6 +79,7 @@ public class TranslationalPIDTuner extends LinearOpMode {
             telemetry.addData("Kp", String.format("%.2f", Kp));
             telemetry.addData("Ki", String.format("%.2f", Ki));
             telemetry.addData("Kd", String.format("%.2f", Kd));
+            telemetry.addData("current", String.format("%.2f", current.y));
             telemetry.addData("scale", scale);
             telemetry.update();
             inchWorm.moveWheels(0, out, 0, 0.5);

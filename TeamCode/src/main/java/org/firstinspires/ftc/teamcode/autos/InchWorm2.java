@@ -14,14 +14,15 @@ public class InchWorm2 {
     public static final double TICKS_PER_REV = 560;
     public static final double WHEEL_DIAMETER_INCHES = 3;
     public static final double TPI = TICKS_PER_REV / (WHEEL_DIAMETER_INCHES * Math.PI);
-    private static final double TRANSLATIONAL_CLAMP = 95;
     private final DcMotor fl;
     private final DcMotor fr;
     private final DcMotor bl;
     private final DcMotor br;
-    private final IMU imu;
+    public final IMU imu;
     public final PositionTracker tracker = new PositionTracker();
     // todo: tune these values
+    private static final double MAX_VEL = 95;
+    private static final double MAX_ANG_VEL = 95;
     private final PIDController controllerX = new PIDController(0.06, 0, 0, 0);
     private final PIDController controllerY = new PIDController(0.06, 0, 0, 0);
     private final PIDController controllerTheta = new PIDController(0, 0, 0, 0);
@@ -70,18 +71,18 @@ public class InchWorm2 {
         pose = pose.toTicks().normalizeAngle();
         controllerX.setTarget(pose.x);
         controllerY.setTarget(pose.y);
-        controllerTheta.setTarget(pose.theta);
+        controllerTheta.setTarget(Math.toDegrees(pose.theta));
         controllerX.reset();
         controllerY.reset();
         controllerTheta.reset();
 
         while (isBusy()) {
             Pose current = tracker.currentPos;
-            Pose out = new Pose(controllerX.calculate(current.x), controllerY.calculate(current.y), controllerTheta.calculate(current.theta));
+            Pose out = new Pose(controllerX.calculate(current.x), controllerY.calculate(current.y), controllerTheta.calculate(Math.toDegrees(current.theta)));
 
             out = out.rot(current.theta);
 
-            moveWheels(out.x/TRANSLATIONAL_CLAMP, out.y/TRANSLATIONAL_CLAMP, out.theta, getSpeedMultiplier());
+            moveWheels(out.x/MAX_VEL, out.y/MAX_VEL, out.theta/MAX_ANG_VEL, getSpeedMultiplier());
             tracker.update();
         }
 
