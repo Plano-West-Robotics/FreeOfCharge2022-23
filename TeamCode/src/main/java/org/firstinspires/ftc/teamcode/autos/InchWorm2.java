@@ -115,8 +115,8 @@ public class InchWorm2 {
     public boolean isBusy(Pose target, Pose current) {
         if (
                 Math.abs(target.x - current.x) <= 20 &&
-                Math.abs(target.y - current.y) <= 20 /*&&
-                Math.toDegrees(Math.abs(target.theta - current.theta)) <= 1*/
+                Math.abs(target.y - current.y) <= 20 &&
+                Math.toDegrees(Math.abs(target.theta - current.theta)) <= 1
         ) {
             loopsCorrect++;
         } else loopsCorrect = 0;
