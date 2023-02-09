@@ -14,9 +14,9 @@ public class SpeedTuner extends LinearOpMode {
 
         waitForStart();
 
-        double max = 0;
-        double maxAng = 0;
         double lastY = 0;
+        double veloSum = 0;
+        int numMeasurements = 0;
 
         ElapsedTime timer = new ElapsedTime();
         double time = getRuntime() + 1;
@@ -25,7 +25,8 @@ public class SpeedTuner extends LinearOpMode {
             double y = inchWorm2.tracker.currentPos.y;
 
             double velo = (y - lastY) / timer.seconds();
-            if (velo > max) max = velo;
+            veloSum += velo;
+            numMeasurements++;
 
             timer.reset();
             lastY = y;
@@ -35,16 +36,20 @@ public class SpeedTuner extends LinearOpMode {
         inchWorm2.moveWheels(0, 0, 0, 0);
         time = getRuntime() + 1;
         inchWorm2.moveWheels(0, 0, 1, 1);
-        while (getRuntime() < time) {
-            double current = inchWorm2.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate;
 
-            if (current > maxAng) maxAng = current;
+        double angSum = 0;
+        int angMeasurements = 0;
+
+        while (getRuntime() < time) {
+            double current = Math.abs(inchWorm2.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
+            angSum += current;
+            angMeasurements++;
         }
 
         inchWorm2.moveWheels(0, 0, 0, 0);
         while (opModeIsActive()) {
-            telemetry.addData("max velocity", max);
-            telemetry.addData("max angular velocity", maxAng);
+            telemetry.addData("max velocity", veloSum / numMeasurements);
+            telemetry.addData("max angular velocity", angSum / angMeasurements);
             telemetry.update();
         }
     }

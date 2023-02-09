@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.PIDController;
 
 @Autonomous(group="tune")
 public class TurnPIDTuner extends LinearOpMode {
-    public static final double MAX_ANG_VEL = 35;
+    public static final double MAX_ANG_VEL = -188;
     /*
      * This class should be used to tune turn PID for InchWorm2.
      * Requires a gamepad. Make sure to write down the tuned values, or they will be lost forever.
@@ -60,8 +60,10 @@ public class TurnPIDTuner extends LinearOpMode {
             lastUp = gamepad1.dpad_up;
             lastDown = gamepad1.dpad_down;
 
-            double current = -inchWorm.getYaw(AngleUnit.DEGREES);
+//            double current = inchWorm.getYaw(AngleUnit.DEGREES);
+            double current = Math.toDegrees(inchWorm.tracker.currentPos.theta);
             double out = controller.calculate(current);
+            out /= MAX_ANG_VEL;
 
             if (gamepad1.x) {
                 out = 0;
@@ -70,7 +72,7 @@ public class TurnPIDTuner extends LinearOpMode {
 
             telemetry.addData("target", target);
             telemetry.addData("out", out);
-            telemetry.addData("error", target - current);
+            telemetry.addData("error", String.format("%.2f", target - current));
             telemetry.addData("current", String.format("%.2f", current));
             telemetry.addData("Kp", String.format("%.2f", Kp));
             telemetry.addData("Ki", String.format("%.2f", Ki));
@@ -79,6 +81,7 @@ public class TurnPIDTuner extends LinearOpMode {
             telemetry.update();
 
             inchWorm.moveWheels(0, 0, out, 0.5);
+            inchWorm.tracker.update();
         }
     }
 }

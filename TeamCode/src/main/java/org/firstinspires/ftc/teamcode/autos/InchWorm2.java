@@ -20,14 +20,13 @@ public class InchWorm2 {
     private final DcMotor br;
     public final IMU imu;
     public final PositionTracker tracker = new PositionTracker();
+    private int loopsCorrect = 0;
     // todo: tune these values
-    private static final double MAX_VEL = 95;
-    private static final double MAX_ANG_VEL = 95;
-    private final PIDController controllerX = new PIDController(0.06, 0, 0, 0);
-    private final PIDController controllerY = new PIDController(0.06, 0, 0, 0);
-    private final PIDController controllerTheta = new PIDController(0, 0, 0, 0);
-
-    private double speed = 0.5;
+    private static final double MAX_VEL = 2000;
+    private static final double MAX_ANG_VEL = -188;
+    private final PIDController controllerX = new PIDController(10, 0.05, 0, 0);
+    private final PIDController controllerY = new PIDController(10, 0.05, 0, 0);
+    private final PIDController controllerTheta = new PIDController(5, 0, 0, 0);
 
     private final LinearOpMode opMode;
 
@@ -75,14 +74,19 @@ public class InchWorm2 {
         controllerX.reset();
         controllerY.reset();
         controllerTheta.reset();
+        Pose current = tracker.currentPos.normalizeAngle();
 
-        while (isBusy()) {
-            Pose current = tracker.currentPos;
+        while (isBusy(pose, current)) {
+            current = tracker.currentPos.normalizeAngle();
+            opMode.telemetry.addLine(current.toDegrees().toString());
             Pose out = new Pose(controllerX.calculate(current.x), controllerY.calculate(current.y), controllerTheta.calculate(Math.toDegrees(current.theta)));
 
             out = out.rot(current.theta);
+            out = new Pose(out.x / MAX_VEL, out.y / MAX_VEL, out.theta / MAX_ANG_VEL);
+            opMode.telemetry.addLine(out.toString());
+            opMode.telemetry.update();
 
-            moveWheels(out.x/MAX_VEL, out.y/MAX_VEL, out.theta/MAX_ANG_VEL, getSpeedMultiplier());
+            moveWheels(out.x, out.y, out.theta, 1);
             tracker.update();
         }
 
@@ -108,9 +112,16 @@ public class InchWorm2 {
      * Also includes a safeguard for stopping the opMode mid-move.
      * @return Whether all motors are busy, AND if the opMode is still running.
      */
-    public boolean isBusy() {
-        // todo: make this real
-        return opMode.opModeIsActive();
+    public boolean isBusy(Pose target, Pose current) {
+        if (
+                Math.abs(target.x - current.x) <= 20 &&
+                Math.abs(target.y - current.y) <= 20 /*&&
+                Math.toDegrees(Math.abs(target.theta - current.theta)) <= 1*/
+        ) {
+            loopsCorrect++;
+        } else loopsCorrect = 0;
+
+        return loopsCorrect <= 100 && opMode.opModeIsActive();
     }
 
     /**
@@ -140,47 +151,6 @@ public class InchWorm2 {
         bl.setPower(blPower);
         br.setPower(brPower);
 
-    }
-
-    /**
-     * Calculates motor power based on an elliptic curve.
-     * It creates an ellipse on a position vs power graph centered around (target / 2)
-     * with a vertical radius of 0.5 and a horizontal radius of (midpoint * 1.025).
-     * See https://en.wikipedia.org/wiki/Ellipse for the ellipse equation.
-     * @param position The current position.
-     * @param target The target position
-     * @return Output power.
-     */
-    private double ellipticCurve(double start, double position, double target) {
-        opMode.telemetry.addLine("start: " + start);
-        opMode.telemetry.addLine("position: " + position);
-        opMode.telemetry.addLine("target: " + target);
-
-        start = Math.abs(start);
-        position = Math.abs(position);
-        target = Math.abs(target);
-        // midpoint of the radius, will shift the x-coordinates by `midpoint`
-        double midpoint = (target - start) / 2;
-        // 2.5% overshoot in the radius to make sure robot never fully stops
-        double radius = midpoint * 1.025;
-
-        // see the ellipse formula on wikipedia for more info
-        double shift = Math.pow((position - midpoint) / radius, 2);
-        double pow = Math.sqrt(Math.pow(getSpeedMultiplier(), 2) * Math.abs(1 - shift));
-
-        opMode.telemetry.addLine("shift: " + shift);
-        opMode.telemetry.addLine("pow: " + pow);
-
-        // make sure power does not go over 0.5
-        return Range.clip(pow, 0, getSpeedMultiplier());
-    }
-
-    public void setSpeedMultiplier(double newSpeed) {
-        speed = newSpeed;
-    }
-
-    public double getSpeedMultiplier() {
-        return speed;
     }
 
     public double getYaw(AngleUnit angleUnit) {
@@ -229,6 +199,14 @@ public class InchWorm2 {
 
         public Pose add(Pose other) {
             return new Pose(this.x + other.x, this.y + other.y, this.theta + other.theta);
+        }
+
+        public String toString() {
+            return "x: " + x + System.lineSeparator() + "y: " + y + System.lineSeparator() + "theta: " + theta;
+        }
+
+        public Pose toDegrees() {
+            return new Pose(this.x, this.y, Math.toDegrees(this.theta));
         }
     }
 

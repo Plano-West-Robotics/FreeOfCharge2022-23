@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.PIDController;
 
 @Autonomous(group="tune")
 public class TranslationalPIDTuner extends LinearOpMode {
-    public static final double MAX_VEL = 95;
+    public static final double MAX_VEL = 2000;
     /*
      * This class should be used to tune translational PID for InchWorm2.
      * Requires a gamepad. Make sure to write down the tuned values, or they will be lost forever.
@@ -18,8 +18,8 @@ public class TranslationalPIDTuner extends LinearOpMode {
     @SuppressLint("DefaultLocale")
     @Override
     public void runOpMode() {
-        double Kp = 0.06;
-        double Ki = 0;
+        double Kp = 10;
+        double Ki = 0.05;
         double Kd = 0;
         double scale = 0.15;
         API api = new API(this);
@@ -40,13 +40,13 @@ public class TranslationalPIDTuner extends LinearOpMode {
 
         while (opModeIsActive()) {
             if (gamepad1.left_bumper && lastLeftBumper != gamepad1.left_bumper) {
-                Kd -= scale;
+                Kp -= scale;
                 controller.setParams(Kp, Ki, Kd, target.y);
                 controller.reset();
             }
 
             if (gamepad1.right_bumper && lastRightBumper != gamepad1.right_bumper) {
-                Kd += scale;
+                Kp += scale;
                 controller.setParams(Kp, Ki, Kd, target.y);
                 controller.reset();
             }
@@ -82,7 +82,7 @@ public class TranslationalPIDTuner extends LinearOpMode {
             telemetry.addData("current", String.format("%.2f", current.y));
             telemetry.addData("scale", scale);
             telemetry.update();
-            inchWorm.moveWheels(0, out, 0, 0.5);
+            inchWorm.moveWheels(0, out, 0, 1);
             inchWorm.tracker.update();
         }
     }
