@@ -248,7 +248,7 @@ public class InchWorm2 {
             double expY = sinc(yawDiff);
 
             Pose posDiff = new Pose(yDiff * expX + xDiff * expY, yDiff * expY - xDiff * expX, yawDiff);
-            posDiff = posDiff.rot(currentPos.theta);
+            posDiff = posDiff.rot(-currentPos.theta);
 
             currentPos = currentPos.add(posDiff);
 
