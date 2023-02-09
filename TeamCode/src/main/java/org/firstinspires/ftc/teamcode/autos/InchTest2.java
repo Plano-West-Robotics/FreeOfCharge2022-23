@@ -15,7 +15,7 @@ public class InchTest2 extends LinearOpMode {
         inchWorm.moveTo(24, 0);
         inchWorm.moveTo(24, 24);
         inchWorm.moveTo(24, 0);
-        inchWorm.moveTo(0, 0, 90);
+        inchWorm.moveTo(0, 0, Math.PI / 2);
 
         inchWorm.moveTo(0, 0, 0);
     }
