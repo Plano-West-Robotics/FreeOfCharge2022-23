@@ -39,8 +39,7 @@ public class AutoCameraLeft extends LinearOpMode {
         // set up the API
         API api = new API(this);
         // set up InchWorm
-        InchWorm inchWorm = new InchWorm(this);
-        inchWorm.setDebug(true);
+        InchWorm2 inchWorm = new InchWorm2(this);
         // disabled for now because slide is broken
         DcMotor lift = hardwareMap.get(DcMotor.class, "slide");
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -90,45 +89,28 @@ public class AutoCameraLeft extends LinearOpMode {
         // move lift up to prevent cone from scraping on the floor
         lift.setTargetPosition(SlidePresets.LOW.position);
         lift.setPower(0.75);
-        while (lift.isBusy()) {}
 
-        // move forward to prevent scraping against the wall
-        inchWorm.setSpeedMultiplier(0.1);
-        inchWorm.drive(4.5);
-        inchWorm.setSpeedMultiplier(0.25);
-        // strafe to be inline with the junction
-        inchWorm.strafe(-39.5);
-        // drive until the cone is above the junction
-        inchWorm.setSpeedMultiplier(0.5);
-        inchWorm.drive(22.5);
-        // move lift up
+        inchWorm.moveTo(-3, 4);
+        inchWorm.moveTo(-27, 4);
         lift.setTargetPosition(SlidePresets.HIGH.position);
-        while (lift.isBusy()) {}
-        // drive towards junction
-        inchWorm.drive(2);
+        inchWorm.moveTo(-27, 37.75, -Math.PI / 2);
+        inchWorm.moveTo(-29.75, 37.75, -Math.PI / 2);
         // move lift down & open claw
-        lift.setTargetPosition(SlidePresets.GROUND.position);
+        lift.setTargetPosition(SlidePresets.MEDIUM.position);
         while (lift.isBusy()) {}
-        lift.setPower(0);
         claw.setPosition(1);
-        // drive back for next movements
-        inchWorm.drive(-4.5);
-        inchWorm.strafe(12.5);
-        inchWorm.drive(24);
+        lift.setTargetPosition(SlidePresets.GROUND.position);
+        inchWorm.moveTo(-27, 37.75, -Math.PI / 2);
+        inchWorm.moveTo(-27, 51.25, 0);
 
         // Based on which tag was detected, move to the corresponding position
         switch (detected_id) {
-            case 1:
-                inchWorm.strafe(47.5);
-                break;
             case 2:
-                inchWorm.strafe(22);
+                inchWorm.moveTo(-3, 51.25, 0);
                 break;
-            default:
+            case 3:
+                inchWorm.moveTo(2.25, 51.25, 0);
                 break;
         }
-
-        // move so that we are inside both squares
-        inchWorm.drive(-10);
     }
 }

@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.PIDController;
@@ -121,7 +120,7 @@ public class InchWorm2 {
             loopsCorrect++;
         } else loopsCorrect = 0;
 
-        return loopsCorrect <= 100 && opMode.opModeIsActive();
+        return loopsCorrect <= 35 && opMode.opModeIsActive();
     }
 
     /**
