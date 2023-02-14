@@ -99,6 +99,30 @@ public class InchWorm2 {
         moveTo(new Pose(x, y, theta));
     }
 
+    public void moveX(double n) {
+        Pose current = tracker.currentPos;
+        Pose target = new Pose(current.x + n, current.y, current.theta);
+        moveTo(target);
+    }
+
+    public void moveY(double n) {
+        Pose current = tracker.currentPos;
+        Pose target = new Pose(current.x, current.y + n, current.theta);
+        moveTo(target);
+    }
+
+    public void turn(double n) {
+        Pose current = tracker.currentPos;
+        Pose target = new Pose(current.x, current.y, current.theta + n);
+        moveTo(target);
+    }
+
+    public void turnTo(double n) {
+        Pose current = tracker.currentPos;
+        Pose target = new Pose(current.x, current.y, n);
+        moveTo(target);
+    }
+
     private void setModes(DcMotor.RunMode mode) {
         fl.setMode(mode);
         fr.setMode(mode);
