@@ -16,8 +16,8 @@ public class TurnPIDTuner extends LinearOpMode {
      */
     @Override
     public void runOpMode() {
-        double Kp = 0;
-        double Ki = 0;
+        double Kp = 5;
+        double Ki = 0.15;
         double Kd = 0;
         double scale = 0.15;
         double target = 90;
@@ -36,13 +36,13 @@ public class TurnPIDTuner extends LinearOpMode {
 
         while (opModeIsActive()) {
             if (gamepad1.left_bumper && lastLeftBumper != gamepad1.left_bumper) {
-                Kp -= scale;
+                Kd -= scale;
                 controller.setParams(Kp, Ki, Kd, target);
                 controller.reset();
             }
 
             if (gamepad1.right_bumper && lastRightBumper != gamepad1.right_bumper) {
-                Kp += scale;
+                Kd += scale;
                 controller.setParams(Kp, Ki, Kd, target);
                 controller.reset();
             }

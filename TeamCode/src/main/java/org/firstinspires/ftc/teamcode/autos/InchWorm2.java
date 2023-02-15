@@ -25,7 +25,7 @@ public class InchWorm2 {
     private static final double MAX_ANG_VEL = -188;
     private final PIDController controllerX = new PIDController(10, 0.05, 0, 0);
     private final PIDController controllerY = new PIDController(10, 0.05, 0, 0);
-    private final PIDController controllerTheta = new PIDController(5, 0, 0, 0);
+    private final PIDController controllerTheta = new PIDController(5, 0.15, 0, 0);
 
     private final LinearOpMode opMode;
 
@@ -139,7 +139,7 @@ public class InchWorm2 {
         if (
                 Math.abs(target.x - current.x) <= 20 &&
                 Math.abs(target.y - current.y) <= 20 &&
-                Math.toDegrees(Math.abs(target.theta - current.theta)) <= 1
+                Math.toDegrees(Math.abs(target.theta - current.theta)) <= 5
         ) {
             loopsCorrect++;
         } else loopsCorrect = 0;

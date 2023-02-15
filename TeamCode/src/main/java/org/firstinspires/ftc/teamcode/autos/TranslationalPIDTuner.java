@@ -19,7 +19,7 @@ public class TranslationalPIDTuner extends LinearOpMode {
     @Override
     public void runOpMode() {
         double Kp = 10;
-        double Ki = 0.05;
+        double Ki = 0;
         double Kd = 0;
         double scale = 0.15;
         API api = new API(this);
@@ -40,13 +40,13 @@ public class TranslationalPIDTuner extends LinearOpMode {
 
         while (opModeIsActive()) {
             if (gamepad1.left_bumper && lastLeftBumper != gamepad1.left_bumper) {
-                Kp -= scale;
+                Ki -= scale;
                 controller.setParams(Kp, Ki, Kd, target.y);
                 controller.reset();
             }
 
             if (gamepad1.right_bumper && lastRightBumper != gamepad1.right_bumper) {
-                Kp += scale;
+                Ki += scale;
                 controller.setParams(Kp, Ki, Kd, target.y);
                 controller.reset();
             }

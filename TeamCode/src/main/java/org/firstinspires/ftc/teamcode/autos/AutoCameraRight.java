@@ -108,7 +108,7 @@ public class AutoCameraRight extends LinearOpMode {
                 inchWorm.moveTo(-3.75, 51.25, 0);
                 break;
             case 3:
-                inchWorm.moveTo(-53, 51.25, 0);
+                inchWorm.moveTo(-22, 51.25, 0);
                 break;
         }
     }
