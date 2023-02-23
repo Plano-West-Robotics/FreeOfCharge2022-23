@@ -18,7 +18,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 import java.util.ArrayList;
 
 @Autonomous
-public class AutoCameraLeft extends LinearOpMode {
+public class AutoParkOnly extends LinearOpMode {
     OpenCvWebcam camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -91,15 +91,6 @@ public class AutoCameraLeft extends LinearOpMode {
         lift.setPower(0.75);
 
         inchWorm.moveTo(-26, 4);
-        lift.setTargetPosition(SlidePresets.HIGH.position);
-        inchWorm.moveTo(-26, 37.75, -Math.PI / 2);
-        inchWorm.moveTo(-28, 37.75, -Math.PI / 2);
-        // move lift down & open claw
-        lift.setTargetPosition(SlidePresets.MEDIUM.position);
-        while (lift.isBusy()) {}
-        claw.setPosition(1);
-        lift.setTargetPosition(SlidePresets.GROUND.position);
-        inchWorm.moveTo(-27, 37.75, -Math.PI / 2);
         inchWorm.moveTo(-27, 51.25, 0);
 
         // Based on which tag was detected, move to the corresponding position
@@ -111,5 +102,8 @@ public class AutoCameraLeft extends LinearOpMode {
                 inchWorm.moveTo(-3, 51.25, 0);
                 break;
         }
+
+        lift.setTargetPosition(SlidePresets.GROUND.position);
+        while (lift.isBusy()) {}
     }
 }
