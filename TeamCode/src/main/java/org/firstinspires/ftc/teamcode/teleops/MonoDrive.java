@@ -106,7 +106,7 @@ public class MonoDrive extends OpMode {
 
         claw = hardwareMap.get(Servo.class, "claw");
         // only allow claw to move hal
-        claw.scaleRange(0, 0.5);
+        claw.scaleRange(0, 0.75);
 
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorRL.setDirection(DcMotorSimple.Direction.REVERSE);
