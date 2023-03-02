@@ -1,13 +1,17 @@
 package org.firstinspires.ftc.teamcode.autos;
 
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.PIDController;
+
+import java.util.List;
 
 public class InchWorm2 {
     public static final double TICKS_PER_REV = 560;
@@ -62,6 +66,42 @@ public class InchWorm2 {
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+        for (LynxModule hub : allHubs) {
+            hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+        }
+    }
+
+    /**
+     * Calculates motor power based on an elliptic curve.
+     * It creates an ellipse on a position vs power graph centered around (target / 2)
+     * with a vertical radius of 0.5 and a horizontal radius of (midpoint * 1.025).
+     * See https://en.wikipedia.org/wiki/Ellipse for the ellipse equation.
+     * @param position The current position.
+     * @param target The target position
+     * @return Output power.
+     */
+    private double ellipticCurve(double position, double target) {
+        opMode.telemetry.addLine("position: " + position);
+        opMode.telemetry.addLine("target: " + target);
+
+        position = Math.abs(position);
+        target = Math.abs(target);
+        // midpoint of the radius, will shift the x-coordinates by `midpoint`
+        double midpoint = target / 2;
+        // 2.5% overshoot in the radius to make sure robot never fully stops
+        double radius = midpoint * 1.025;
+
+        // see the ellipse formula on wikipedia for more info
+        double shift = Math.pow((position - midpoint) / radius, 2);
+        double pow = Math.sqrt(Math.abs(1 - shift));
+
+        opMode.telemetry.addLine("shift: " + shift);
+        opMode.telemetry.addLine("pow: " + pow);
+
+        // make sure power does not go over 0.5
+        return Range.clip(pow, 0, 1);
     }
 
     public void moveTo(Pose pose) {
@@ -176,6 +216,22 @@ public class InchWorm2 {
 
     }
 
+    /**
+     * normalizes theta into [0, 2π)
+     * @param theta angle to normalize in radians
+     * @return theta normalized into [0, 2π)
+     */
+    private static double modAngle(double theta) {
+        // convert to degrees because mod 2pi doesn't work?
+        double angle = Math.toDegrees(theta);
+
+        angle += 360;
+        angle %= 360;
+
+        // convert back to radians when done
+        return Math.toRadians(angle);
+    }
+
     public double getYaw(AngleUnit angleUnit) {
         return imu.getRobotYawPitchRollAngles().getYaw(angleUnit);
     }
@@ -205,11 +261,7 @@ public class InchWorm2 {
         }
 
         public Pose normalizeAngle() {
-            double radians = this.theta;
-            while (radians > Math.PI) radians -= 2 * Math.PI;
-            while (radians < Math.PI) radians += 2 * Math.PI;
-
-            return new Pose(this.x, this.y, radians);
+            return new Pose(this.x, this.y, modAngle(this.theta));
         }
 
         // only rotates movement vectors, does not touch theta
@@ -256,7 +308,7 @@ public class InchWorm2 {
             int newBL = bl.getCurrentPosition();
             int newBR = br.getCurrentPosition();
 
-            double newYaw = getYaw();
+            double newYaw = modAngle(getYaw());
             double yawDiff = newYaw - currentPos.theta;
 
             int flDiff = newFL - lastFL;

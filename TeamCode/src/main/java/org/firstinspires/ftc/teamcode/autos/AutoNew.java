@@ -93,40 +93,42 @@ public class AutoNew extends LinearOpMode {
         inchWorm.moveTo(21, 4);
         lift.setTargetPosition(SlidePresets.HIGH.position);
         inchWorm.moveTo(21, 50, 0);
-        inchWorm.moveTo(8, 50, 0);
+        inchWorm.moveTo(9, 50, 0);
+        inchWorm.moveTo(9, 53, 0);
         lift.setTargetPosition(SlidePresets.MEDIUM.position);
         while (lift.isBusy()) {}
         claw.setPosition(1);
         lift.setTargetPosition(SlidePresets.STACK_5.position);
-        inchWorm.moveTo(8, 50, -Math.PI / 2);
+        inchWorm.moveTo(11, 50, 0);
+        inchWorm.moveTo(11, 50, -Math.PI / 2);
         inchWorm.moveTo(new InchWorm2.Pose(-29.5, 50, -Math.PI / 2));
         claw.setPosition(0);
-        lift.setTargetPosition(SlidePresets.MEDIUM.position);
-        while (lift.isBusy()) {}
-
-        switch (detected_id) {
-            case 1:
-                inchWorm.moveTo(24, 51.25, -Math.PI / 2);
-                break;
-            case 2:
-                inchWorm.moveTo(-3.75, 51.25, -Math.PI / 2);
-                break;
-            case 3:
-                inchWorm.moveTo(-24, 51.25, -Math.PI / 2);
-                break;
-        }
-
-//        lift.setTargetPosition(SlidePresets.LOW.position);
-//        inchWorm.moveTo(-16.25, 51.25, -Math.PI / 2);
-//        inchWorm.moveTo(-16.25, 51.25, Math.PI);
-//        inchWorm.moveTo(-16.25, 47.75, Math.PI);
-//
-//        lift.setTargetPosition(SlidePresets.STACK_5.position);
+//        lift.setTargetPosition(SlidePresets.MEDIUM.position);
 //        while (lift.isBusy()) {}
-//        claw.setPosition(1);
-//
-//        inchWorm.moveTo(-16.25, 51.25, Math.PI);
-//        inchWorm.moveTo(-16.25, 51.25, -Math.PI / 2);
+
+//        switch (detected_id) {
+//            case 1:
+//                inchWorm.moveTo(24, 51.25, -Math.PI / 2);
+//                break;
+//            case 2:
+//                inchWorm.moveTo(-3.75, 51.25, -Math.PI / 2);
+//                break;
+//            case 3:
+//                inchWorm.moveTo(-24, 51.25, -Math.PI / 2);
+//                break;
+//        }
+
+        lift.setTargetPosition(SlidePresets.LOW.position);
+        inchWorm.moveTo(-16.25, 51.25, -Math.PI / 2);
+        double angle = Math.toRadians(-130);
+        inchWorm.moveTo(-16.25, 51.25, angle);
+        inchWorm.moveTo(-16.25, 47.75, angle);
+
+        lift.setTargetPosition(SlidePresets.STACK_5.position);
+        while (lift.isBusy()) {}
+        claw.setPosition(1);
+
+        inchWorm.moveTo(-16.25, 51.25, angle);
 
         lift.setTargetPosition(SlidePresets.GROUND.position);
         while (lift.isBusy()) {}
