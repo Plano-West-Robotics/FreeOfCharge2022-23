@@ -93,8 +93,8 @@ public class AutoNew extends LinearOpMode {
         inchWorm.moveTo(21, 4);
         lift.setTargetPosition(SlidePresets.HIGH.position);
         inchWorm.moveTo(21, 50, 0);
-        inchWorm.moveTo(9, 50, 0);
-        inchWorm.moveTo(9, 53, 0);
+        inchWorm.moveTo(7, 50, 0);
+        inchWorm.moveTo(7, 53, 0);
         lift.setTargetPosition(SlidePresets.MEDIUM.position);
         while (lift.isBusy()) {}
         claw.setPosition(1);
@@ -120,17 +120,31 @@ public class AutoNew extends LinearOpMode {
 
         lift.setTargetPosition(SlidePresets.LOW.position);
         inchWorm.moveTo(-16.25, 51.25, -Math.PI / 2);
-        double angle = Math.toRadians(-130);
-        inchWorm.moveTo(-16.25, 51.25, angle);
-        inchWorm.moveTo(-16.25, 47.75, angle);
+        inchWorm.moveTo(-16.25, 51.25, -Math.PI);
+        inchWorm.moveTo(-16.25, 47.75, -Math.PI);
 
         lift.setTargetPosition(SlidePresets.STACK_5.position);
         while (lift.isBusy()) {}
         claw.setPosition(1);
 
-        inchWorm.moveTo(-16.25, 51.25, angle);
+        inchWorm.moveTo(-16.25, 51.25, -Math.PI);
 
         lift.setTargetPosition(SlidePresets.GROUND.position);
-        while (lift.isBusy()) {}
+
+        inchWorm.moveTo(-16.25, 51.25, 0);
+
+        // based on which tag was detected, move to the appropriate spot
+        switch (detected_id) {
+            case 1:
+                inchWorm.moveTo(21, 51.25, 0);
+                break;
+            default:
+            case 2:
+                inchWorm.moveTo(-3.75, 51.25, 0);
+                break;
+            case 3:
+                inchWorm.moveTo(-22, 51.25, 0);
+                break;
+        }
     }
 }

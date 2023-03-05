@@ -63,6 +63,37 @@ public class PIDController {
         return out;
     }
 
+    public double calculateWithError(double error) {
+        // The PID loop has not been started yet, so ignore any time calculated before this point
+        if (!started) {
+            timer.reset();
+            started = true;
+            integralSum = 0;
+            lastError = error;
+        }
+
+
+        double deltaTime = timer.seconds();
+
+        double currentFilterEstimate = (0.6 * lastFilterEstimate) + (1-0.6) * (error - lastError);
+        lastFilterEstimate = currentFilterEstimate;
+
+        // derivative, AKA rate of change of the error
+        double derivative = currentFilterEstimate / deltaTime;
+        // calculate the Riemann sum of the error, also known as Forward Euler Integration.
+        integralSum += error * deltaTime;
+
+        // add all the parts together
+        double out = (Kp * error) + (Ki * integralSum) + (Kd * derivative);
+
+        // track error over time
+        lastError = error;
+        // set timer back to 0 and resume counting
+        timer.reset();
+
+        return out;
+    }
+
     /**
      * Resets the controller to state 0 (not started, no integralSum, no lastError).
      * Useful after changing controller parameters.

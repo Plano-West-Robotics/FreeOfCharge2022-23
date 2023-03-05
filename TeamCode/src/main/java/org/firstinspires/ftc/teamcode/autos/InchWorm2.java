@@ -118,7 +118,9 @@ public class InchWorm2 {
         while (isBusy(pose, current)) {
             current = tracker.currentPos.normalizeAngle();
             opMode.telemetry.addLine(current.toDegrees().toString());
-            Pose out = new Pose(controllerX.calculate(current.x), controllerY.calculate(current.y), controllerTheta.calculate(Math.toDegrees(current.theta)));
+            double angError = Math.toDegrees(angleDiff(pose.theta, current.theta));
+            opMode.telemetry.addData("angError", angError);
+            Pose out = new Pose(controllerX.calculate(current.x), controllerY.calculate(current.y), controllerTheta.calculateWithError(angError));
 
             out = out.rot(current.theta);
             out = new Pose(out.x / MAX_VEL, out.y / MAX_VEL, out.theta / MAX_ANG_VEL);
@@ -179,7 +181,7 @@ public class InchWorm2 {
         if (
                 Math.abs(target.x - current.x) <= 20 &&
                 Math.abs(target.y - current.y) <= 20 &&
-                Math.toDegrees(Math.abs(target.theta - current.theta)) <= 5
+                Math.abs(Math.toDegrees(angleDiff(target.theta, current.theta))) <= 5
         ) {
             loopsCorrect++;
         } else loopsCorrect = 0;
@@ -230,6 +232,19 @@ public class InchWorm2 {
 
         // convert back to radians when done
         return Math.toRadians(angle);
+    }
+
+    /**
+     * Returns the real (smallest) difference between two angles.
+     * @param a first angle (in radians)
+     * @param b second angle (in radians)
+     * @return smallest difference between the two angles, within range [-π, π)
+     */
+    private static double angleDiff(double a, double b) {
+        double diff = a - b;
+        if (diff >= Math.PI) diff -= 2 * Math.PI;
+        if (diff < -Math.PI) diff += 2 * Math.PI;
+        return diff;
     }
 
     public double getYaw(AngleUnit angleUnit) {
@@ -308,8 +323,8 @@ public class InchWorm2 {
             int newBL = bl.getCurrentPosition();
             int newBR = br.getCurrentPosition();
 
-            double newYaw = modAngle(getYaw());
-            double yawDiff = newYaw - currentPos.theta;
+            double newYaw = getYaw();
+            double yawDiff = angleDiff(newYaw, currentPos.theta);
 
             int flDiff = newFL - lastFL;
             int frDiff = newFR - lastFR;
