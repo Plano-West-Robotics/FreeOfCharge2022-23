@@ -47,7 +47,7 @@ public class AutoNew extends LinearOpMode {
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
         Servo claw = hardwareMap.get(Servo.class, "claw");
-        claw.scaleRange(0, 0.5);
+        claw.scaleRange(0, 0.65);
         claw.setPosition(0);
 
         camera.setPipeline(aprilTagDetectionPipeline);

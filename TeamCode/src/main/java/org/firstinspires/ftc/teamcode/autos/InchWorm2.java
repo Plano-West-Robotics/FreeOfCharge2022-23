@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -127,7 +128,7 @@ public class InchWorm2 {
             opMode.telemetry.addLine(out.toString());
             opMode.telemetry.update();
 
-            moveWheels(out.x, out.y, out.theta, 1);
+            moveWheels(out.x, out.y, out.theta, 12 / getBatteryVoltage());
             tracker.update();
         }
 
@@ -253,6 +254,18 @@ public class InchWorm2 {
 
     public double getYaw() {
         return getYaw(AngleUnit.RADIANS);
+    }
+
+    private double getBatteryVoltage() {
+        // returns the root of mean of the squares of all the battery voltages
+        double totalSquares = 0;
+        int numSeen = 0;
+        for (VoltageSensor sensor : opMode.hardwareMap.voltageSensor) {
+            totalSquares += Math.pow(sensor.getVoltage(), 2);
+            numSeen++;
+        }
+
+        return Math.sqrt(totalSquares / numSeen);
     }
 
     public static class Pose {
