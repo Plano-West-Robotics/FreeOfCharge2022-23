@@ -107,9 +107,9 @@ public class AutoDoubleHighRight extends LinearOpMode {
 
         lift.setTargetPosition(SlidePresets.HIGH.position);
         while (lift.isBusy()) {}
-        inchWorm.moveTo(5.5, 49, 0);
-        inchWorm.moveTo(5.5, 49, 0);
-        inchWorm.moveTo(5.5, 54.5, 0);
+        inchWorm.moveTo(6, 49, 0);
+        inchWorm.moveTo(6, 49, 0);
+        inchWorm.moveTo(6, 54.5, 0);
         api.pause(1);
 
         claw.setPosition(1);
