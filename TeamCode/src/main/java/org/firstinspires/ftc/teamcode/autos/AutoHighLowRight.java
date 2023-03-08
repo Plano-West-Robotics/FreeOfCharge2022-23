@@ -18,7 +18,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 import java.util.ArrayList;
 
 @Autonomous
-public class AutoNew extends LinearOpMode {
+public class AutoHighLowRight extends LinearOpMode {
     OpenCvWebcam camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -129,7 +129,7 @@ public class AutoNew extends LinearOpMode {
                 inchWorm.moveTo(-3.75, 51.25, 0);
                 break;
             case 3:
-                inchWorm.moveTo(-22, 51.25, 0);
+                inchWorm.moveTo(-25.5, 51.25, 0);
                 break;
         }
     }
