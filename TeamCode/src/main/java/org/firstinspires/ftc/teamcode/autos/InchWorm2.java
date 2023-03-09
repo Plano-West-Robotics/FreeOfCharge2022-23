@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.autos;
 
+import androidx.annotation.NonNull;
+
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -304,6 +306,7 @@ public class InchWorm2 {
             return new Pose(this.x + other.x, this.y + other.y, this.theta + other.theta);
         }
 
+        @NonNull
         public String toString() {
             return "x: " + x + System.lineSeparator() + "y: " + y + System.lineSeparator() + "theta: " + theta;
         }
@@ -320,6 +323,44 @@ public class InchWorm2 {
         private int lastBL = 0;
         private int lastBR = 0;
 
+        private int flOffset = 0;
+        private int frOffset = 0;
+        private int blOffset = 0;
+        private int brOffset = 0;
+        private double yawOffset = 0;
+
+        /**
+         * Set this to the diameter of the robot, in inches
+         */
+        private final int TRACKWIDTH = 0;
+
+        /**
+         * Override the current pose estimate. po
+         * @param pose Pose to relocalize to. x and y must be in inches, and theta must be in radians.
+         */
+        public void setPoseEstimate(Pose pose) {
+            pose = pose.toTicks().normalizeAngle();
+            double turn = (pose.theta * TRACKWIDTH) * TPI;
+
+            int fl = (int) (pose.y - pose.x + turn);
+            int fr = (int) (pose.y + pose.x - turn);
+            int bl = (int) (pose.y + pose.x + turn);
+            int br = (int) (pose.y - pose.x - turn);
+
+            lastFL = fl;
+            lastFR = fr;
+            lastBL = bl;
+            lastBR = br;
+
+            flOffset = fl;
+            frOffset = fr;
+            blOffset = bl;
+            brOffset = br;
+            yawOffset = pose.theta;
+
+            currentPos = pose;
+        }
+
         private double sinc(double x) {
             return x == 0 ? 1 : Math.sin(x) / x;
         }
@@ -331,12 +372,12 @@ public class InchWorm2 {
         }
 
         public void update() {
-            int newFL = fl.getCurrentPosition();
-            int newFR = fr.getCurrentPosition();
-            int newBL = bl.getCurrentPosition();
-            int newBR = br.getCurrentPosition();
+            int newFL = fl.getCurrentPosition() + flOffset;
+            int newFR = fr.getCurrentPosition() + frOffset;
+            int newBL = bl.getCurrentPosition() + blOffset;
+            int newBR = br.getCurrentPosition() + brOffset;
 
-            double newYaw = getYaw();
+            double newYaw = getYaw() + yawOffset;
             double yawDiff = angleDiff(newYaw, currentPos.theta);
 
             int flDiff = newFL - lastFL;
