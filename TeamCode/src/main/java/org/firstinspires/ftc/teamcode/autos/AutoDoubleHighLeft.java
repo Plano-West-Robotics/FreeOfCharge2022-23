@@ -18,7 +18,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 import java.util.ArrayList;
 
 @Autonomous
-public class AutoDoubleHighRight extends LinearOpMode {
+public class AutoDoubleHighLeft extends LinearOpMode {
     OpenCvWebcam camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -67,8 +67,8 @@ public class AutoDoubleHighRight extends LinearOpMode {
 
         api.waitForStart();
 
-        // wait for the camera to detect something OR for 5 seconds to pass, whichever happens first
-        double stopTime = getRuntime() + 5;
+        // wait for the camera to detect something OR for 2.5 seconds to pass, whichever happens first
+        double stopTime = getRuntime() + 2.5;
         ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
         while (currentDetections.size() == 0 && getRuntime() < stopTime) {
             currentDetections = aprilTagDetectionPipeline.getLatestDetections();
@@ -90,39 +90,39 @@ public class AutoDoubleHighRight extends LinearOpMode {
         lift.setTargetPosition(SlidePresets.LOW.position);
         lift.setPower(0.75);
         api.pause(0.5);
-        inchWorm.moveTo(21, 4);
+        inchWorm.moveTo(-26, 4);
 
-        inchWorm.moveTo(21, 48, 0);
-        inchWorm.moveTo(6.5, 48, 0);
+        inchWorm.moveTo(-26, 48, 0);
+        inchWorm.moveTo(-14, 48, 0);
         lift.setTargetPosition(SlidePresets.HIGH.position);
         api.pause(1);
-        inchWorm.moveTo(6.5, 51, 0);
+        inchWorm.moveTo(-14, 53, 0);
         api.pause(1);
         lift.setTargetPosition(SlidePresets.LOW.position);
         api.pause(0.5);
         claw.setPosition(1);
-        inchWorm.moveTo(6.5, 48, 0);
+        inchWorm.moveTo(-14, 48, 0);
         api.pause(0.5);
 
         lift.setTargetPosition(SlidePresets.STACK_5.position);
-        inchWorm.moveTo(7, 50, 0);
-        inchWorm.moveTo(7, 50, -Math.PI / 2);
-        inchWorm.moveTo(new InchWorm2.Pose(-29.5, 49, -Math.PI / 2));
+        inchWorm.moveTo(-14, 51, 0);
+        inchWorm.moveTo(-14, 51, Math.PI / 2);
+        inchWorm.moveTo(new InchWorm2.Pose(23, 51, Math.PI / 2));
         claw.setPosition(0);
         api.pause(0.5);
 
         lift.setTargetPosition(SlidePresets.LOW.position);
         while (lift.isBusy()) {}
-        inchWorm.moveTo(6.5, 49, 0);
-        inchWorm.moveTo(6.5, 49, 0);
+        inchWorm.moveTo(-14, 49, 0);
+        inchWorm.moveTo(-14, 49, 0);
         lift.setTargetPosition(SlidePresets.HIGH.position);
         api.pause(1);
-        inchWorm.moveTo(6.5, 54.5, 0);
+        inchWorm.moveTo(-14, 54.5, 0);
         api.pause(1);
         lift.setTargetPosition(SlidePresets.LOW.position);
         api.pause(0.5);
         claw.setPosition(1);
-        inchWorm.moveTo(6.5, 49, 0);
+        inchWorm.moveTo(-14, 48, 0);
         api.pause(0.5);
         lift.setTargetPosition(SlidePresets.LOW.position);
         inchWorm.moveTo(-16.25, 51.25, 0);
@@ -134,14 +134,14 @@ public class AutoDoubleHighRight extends LinearOpMode {
         // based on which tag was detected, move to the appropriate spot
         switch (detected_id) {
             case 1:
-                inchWorm.moveTo(19.5, 51, 0);
+                inchWorm.moveTo(21, 51.25, 0);
                 break;
             default:
             case 2:
-                inchWorm.moveTo(-3.75, 51, 0);
+                inchWorm.moveTo(-1, 51.25, 0);
                 break;
             case 3:
-                inchWorm.moveTo(-28, 51, 0);
+                inchWorm.moveTo(-27, 51.25, 0);
                 break;
         }
     }
