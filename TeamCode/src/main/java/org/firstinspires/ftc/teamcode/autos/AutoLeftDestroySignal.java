@@ -141,7 +141,7 @@ public class AutoLeftDestroySignal extends LinearOpMode {
                 inchWorm.moveTo(-1, 51.25, 0);
                 break;
             case 3:
-                inchWorm.moveTo(-27, 50, 0);
+                inchWorm.moveTo(-27, 51, 0);
                 break;
         }
     }
