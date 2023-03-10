@@ -18,7 +18,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 import java.util.ArrayList;
 
 @Autonomous
-public class AutoDoubleHighLeft extends LinearOpMode {
+public class AutoLeftDestroySignal extends LinearOpMode {
     OpenCvWebcam camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -90,24 +90,24 @@ public class AutoDoubleHighLeft extends LinearOpMode {
         lift.setTargetPosition(SlidePresets.LOW.position);
         lift.setPower(0.75);
         api.pause(0.5);
-        inchWorm.moveTo(-26, 4);
-
-        inchWorm.moveTo(-26, 48, 0);
-        inchWorm.moveTo(-14.5, 48, 0);
+        inchWorm.moveTo(-3, 0);
+        inchWorm.moveTo(-3, 52);
+        api.pause(1);
+        inchWorm.moveTo(-12, 52, 0);
         lift.setTargetPosition(SlidePresets.HIGH.position);
         api.pause(1);
-        inchWorm.moveTo(-14.5, 52, 0);
+        inchWorm.moveTo(-14.75, 51.5, 0);
         api.pause(1);
         lift.setTargetPosition(SlidePresets.HIGH_SCORE.position);
         api.pause(0.5);
         claw.setPosition(1);
-        api.pause(0.5);
+        api.pause(1);
 
         lift.setTargetPosition(SlidePresets.STACK_5.position);
         api.pause(0.5);
         inchWorm.moveTo(-14.75, 49.5, Math.PI / 2);
         api.pause(0.5);
-        inchWorm.moveTo(new InchWorm2.Pose(22.5, 51, Math.PI / 2));
+        inchWorm.moveTo(new InchWorm2.Pose(22.5, 49.5, Math.PI / 2));
         claw.setPosition(0);
         api.pause(0.5);
 
@@ -117,15 +117,15 @@ public class AutoDoubleHighLeft extends LinearOpMode {
         inchWorm.moveTo(-14, 49, 0);
         lift.setTargetPosition(SlidePresets.HIGH.position);
         api.pause(1);
-        inchWorm.moveTo(-14, 53, 0);
+        inchWorm.moveTo(-14, 53.5, 0);
         api.pause(1);
         lift.setTargetPosition(SlidePresets.HIGH_SCORE.position);
         api.pause(0.5);
         claw.setPosition(1);
         inchWorm.moveTo(-14, 48, 0);
-        api.pause(0.5);
+        api.pause(1);
 
-        /* lift.setTargetPosition(SlidePresets.LOW.position);
+        lift.setTargetPosition(SlidePresets.LOW.position);
         inchWorm.moveTo(-16.25, 51.25, 0);
 
         lift.setTargetPosition(SlidePresets.GROUND.position);
@@ -141,8 +141,8 @@ public class AutoDoubleHighLeft extends LinearOpMode {
                 inchWorm.moveTo(-1, 51.25, 0);
                 break;
             case 3:
-                inchWorm.moveTo(-27, 51.25, 0);
+                inchWorm.moveTo(-27, 50, 0);
                 break;
-        } */
+        }
     }
 }

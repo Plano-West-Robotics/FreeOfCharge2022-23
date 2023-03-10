@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 public enum SlidePresets {
-    GROUND(0), LOW(1350), MEDIUM(2100), HIGH(3000), STACK_5(420);
+    GROUND(0), LOW(1350), MEDIUM(2100), HIGH(3000), STACK_5(420), HIGH_SCORE(2800);
 
     public final int position;
 

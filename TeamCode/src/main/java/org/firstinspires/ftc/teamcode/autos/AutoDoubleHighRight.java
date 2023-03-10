@@ -93,12 +93,12 @@ public class AutoDoubleHighRight extends LinearOpMode {
         inchWorm.moveTo(21, 4);
 
         inchWorm.moveTo(21, 48, 0);
-        inchWorm.moveTo(6.5, 48, 0);
+        inchWorm.moveTo(8, 48, 0);
         lift.setTargetPosition(SlidePresets.HIGH.position);
-        api.pause(1);
-        inchWorm.moveTo(6.5, 51, 0);
-        api.pause(1);
-        lift.setTargetPosition(SlidePresets.LOW.position);
+        api.pause(0.5);
+        inchWorm.moveTo(8, 51, 0);
+        api.pause(0.5);
+        lift.setTargetPosition(SlidePresets.HIGH_SCORE.position);
         api.pause(0.5);
         claw.setPosition(1);
         inchWorm.moveTo(6.5, 48, 0);
@@ -107,22 +107,22 @@ public class AutoDoubleHighRight extends LinearOpMode {
         lift.setTargetPosition(SlidePresets.STACK_5.position);
         inchWorm.moveTo(7, 50, 0);
         inchWorm.moveTo(7, 50, -Math.PI / 2);
-        inchWorm.moveTo(new InchWorm2.Pose(-29.5, 49, -Math.PI / 2));
+        inchWorm.moveTo(new InchWorm2.Pose(-28, 49, -Math.PI / 2));
         claw.setPosition(0);
         api.pause(0.5);
 
         lift.setTargetPosition(SlidePresets.LOW.position);
         while (lift.isBusy()) {}
-        inchWorm.moveTo(6.5, 49, 0);
-        inchWorm.moveTo(6.5, 49, 0);
+        inchWorm.moveTo(8, 49, 0);
+        inchWorm.moveTo(8, 49, 0);
         lift.setTargetPosition(SlidePresets.HIGH.position);
-        api.pause(1);
-        inchWorm.moveTo(6.5, 54.5, 0);
-        api.pause(1);
-        lift.setTargetPosition(SlidePresets.LOW.position);
+        api.pause(0.5);
+        inchWorm.moveTo(8, 54.5, 0);
+        api.pause(0.5);
+        lift.setTargetPosition(SlidePresets.HIGH_SCORE.position);
         api.pause(0.5);
         claw.setPosition(1);
-        inchWorm.moveTo(6.5, 49, 0);
+        inchWorm.moveTo(8, 49, 0);
         api.pause(0.5);
         lift.setTargetPosition(SlidePresets.LOW.position);
         inchWorm.moveTo(-16.25, 51.25, 0);
