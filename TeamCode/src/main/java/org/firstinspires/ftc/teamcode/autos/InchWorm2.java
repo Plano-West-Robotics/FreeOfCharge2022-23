@@ -27,7 +27,6 @@ public class InchWorm2 {
     public final IMU imu;
     public final PositionTracker tracker = new PositionTracker();
     private int loopsCorrect = 0;
-    // todo: tune these values
     private static final double MAX_VEL = 2000;
     private static final double MAX_ANG_VEL = -188;
     private final PIDController controllerX = new PIDController(10, 0.05, 0, 0);
@@ -35,6 +34,8 @@ public class InchWorm2 {
     private final PIDController controllerTheta = new PIDController(5, 0.15, 0, 0);
 
     private final LinearOpMode opMode;
+
+    private double speed = 1;
 
     public InchWorm2(LinearOpMode mode) {
         opMode = mode;
@@ -76,37 +77,6 @@ public class InchWorm2 {
         }
     }
 
-    /**
-     * Calculates motor power based on an elliptic curve.
-     * It creates an ellipse on a position vs power graph centered around (target / 2)
-     * with a vertical radius of 0.5 and a horizontal radius of (midpoint * 1.025).
-     * See https://en.wikipedia.org/wiki/Ellipse for the ellipse equation.
-     * @param position The current position.
-     * @param target The target position
-     * @return Output power.
-     */
-    private double ellipticCurve(double position, double target) {
-        opMode.telemetry.addLine("position: " + position);
-        opMode.telemetry.addLine("target: " + target);
-
-        position = Math.abs(position);
-        target = Math.abs(target);
-        // midpoint of the radius, will shift the x-coordinates by `midpoint`
-        double midpoint = target / 2;
-        // 2.5% overshoot in the radius to make sure robot never fully stops
-        double radius = midpoint * 1.025;
-
-        // see the ellipse formula on wikipedia for more info
-        double shift = Math.pow((position - midpoint) / radius, 2);
-        double pow = Math.sqrt(Math.abs(1 - shift));
-
-        opMode.telemetry.addLine("shift: " + shift);
-        opMode.telemetry.addLine("pow: " + pow);
-
-        // make sure power does not go over 0.5
-        return Range.clip(pow, 0, 1);
-    }
-
     public void moveTo(Pose pose) {
         // convert pose in inches to pose in ticks & normalize angle to [-π, π] radians
         pose = pose.toTicks().normalizeAngle();
@@ -130,7 +100,8 @@ public class InchWorm2 {
             opMode.telemetry.addLine(out.toString());
             opMode.telemetry.update();
 
-            moveWheels(out.x, out.y, out.theta, 12 / getBatteryVoltage());
+            double voltageCompensation = 12 / getBatteryVoltage();
+            moveWheels(out.x, out.y, out.theta, getSpeedMultiplier() * voltageCompensation);
             tracker.update();
         }
 
@@ -270,6 +241,22 @@ public class InchWorm2 {
         return Math.sqrt(totalSquares / numSeen);
     }
 
+    /**
+     * Set the speed multiplier of the robot.
+     * @param x new speed to set
+     */
+    public void setSpeedMultiplier(double x) {
+        speed = Range.clip(x, 0, 1);
+    }
+
+    /**
+     * Get the current speed multiplier.
+     * @return current speed multiplier
+     */
+    public double getSpeedMultiplier() {
+        return speed;
+    }
+
     public static class Pose {
         double x;
         double y;
@@ -342,21 +329,27 @@ public class InchWorm2 {
             pose = pose.toTicks().normalizeAngle();
             double turn = (pose.theta * TRACKWIDTH) * TPI;
 
+            int currentFL = fl.getCurrentPosition();
+            int currentFR = fr.getCurrentPosition();
+            int currentBL = bl.getCurrentPosition();
+            int currentBR = br.getCurrentPosition();
+
             int fl = (int) (pose.y - pose.x + turn);
             int fr = (int) (pose.y + pose.x - turn);
             int bl = (int) (pose.y + pose.x + turn);
             int br = (int) (pose.y - pose.x - turn);
+
 
             lastFL = fl;
             lastFR = fr;
             lastBL = bl;
             lastBR = br;
 
-            flOffset = fl;
-            frOffset = fr;
-            blOffset = bl;
-            brOffset = br;
-            yawOffset = pose.theta;
+            flOffset = fl - currentFL;
+            frOffset = fr - currentFR;
+            blOffset = bl - currentBL;
+            brOffset = br - currentBR;
+            yawOffset = angleDiff(pose.theta, getYaw());
 
             currentPos = pose;
         }
