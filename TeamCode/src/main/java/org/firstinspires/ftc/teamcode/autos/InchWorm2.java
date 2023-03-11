@@ -342,21 +342,27 @@ public class InchWorm2 {
             pose = pose.toTicks().normalizeAngle();
             double turn = (pose.theta * TRACKWIDTH) * TPI;
 
+            int currentFL = fl.getCurrentPosition();
+            int currentFR = fr.getCurrentPosition();
+            int currentBL = bl.getCurrentPosition();
+            int currentBR = br.getCurrentPosition();
+
             int fl = (int) (pose.y - pose.x + turn);
             int fr = (int) (pose.y + pose.x - turn);
             int bl = (int) (pose.y + pose.x + turn);
             int br = (int) (pose.y - pose.x - turn);
+
 
             lastFL = fl;
             lastFR = fr;
             lastBL = bl;
             lastBR = br;
 
-            flOffset = fl;
-            frOffset = fr;
-            blOffset = bl;
-            brOffset = br;
-            yawOffset = pose.theta;
+            flOffset = fl - currentFL;
+            frOffset = fr - currentFR;
+            blOffset = bl - currentBL;
+            brOffset = br - currentBR;
+            yawOffset = angleDiff(pose.theta, getYaw());
 
             currentPos = pose;
         }
