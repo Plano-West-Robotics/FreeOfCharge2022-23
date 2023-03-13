@@ -20,8 +20,8 @@ import java.text.DecimalFormat;
 @TeleOp(name = "Field Oriented TeleOp")
 public class FOCDrive extends OpMode {
     //Drive Variables
-    private DcMotor motorFR, motorFL, motorRR, motorRL;
-    private double powerFR, powerFL, powerRR, powerRL;
+    private DcMotor motorFR, motorFL, motorBR, motorBL;
+    private double powerFR, powerFL, powerBR, powerBL;
     private DcMotor motorLift;
     private double powerLift;
     private Servo claw;
@@ -65,22 +65,22 @@ public class FOCDrive extends OpMode {
         double rotY = drive * Math.sin(heading) + strafe * Math.cos(heading);
         powerFR = rotX - rotY;
         powerFL = rotX + rotY;
-        powerRR = rotX + rotY;
-        powerRL = rotX - rotY;
+        powerBR = rotX + rotY;
+        powerBL = rotX - rotY;
 
         addTurn(turn);
 
         // multiplies by speed
         powerFR *= speed;
         powerFL *= speed;
-        powerRR *= speed;
-        powerRL *= speed;
+        powerBR *= speed;
+        powerBL *= speed;
 
         // applies the power
         motorFR.setPower(powerFR);
         motorFL.setPower(powerFL);
-        motorRR.setPower(powerRR);
-        motorRL.setPower(powerRL);
+        motorBR.setPower(powerBR);
+        motorBL.setPower(powerBL);
 
         motorLift.setPower(powerLift);
 
@@ -96,9 +96,9 @@ public class FOCDrive extends OpMode {
 
     private void addTurn(double turn) {
         powerFR -= turn;
-        powerRR -= turn;
+        powerBR -= turn;
         powerFL += turn;
-        powerRL += turn;
+        powerBL += turn;
     }
 
     @Override
@@ -106,8 +106,8 @@ public class FOCDrive extends OpMode {
         //initializes the drive motors
         motorFR = hardwareMap.get(DcMotor.class, "frontRight");
         motorFL = hardwareMap.get(DcMotor.class, "frontLeft");
-        motorRR = hardwareMap.get(DcMotor.class, "rearRight");
-        motorRL = hardwareMap.get(DcMotor.class, "rearLeft");
+        motorBR = hardwareMap.get(DcMotor.class, "rearRight");
+        motorBL = hardwareMap.get(DcMotor.class, "rearLeft");
 
         motorLift = hardwareMap.get(DcMotor.class, "slide");
         motorLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -118,12 +118,17 @@ public class FOCDrive extends OpMode {
         claw.scaleRange(0, 0.75);
 
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorRL.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        motorFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motorFR.setPower(0);
         motorFL.setPower(0);
-        motorRR.setPower(0);
-        motorRL.setPower(0);
+        motorBR.setPower(0);
+        motorBL.setPower(0);
         motorLift.setPower(0);
 
         imu = hardwareMap.get(IMU.class, "imu");
