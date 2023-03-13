@@ -97,7 +97,7 @@ public class AutoDoubleHighLeft extends LinearOpMode {
         lift.setTargetPosition(SlidePresets.HIGH.position);
         api.pause(1);
         inchWorm.moveTo(-14.5, 52, 0);
-        api.pause(1);
+        /* api.pause(1);
         lift.setTargetPosition(SlidePresets.HIGH_SCORE.position);
         api.pause(0.5);
         claw.setPosition(1);
@@ -143,6 +143,6 @@ public class AutoDoubleHighLeft extends LinearOpMode {
             case 3:
                 inchWorm.moveTo(-27, 51.25, 0);
                 break;
-        }
+        } */
     }
 }

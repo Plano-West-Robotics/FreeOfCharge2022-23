@@ -88,7 +88,7 @@ public class AutoRightDestroySignal extends LinearOpMode {
 
         // move lift up to prevent cone from scraping on the floor
         lift.setTargetPosition(SlidePresets.LOW.position);
-        lift.setPower(0.9);
+        lift.setPower(1);
         api.pause(0.5);
         inchWorm.moveTo(-3, 0);
         inchWorm.moveTo(-3, 57);
@@ -98,7 +98,7 @@ public class AutoRightDestroySignal extends LinearOpMode {
         inchWorm.moveTo(6.5, 51.5, 0);
         lift.setTargetPosition(SlidePresets.HIGH.position);
         api.pause(0.5);
-        inchWorm.moveTo(9.5, 51.5, 0);
+        inchWorm.moveTo(9, 53, 0);
         lift.setTargetPosition(SlidePresets.HIGH_SCORE.position);
         api.pause(0.5);
         claw.setPosition(1);
@@ -106,6 +106,7 @@ public class AutoRightDestroySignal extends LinearOpMode {
 
         lift.setTargetPosition(SlidePresets.STACK_5.position);
         api.pause(0.5);
+        inchWorm.setSpeedMultiplier(0.75);
         inchWorm.moveTo(8, 49.5, -Math.PI / 2);
         api.pause(0.5);
         inchWorm.moveTo(new InchWorm2.Pose(-24, 49.5, -Math.PI / 2));
@@ -114,16 +115,17 @@ public class AutoRightDestroySignal extends LinearOpMode {
 
         lift.setTargetPosition(SlidePresets.LOW.position);
         while (lift.isBusy()) {}
-        inchWorm.moveTo(13, 49, 0);
-        inchWorm.moveTo(13, 49, 0);
+        inchWorm.setSpeedMultiplier(1);
+        inchWorm.moveTo(11, 49, 0);
+        inchWorm.moveTo(11, 49, 0);
         lift.setTargetPosition(SlidePresets.HIGH.position);
         api.pause(0.5);
-        inchWorm.moveTo(13, 54, 0);
+        inchWorm.moveTo(11, 53.5, 0);
         api.pause(0.5);
         lift.setTargetPosition(SlidePresets.HIGH_SCORE.position);
         api.pause(0.5);
         claw.setPosition(1);
-        inchWorm.moveTo(8, 48, 0);
+        inchWorm.moveTo(11, 48, 0);
 
 
         //lift.setTargetPosition(SlidePresets.LOW.position);
@@ -139,10 +141,10 @@ public class AutoRightDestroySignal extends LinearOpMode {
                 break;
             default:
             case 2:
-                inchWorm.moveTo(-2, 51, 0);
+                inchWorm.moveTo(-1, 51, 0);
                 break;
             case 3:
-                inchWorm.moveTo(-22, 51, 0);
+                inchWorm.moveTo(-26, 51, 0);
                 break;
         }
     }
