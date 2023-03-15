@@ -105,7 +105,7 @@ public class MonoDrive extends OpMode {
         motorLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         claw = hardwareMap.get(Servo.class, "claw");
-        // only allow claw to move hal
+        // only allow claw to open partially
         claw.scaleRange(0, 0.75);
 
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
