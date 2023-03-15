@@ -93,6 +93,8 @@ public class AutoLeftDestroySignal extends LinearOpMode {
         inchWorm.moveTo(-3, 0);
         inchWorm.moveTo(-3, 57);
         inchWorm.moveTo(-3, 51);
+
+
         api.pause(0.5);
         inchWorm.moveTo(-15, 51.5, 0);
         lift.setTargetPosition(SlidePresets.HIGH.position);
@@ -105,6 +107,7 @@ public class AutoLeftDestroySignal extends LinearOpMode {
 
         lift.setTargetPosition(SlidePresets.STACK_5.position);
         inchWorm.setSpeedMultiplier(0.5);
+        inchWorm.setSpeedMultiplier(0.75);
         inchWorm.moveTo(-14.75, 49.5, Math.PI / 2);
         api.pause(0.5);
         inchWorm.moveTo(new InchWorm2.Pose(18, 49.5, Math.PI / 2));
@@ -117,6 +120,7 @@ public class AutoLeftDestroySignal extends LinearOpMode {
         inchWorm.moveTo(-18, 49, 0);
         inchWorm.moveTo(-18, 49, 0);
         api.pause(1);
+
         lift.setTargetPosition(SlidePresets.HIGH.position);
         inchWorm.moveTo(-18, 53.5, 0);
         api.pause(1);
@@ -128,7 +132,6 @@ public class AutoLeftDestroySignal extends LinearOpMode {
 
         lift.setTargetPosition(SlidePresets.LOW.position);
         inchWorm.moveTo(-16.25, 51.25, 0);
-
         lift.setTargetPosition(SlidePresets.GROUND.position);
         inchWorm.moveTo(-16.25, 51, 0);
 
