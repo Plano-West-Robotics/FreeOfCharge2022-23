@@ -16,9 +16,21 @@ import org.firstinspires.ftc.teamcode.PIDController;
 
 import java.util.List;
 
+/**
+ * InchWorm2 is a movement system aimed at making autonomous coding easy and effective.
+ */
 public class InchWorm2 {
+    /**
+     * Encoder ticks per motor revolution for your drive motors. You can find this information online.
+     */
     public static final double TICKS_PER_REV = 560;
+    /**
+     * Diameter of your mecanum wheels in inches.
+     */
     public static final double WHEEL_DIAMETER_INCHES = 3;
+    /**
+     * Encoder ticks per inch rotated
+     */
     public static final double TPI = TICKS_PER_REV / (WHEEL_DIAMETER_INCHES * Math.PI);
     private final DcMotor fl;
     private final DcMotor fr;
@@ -27,14 +39,27 @@ public class InchWorm2 {
     public final IMU imu;
     public final PositionTracker tracker = new PositionTracker();
     private int loopsCorrect = 0;
+    /**
+     * Maximum translational velocity in encoder ticks/second. Find this using the SpeedTuner
+     */
     private static final double MAX_VEL = 2000;
+    /**
+     * Maximum angular velocity in degrees/second. Find this using the SpeedTuner.
+     */
     private static final double MAX_ANG_VEL = -188;
+    /**
+     * PID controllers. <b>coefficients for controllerX and controllerY should be THE SAME!</b>
+     * Tune controllerX and controllerY with the TranslationalPIDTuner, and tune controllerTheta with the TurnPIDTuner.
+     */
     private final PIDController controllerX = new PIDController(10, 0.05, 0, 0);
     private final PIDController controllerY = new PIDController(10, 0.05, 0, 0);
     private final PIDController controllerTheta = new PIDController(5, 0.15, 0, 0);
 
     private final LinearOpMode opMode;
 
+    /**
+     * speed multiplier, multiplied by the PID outputs.
+     */
     private double speed = 1;
 
     public InchWorm2(LinearOpMode mode) {
@@ -77,6 +102,10 @@ public class InchWorm2 {
         }
     }
 
+    /**
+     * Move to a specific position on the field.
+     * @param pose Position to move to. For now, must be in inches and radians.
+     */
     public void moveTo(Pose pose) {
         // convert pose in inches to pose in ticks & normalize angle to [-π, π] radians
         pose = pose.toTicks().normalizeAngle();
@@ -108,35 +137,23 @@ public class InchWorm2 {
         stop();
     }
 
+    /**
+     * Move to a certain (x, y) on the field.
+     * @param x x coordinate to move to. for now, must be in inches
+     * @param y y coordinate to move to. for now, must be in inches
+     */
     public void moveTo(double x, double y) {
         moveTo(new Pose(x, y));
     }
+
+    /**
+     * Move to a certain (x, y, θ) on the field.
+     * @param x x coordinate to move to. for now, must be in inches.
+     * @param y y coordinate to move to. for now, must be in inches.
+     * @param theta angle to turn to. for now, must be in radians.
+     */
     public void moveTo(double x, double y, double theta) {
         moveTo(new Pose(x, y, theta));
-    }
-
-    public void moveX(double n) {
-        Pose current = tracker.currentPos;
-        Pose target = new Pose(current.x + n, current.y, current.theta);
-        moveTo(target);
-    }
-
-    public void moveY(double n) {
-        Pose current = tracker.currentPos;
-        Pose target = new Pose(current.x, current.y + n, current.theta);
-        moveTo(target);
-    }
-
-    public void turn(double n) {
-        Pose current = tracker.currentPos;
-        Pose target = new Pose(current.x, current.y, current.theta + n);
-        moveTo(target);
-    }
-
-    public void turnTo(double n) {
-        Pose current = tracker.currentPos;
-        Pose target = new Pose(current.x, current.y, n);
-        moveTo(target);
     }
 
     private void setModes(DcMotor.RunMode mode) {
@@ -221,10 +238,19 @@ public class InchWorm2 {
         return diff;
     }
 
+    /**
+     * Get yaw from the IMU.
+     * @param angleUnit Unit of the result.
+     * @return yaw angle from the IMU, in `angleUnit` units.
+     */
     public double getYaw(AngleUnit angleUnit) {
         return imu.getRobotYawPitchRollAngles().getYaw(angleUnit);
     }
 
+    /**
+     * Get yaw from the IMU in radians.
+     * @return yaw angle from the IMU in radians.
+     */
     public double getYaw() {
         return getYaw(AngleUnit.RADIANS);
     }
@@ -273,15 +299,28 @@ public class InchWorm2 {
             theta = angle;
         }
 
+        /**
+         * Convert a pose where x and y are in inches to a pose where x and y in ticks.
+         * @return a pose where x and y in ticks.
+         */
         public Pose toTicks() {
             return new Pose(this.x * TPI, this.y * TPI, this.theta);
         }
 
+        /**
+         * Normalizes theta into [0, 2π).
+         * @see super.modAngle(double)
+         * @return A new pose with theta normalized into [0, 2π).
+         */
         public Pose normalizeAngle() {
             return new Pose(this.x, this.y, modAngle(this.theta));
         }
 
-        // only rotates movement vectors, does not touch theta
+        /**
+         * Rotates this pose by an angle.
+         * @param angle angle to rotate by
+         * @return new pose that is rotated by the angle
+         */
         public Pose rot(double angle) {
             double rotX = this.x * Math.cos(angle) - this.y * Math.sin(angle);
             double rotY = this.x * Math.sin(angle) + this.y * Math.cos(angle);
@@ -298,6 +337,10 @@ public class InchWorm2 {
             return "x: " + x + System.lineSeparator() + "y: " + y + System.lineSeparator() + "theta: " + theta;
         }
 
+        /**
+         * Converts theta from radians to degrees.
+         * @return a pose with radians converted to degrees
+         */
         public Pose toDegrees() {
             return new Pose(this.x, this.y, Math.toDegrees(this.theta));
         }
@@ -322,7 +365,7 @@ public class InchWorm2 {
         private final int TRACKWIDTH = 0;
 
         /**
-         * Override the current pose estimate. po
+         * Override the current pose estimate.
          * @param pose Pose to relocalize to. x and y must be in inches, and theta must be in radians.
          */
         public void setPoseEstimate(Pose pose) {
@@ -364,6 +407,9 @@ public class InchWorm2 {
             return x == 0 ? 0 : (1 - Math.cos(x)) / x;
         }
 
+        /**
+         * Updates the current position estimate. The more you call this, the better.
+         */
         public void update() {
             int newFL = fl.getCurrentPosition() + flOffset;
             int newFR = fr.getCurrentPosition() + frOffset;
