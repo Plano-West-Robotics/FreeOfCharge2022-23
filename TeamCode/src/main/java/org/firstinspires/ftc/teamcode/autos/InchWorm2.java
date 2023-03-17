@@ -124,8 +124,12 @@ public class InchWorm2 {
             opMode.telemetry.addData("angError", angError);
             Pose out = new Pose(controllerX.calculate(current.x), controllerY.calculate(current.y), controllerTheta.calculateWithError(angError));
 
+            double magnitude = Math.hypot(out.x, out.y);
+            out.x = Range.clip(out.x / magnitude, -1, 1);
+            out.y = Range.clip(out.y / magnitude, -1, 1);
+
             out = out.rot(current.theta);
-            out = new Pose(out.x / MAX_VEL, out.y / MAX_VEL, out.theta / MAX_ANG_VEL);
+            out = new Pose(out.x, out.y, out.theta / MAX_ANG_VEL);
             opMode.telemetry.addLine(out.toString());
             opMode.telemetry.update();
 
