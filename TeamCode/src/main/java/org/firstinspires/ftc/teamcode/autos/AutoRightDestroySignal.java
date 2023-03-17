@@ -89,27 +89,27 @@ public class AutoRightDestroySignal extends LinearOpMode {
         // move lift up to prevent cone from scraping on the floor
         lift.setTargetPosition(SlidePresets.LOW.position);
         lift.setPower(1);
-        api.pause(0.5);
+        //api.pause(0.5);
         inchWorm.moveTo(-3, 0);
         inchWorm.moveTo(-3, 57);
-        inchWorm.moveTo(-3, 52);
+        inchWorm.moveTo(-3, 51);
 
-        api.pause(1);
+        //api.pause(1);
         inchWorm.moveTo(6.5, 51.5, 0);
         lift.setTargetPosition(SlidePresets.HIGH.position);
-        api.pause(0.5);
+        //api.pause(0.5);
         inchWorm.moveTo(9, 53, 0);
         lift.setTargetPosition(SlidePresets.HIGH_SCORE.position);
         api.pause(0.5);
         claw.setPosition(1);
 
-        api.pause(0.5);
+        //api.pause(0.5);
         lift.setTargetPosition(SlidePresets.STACK_5.position);
-        api.pause(0.5);
-        inchWorm.setSpeedMultiplier(0.75);
+        //api.pause(0.5);
+        inchWorm.setSpeedMultiplier(1);
         inchWorm.moveTo(8, 49.5, -Math.PI / 2);
-        api.pause(0.5);
-        inchWorm.moveTo(new InchWorm2.Pose(-24, 49.5, -Math.PI / 2));
+        //api.pause(0.5);
+        inchWorm.moveTo(new InchWorm2.Pose(-24.2, 49.5, -Math.PI / 2));
         claw.setPosition(0);
         api.pause(0.5);
 
@@ -120,14 +120,38 @@ public class AutoRightDestroySignal extends LinearOpMode {
         inchWorm.moveTo(11, 49, 0);
 
         lift.setTargetPosition(SlidePresets.HIGH.position);
-        api.pause(0.5);
-        inchWorm.moveTo(11, 53.5, 0);
+        //api.pause(0.5);
+        inchWorm.moveTo(11, 54.25, 0);
         api.pause(0.5);
         lift.setTargetPosition(SlidePresets.HIGH_SCORE.position);
         api.pause(0.5);
         claw.setPosition(1);
         inchWorm.moveTo(11, 48, 0);
 
+        //api.pause(0.5);
+        lift.setTargetPosition(SlidePresets.STACK_5.position);
+        //api.pause(0.5);
+        inchWorm.setSpeedMultiplier(0.6);
+        inchWorm.moveTo(8, 49.5, -Math.PI / 2);
+        //api.pause(0.5);
+        inchWorm.moveTo(new InchWorm2.Pose(-24.2, 49.5, -Math.PI / 2));
+        claw.setPosition(0);
+        api.pause(0.5);
+
+        lift.setTargetPosition(SlidePresets.LOW.position);
+        while (lift.isBusy()) {}
+        inchWorm.setSpeedMultiplier(1);
+        inchWorm.moveTo(11, 49, 0);
+        inchWorm.moveTo(11, 49, 0);
+
+        lift.setTargetPosition(SlidePresets.HIGH.position);
+        //api.pause(0.5);
+        inchWorm.moveTo(11, 54.25, 0);
+        api.pause(0.5);
+        lift.setTargetPosition(SlidePresets.HIGH_SCORE.position);
+        api.pause(0.5);
+        claw.setPosition(1);
+        inchWorm.moveTo(11, 48, 0);
 
         //lift.setTargetPosition(SlidePresets.LOW.position);
         //inchWorm.moveTo(-16.25, 51.25, 0);
@@ -138,11 +162,11 @@ public class AutoRightDestroySignal extends LinearOpMode {
         // based on which tag was detected, move to the appropriate spot
         switch (detected_id) {
            case 1:
-                inchWorm.moveTo(26, 51, 0);
+                inchWorm.moveTo(27.5, 51, 0);
                 break;
             default:
             case 2:
-                inchWorm.moveTo(-1, 51, 0);
+                inchWorm.moveTo(-2, 51, 0);
                 break;
             case 3:
                 inchWorm.moveTo(-26, 51, 0);
