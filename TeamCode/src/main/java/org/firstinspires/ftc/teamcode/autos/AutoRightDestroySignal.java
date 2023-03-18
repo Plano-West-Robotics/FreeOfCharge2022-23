@@ -98,7 +98,6 @@ public class AutoRightDestroySignal extends LinearOpMode {
         lift.setTargetPosition(SlidePresets.HIGH_SCORE);
         api.pause(0.5);
         claw.setPosition(1);
-        /*
         //api.pause(0.5);
         lift.setTargetPosition(SlidePresets.STACK_5);
         //api.pause(0.5);
@@ -112,16 +111,15 @@ public class AutoRightDestroySignal extends LinearOpMode {
         lift.runToPosition(SlidePresets.LOW);
         inchWorm.setSpeedMultiplier(1);
         lift.setTargetPosition(SlidePresets.HIGH);
-        inchWorm.moveTo(11, 49, 0);
-        inchWorm.moveTo(11, 49, 0);
+        inchWorm.moveTo(11, 49.5, 0);
 
         //api.pause(0.5);
         inchWorm.moveTo(11, 54.25, 0);
         api.pause(0.5);
         lift.setTargetPosition(SlidePresets.HIGH_SCORE);
-        api.pause(0.5);
         claw.setPosition(1);
-        inchWorm.moveTo(11, 48, 0);
+        api.pause(0.5);
+        inchWorm.moveTo(11, 49.5, 0);
 
         //api.pause(0.5);
         lift.setTargetPosition(SlidePresets.STACK_5);
@@ -135,16 +133,15 @@ public class AutoRightDestroySignal extends LinearOpMode {
 
         lift.runToPosition(SlidePresets.LOW);
         inchWorm.setSpeedMultiplier(1);
-        inchWorm.moveTo(11, 49, 0);
-        inchWorm.moveTo(11, 49, 0);
+        inchWorm.moveTo(11, 49.5, 0);
 
         lift.setTargetPosition(SlidePresets.HIGH);
         //api.pause(0.5);
         inchWorm.moveTo(11, 54.25, 0);
         api.pause(0.5);
         lift.setTargetPosition(SlidePresets.HIGH_SCORE);
-        api.pause(0.5);
         claw.setPosition(1);
+        api.pause(0.5);
         inchWorm.moveTo(11, 48, 0);
 
         //lift.setTargetPosition(SlidePresets.LOW);
@@ -154,17 +151,18 @@ public class AutoRightDestroySignal extends LinearOpMode {
         //inchWorm.moveTo(-16.25, 51, 0);
 
         // based on which tag was detected, move to the appropriate spot
+        inchWorm.setSpeedMultiplier(2);
         switch (detected_id) {
            case 1:
-                inchWorm.moveTo(27.5, 51, 0);
+                inchWorm.moveTo(27.5, 48, 0);
                 break;
             default:
             case 2:
-                inchWorm.moveTo(-2, 51, 0);
+                inchWorm.moveTo(-2, 48, 0);
                 break;
             case 3:
-                inchWorm.moveTo(-26, 51, 0);
+                inchWorm.moveTo(-26, 48, 0);
                 break;
-        } */
+        }
     }
 }

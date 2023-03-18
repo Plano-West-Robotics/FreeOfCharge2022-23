@@ -18,7 +18,7 @@ public class TranslationalPIDTuner extends LinearOpMode {
     @SuppressLint("DefaultLocale")
     @Override
     public void runOpMode() {
-        double Kp = 10;
+        double Kp = 0;
         double Ki = 0;
         double Kd = 0;
         double scale = 0.15;
@@ -40,13 +40,13 @@ public class TranslationalPIDTuner extends LinearOpMode {
 
         while (opModeIsActive()) {
             if (gamepad1.left_bumper && lastLeftBumper != gamepad1.left_bumper) {
-                Ki -= scale;
+                Kp -= scale;
                 controller.setParams(Kp, Ki, Kd, target.y);
                 controller.reset();
             }
 
             if (gamepad1.right_bumper && lastRightBumper != gamepad1.right_bumper) {
-                Ki += scale;
+                Kp += scale;
                 controller.setParams(Kp, Ki, Kd, target.y);
                 controller.reset();
             }

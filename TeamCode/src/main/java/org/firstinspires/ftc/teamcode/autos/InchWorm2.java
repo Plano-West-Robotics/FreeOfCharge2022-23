@@ -272,7 +272,7 @@ public class InchWorm2 {
      * @param x new speed to set
      */
     public void setSpeedMultiplier(double x) {
-        speed = Range.clip(x, 0, 1);
+        speed = x;
     }
 
     /**
