@@ -106,7 +106,7 @@ public class DriveTeleOp extends OpMode {
 
         claw = hardwareMap.get(Servo.class, "claw");
         // only allow claw to open partially
-        claw.scaleRange(0, 0.75);
+        claw.scaleRange(0, 0.65);
 
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
