@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.autos;
 
 import androidx.annotation.NonNull;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -62,6 +64,14 @@ public class InchWorm2 {
      */
     private double speed = 1;
 
+    /**
+     * Whether to draw a representation of the robot to FTC Dashboard or not.
+     */
+    private static final boolean DASHBOARD_DRAW = true;
+    private final FtcDashboard dashboard;
+    // TODO: change these values
+    private static final Pose startPos = new Pose(0, 0, 0);
+
     public InchWorm2(LinearOpMode mode) {
         opMode = mode;
         HardwareMap hardwareMap = opMode.hardwareMap;
@@ -100,6 +110,8 @@ public class InchWorm2 {
         for (LynxModule hub : allHubs) {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
+
+        dashboard = FtcDashboard.getInstance();
     }
 
     /**
@@ -283,6 +295,19 @@ public class InchWorm2 {
         return speed;
     }
 
+    private void drawPose(Pose currentPose) {
+        if (!DASHBOARD_DRAW) return;
+
+        TelemetryPacket packet = new TelemetryPacket();
+        Pose p = startPos.add(currentPose.rot(startPos.theta));
+        double l = 0.5; // customize this if needed
+
+        packet.fieldOverlay()
+                .strokeCircle(p.x, p.y, 1)
+                .strokeLine(Math.cos(p.theta) + p.x, Math.sin(p.theta) + p.y, l * Math.cos(p.theta) + p.x, l * Math.sin(p.theta) + p.y);
+        dashboard.sendTelemetryPacket(packet);
+    }
+
     public static class Pose {
         double x;
         double y;
@@ -439,6 +464,8 @@ public class InchWorm2 {
             lastFR = newFR;
             lastBL = newBL;
             lastBR = newBR;
+
+            drawPose(currentPos);
         }
     }
 }
