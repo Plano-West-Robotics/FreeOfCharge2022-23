@@ -97,13 +97,14 @@ public class AutoDoubleHighLeft extends LinearOpMode {
         lift.setTargetPosition(SlidePresets.HIGH.position);
         api.pause(1);
         inchWorm.moveTo(-14.5, 52, 0);
-        /* api.pause(1);
+        api.pause(1);
         lift.setTargetPosition(SlidePresets.HIGH_SCORE.position);
         api.pause(0.5);
         claw.setPosition(1);
         api.pause(0.5);
 
         lift.setTargetPosition(SlidePresets.STACK_5.position);
+        inchWorm.setSpeedMultiplier(0.75);
         api.pause(0.5);
         inchWorm.moveTo(-14.75, 49.5, Math.PI / 2);
         api.pause(0.5);
@@ -112,17 +113,18 @@ public class AutoDoubleHighLeft extends LinearOpMode {
         api.pause(0.5);
 
         lift.setTargetPosition(SlidePresets.LOW.position);
+        inchWorm.setSpeedMultiplier(1);
         while (lift.isBusy()) {}
-        inchWorm.moveTo(-14, 49, 0);
-        inchWorm.moveTo(-14, 49, 0);
+        inchWorm.moveTo(-5, 49, 0);
+        inchWorm.moveTo(-16, 49, 0);
         lift.setTargetPosition(SlidePresets.HIGH.position);
         api.pause(1);
-        inchWorm.moveTo(-14, 53, 0);
+        inchWorm.moveTo(-16, 54, 0);
         api.pause(1);
         lift.setTargetPosition(SlidePresets.HIGH_SCORE.position);
         api.pause(0.5);
         claw.setPosition(1);
-        inchWorm.moveTo(-14, 48, 0);
+        inchWorm.moveTo(-16, 48, 0);
         api.pause(0.5);
 
         lift.setTargetPosition(SlidePresets.LOW.position);
@@ -134,7 +136,7 @@ public class AutoDoubleHighLeft extends LinearOpMode {
         // based on which tag was detected, move to the appropriate spot
         switch (detected_id) {
             case 1:
-                inchWorm.moveTo(21, 51.25, 0);
+                inchWorm.moveTo(19.5, 51.25, 0);
                 break;
             default:
             case 2:
@@ -143,6 +145,6 @@ public class AutoDoubleHighLeft extends LinearOpMode {
             case 3:
                 inchWorm.moveTo(-27, 51.25, 0);
                 break;
-        } */
+        }
     }
 }

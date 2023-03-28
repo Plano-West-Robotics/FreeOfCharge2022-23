@@ -68,7 +68,7 @@ public class AutoLeftDestroySignal extends LinearOpMode {
         api.waitForStart();
 
         // wait for the camera to detect something OR for 2.5 seconds to pass, whichever happens first
-        double stopTime = getRuntime() + 2.5;
+        double stopTime = getRuntime() + 0;
         ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
         while (currentDetections.size() == 0 && getRuntime() < stopTime) {
             currentDetections = aprilTagDetectionPipeline.getLatestDetections();
@@ -89,46 +89,62 @@ public class AutoLeftDestroySignal extends LinearOpMode {
         // move lift up to prevent cone from scraping on the floor
         lift.setTargetPosition(SlidePresets.LOW.position);
         lift.setPower(1);
-        api.pause(0.5);
+        //api.pause(0.5);
         inchWorm.moveTo(-3, 0);
         inchWorm.moveTo(-3, 57);
-        inchWorm.moveTo(-3, 51);
+        inchWorm.moveTo(-3, 48);
 
-
-        api.pause(0.5);
-        inchWorm.moveTo(-15, 51.5, 0);
+        //api.pause(0.5);
         lift.setTargetPosition(SlidePresets.HIGH.position);
-        api.pause(0.5);
-        inchWorm.moveTo(-18, 51.5, 0);
-        api.pause(0.5);
+        inchWorm.moveTo(-15, 52, 0);
+        //api.pause(0.5);
+        inchWorm.moveTo(-19.5, 52, 0);
         lift.setTargetPosition(SlidePresets.HIGH_SCORE.position);
-        api.pause(0.5);
+        api.pause(0.2);
         claw.setPosition(1);
+        inchWorm.moveTo(-19.5, 46.75, 0);
 
         lift.setTargetPosition(SlidePresets.STACK_5.position);
-        inchWorm.setSpeedMultiplier(0.5);
         inchWorm.setSpeedMultiplier(0.75);
-        inchWorm.moveTo(-14.75, 49.5, Math.PI / 2);
-        api.pause(0.5);
-        inchWorm.moveTo(new InchWorm2.Pose(18, 49.5, Math.PI / 2));
+        inchWorm.moveTo(-14.75, 51.5, Math.PI / 2);
+        //api.pause(0.5);
+        inchWorm.moveTo(new InchWorm2.Pose(19, 51.5, Math.PI / 2));
         claw.setPosition(0);
-        api.pause(0.5);
+        api.pause(0.25);
 
         lift.setTargetPosition(SlidePresets.LOW.position);
         while (lift.isBusy()) {}
         inchWorm.setSpeedMultiplier(1);
-        inchWorm.moveTo(-18, 49, 0);
-        inchWorm.moveTo(-18, 49, 0);
-        api.pause(1);
-
         lift.setTargetPosition(SlidePresets.HIGH.position);
-        inchWorm.moveTo(-18, 53.5, 0);
-        api.pause(1);
+        inchWorm.moveTo(-19, 49, 0);
+
+        inchWorm.moveTo(-19, 55.75, 0);
+        api.pause(0.2);
         lift.setTargetPosition(SlidePresets.HIGH_SCORE.position);
-        api.pause(0.5);
         claw.setPosition(1);
+        //api.pause(0.2);
         inchWorm.moveTo(-18, 48, 0);
-        api.pause(1);
+
+        lift.setTargetPosition(SlidePresets.STACK_4.position);
+        inchWorm.setSpeedMultiplier(.7);
+        inchWorm.moveTo(-14.75, 52, Math.PI / 2);
+        //api.pause(0.5);
+        inchWorm.moveTo(new InchWorm2.Pose(17, 52, Math.PI / 2));
+        claw.setPosition(0);
+        api.pause(0.25);
+
+        lift.setTargetPosition(SlidePresets.LOW.position);
+        while (lift.isBusy()) {}
+        inchWorm.setSpeedMultiplier(1);
+        /* lift.setTargetPosition(SlidePresets.HIGH.position);
+        inchWorm.moveTo(-18, 49, 0);
+
+        inchWorm.moveTo(-18, 55, 0);
+        api.pause(0.2);
+        lift.setTargetPosition(SlidePresets.HIGH_SCORE.position);
+        claw.setPosition(1);
+        //api.pause(0.2);
+        inchWorm.moveTo(-18, 48, 0); */
 
         lift.setTargetPosition(SlidePresets.LOW.position);
         inchWorm.moveTo(-16.25, 51.25, 0);
@@ -145,7 +161,7 @@ public class AutoLeftDestroySignal extends LinearOpMode {
                 inchWorm.moveTo(-2.5, 51.25, 0);
                 break;
             case 3:
-                inchWorm.moveTo(-29, 51, 0);
+                inchWorm.moveTo(-30.5, 51, 0);
                 break;
         }
     }
